@@ -1,0 +1,367 @@
+<html><head><title>110年度國中教育會考資訊網 - 全國統整頁面</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
+
+    :root {
+        --primary-color: #3a7bd5;
+        --secondary-color: #00d2ff;
+        --accent-color: #ff6b6b;
+        --text-color: #333;
+        --bg-color: #f0f4f8;
+    }
+
+    body {
+        font-family: 'Noto Sans TC', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    header {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 60px 0;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.1"/></svg>');
+        background-size: 30px 30px;
+        animation: moveBackground 30s linear infinite;
+    }
+
+    @keyframes moveBackground {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        100% {
+            transform: translate(50%, 50%) rotate(360deg);
+        }
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 2.8em;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        position: relative;
+    }
+
+    header p {
+        font-size: 1.3em;
+        margin-top: 15px;
+        opacity: 0.9;
+        position: relative;
+    }
+
+    .region-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 50px;
+    }
+
+    .region-card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .region-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    }
+
+    .region-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 20px;
+        text-align: center;
+        color: white;
+    }
+
+    .region-card h2 {
+        margin: 0;
+        font-size: 1.6em;
+    }
+
+    .region-icon {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+
+    .region-card ul {
+        list-style-type: none;
+        padding: 20px;
+        margin: 0;
+    }
+
+    .region-card li {
+        margin-bottom: 12px;
+    }
+
+    .region-card a {
+        color: var(--text-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: block;
+        padding: 10px 15px;
+        border-radius: 6px;
+        background-color: #f0f4ff;
+        font-weight: 500;
+    }
+
+    .region-card a:hover {
+        color: white;
+        background-color: var(--primary-color);
+        transform: translateX(5px);
+    }
+
+    footer {
+        background-color: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 30px 0;
+        margin-top: 60px;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 12px 25px;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        margin-top: 25px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.2);
+        transform: translateX(-100%);
+        transition: all 0.3s ease;
+        z-index: -1;
+    }
+
+    .button:hover::before {
+        transform: translateX(0);
+    }
+
+    .button:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        transform: translateY(-3px);
+    }
+
+    .announcement {
+        background-color: #fff5f5;
+        border: 2px solid var(--accent-color);
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 40px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .announcement::before {
+        content: "公告";
+        position: absolute;
+        top: 5px;
+        left: -25px;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 5px 30px;
+        transform: rotate(-45deg);
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+
+    .announcement p {
+        margin: 0;
+        font-size: 1.1em;
+    }
+
+    .floating-help {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: var(--accent-color);
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .floating-help:hover {
+        transform: scale(1.1);
+    }
+
+    .stats {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 40px;
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        flex: 1;
+        min-width: 200px;
+        margin: 10px;
+    }
+
+    .stat-number {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+
+    .stat-label {
+        font-size: 1.1em;
+        color: var(--text-color);
+    }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>114年度國中教育會考查榜網址</h1>
+        <p>全國查榜網址</p>
+    </header>
+    <div class="container">
+        <div class="announcement">
+            <p><strong>重要公告：</strong>114年度國中教育會考預計為5/17、18日舉行。</p>
+        </div>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">尚未公布</div>
+                <div class="stat-label">考生總人數</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">尚未公布</div>
+                <div class="stat-label">參與區域</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">尚未公布</div>
+                <div class="stat-label">今年度錄取率</div>
+            </div>
+        </div>
+        <div class="region-grid">
+            <div class="region-card">
+                <div class="region-header">
+                    <div class="region-icon">🏙️</div>
+                    <h2>北部地區</h2>
+                </div>
+                <ul>
+                    <li><a href="https://ttk.entry.edu.tw/NoExamImitate_TP/NoExamImitateAdmissionList/AdmissionList.aspx">基北區</a></li>
+                    <li><a href="https://tyc.entry.edu.tw/NoExamImitate_TL/NoExamImitateAdmissionList/AdmissionList.aspx">桃連區</a></li>
+                    <li><a href="https://hhm.entry.edu.tw/NoExamImitate_HM/NoExamImitateAdmissionList/AdmissionList.aspx">竹苗區</a></li>
+
+                </ul>
+            </div>
+            <div class="region-card">
+                <div class="region-header">
+                    <div class="region-icon">🏞️</div>
+                    <h2>中部地區</h2>
+                </div>
+                <ul>
+                    <li><a href="https://ct.entry.edu.tw/NoExamImitate_CT/NoExamImitateAdmissionList/AdmissionList.aspx">中投區</a></li>
+                    <li><a href="https://chc.entry.edu.tw/NoExamImitate_CH/NoExamImitateAdmissionList/AdmissionList.aspx">彰化區</a></li>
+                    <li><a href="https://ylc.entry.edu.tw/NoExamImitate_YL/NoExamImitateAdmissionList/AdmissionList.aspx">雲林區</a></li>
+
+                </ul>
+            </div>
+            <div class="region-card">
+                <div class="region-header">
+                    <div class="region-icon">🌴</div>
+                    <h2>南部地區</h2>
+                </div>
+                <ul>
+                    <li><a href="https://kh.entry.edu.tw/stu_result/login.php">高雄區</a></li>
+                    <li><a href="https://tn.entry.edu.tw/NoExamImitate_TN/NoExamImitateAdmissionList/AdmissionList.aspx">台南區</a></li>
+                    <li><a href="https://chc.entry.edu.tw/NoExamImitate_CH/NoExamImitateAdmissionList/AdmissionList.aspx">嘉義區</a></li>
+                    <li><a href="https://ptc.entry.edu.tw/NoExamImitate_PT/NoExamImitateAdmissionList/AdmissionList.aspx">屏東區</a></li>
+                </ul>
+            </div>
+            <div class="region-card">
+                <div class="region-header">
+                    <div class="region-icon">🏔️</div>
+                    <h2>東部地區</h2>
+                </div>
+                <ul>
+                    <li><a href="https://hlc.entry.edu.tw/NoExamImitate_HL/NoExamImitateAdmissionList/AdmissionList.aspx">花蓮區</a></li>
+
+                </ul>
+            </div>
+            <div class="region-card">
+                <div class="region-header">
+                    <div class="region-icon">🏝️</div>
+                    <h2>離島地區</h2>
+                </div>
+                <ul>
+                    <li><a href="https://ph.entry.edu.tw/">澎湖區</a></li>
+                    <li><a href="https://km.entry.edu.tw/NoExamImitate_KM/NoExamImitateAdmissionList/AdmissionList.aspx">金門區</a></li>
+                </ul>
+            </div>
+            <div class="region-card">
+                <div class="region-header">
+                    <div class="region-icon">ℹ️</div>
+                    <h2>其他資訊</h2>
+                </div>
+                <ul>
+                    <li><a href="privacy.html">隱私權政策</a></li>
+                    <li><a href="news.html">最新消息</a></li>
+                    <li><a href="resources.html">學習資源</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 . tyctw會考落點分析系統版權所有.</p>
+        <p>如有任何問題，請聯繫我們：<a href="" style="color: var(--accent-color);"></a></p>
+    </footer>
+</body>
+</html>
