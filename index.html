@@ -263,10 +263,51 @@
         font-size: 1.1em;
         color: var(--text-color);
     }
+        /* 新增頁首樣式 */
+        .top-nav {
+        background-color: var(--primary-color);
+        padding: 10px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .top-nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .top-nav li {
+        margin: 0 15px;
+    }
+
+    .top-nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+    }
+
+    .top-nav a:hover {
+        color: var(--accent-color);
+    }
 
     </style>
 </head>
 <body>
+    <nav class="top-nav">
+        <ul>
+            <li><a href="https://sites.google.com/view/tyctw/">回到主網頁</a></li>
+            <li><a href="https://tyctw.github.io/">會考落點分析系統</a></li>
+            <li><a href="https://tyctw.github.io/Admission/">各校錄取完整分數</a></li>
+            <li><a href="https://tyctw.github.io/sequence/">序位推估</a></li>
+            <li><a href="https://tyctw.github.io/tyc/">錄取分數查詢</a></li>
+        </ul>
+    </nav>
     <header>
         <h1>114年度國中教育會考查榜網址</h1>
         <p>全國查榜網址</p>
