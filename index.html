@@ -1,4 +1,5 @@
 <html><head><title>114年度國中教育會考資訊網 - 全國統整頁面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
 
@@ -23,13 +24,13 @@
         width: 90%;
         max-width: 1200px;
         margin: 0 auto;
-        padding: 40px 20px;
+        padding: 20px;
     }
 
     header {
         background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
         color: white;
-        padding: 60px 0;
+        padding: 40px 0;
         text-align: center;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         position: relative;
@@ -59,24 +60,24 @@
 
     h1 {
         margin: 0;
-        font-size: 2.8em;
+        font-size: 2em;
         font-weight: 700;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         position: relative;
     }
 
     header p {
-        font-size: 1.3em;
-        margin-top: 15px;
+        font-size: 1.1em;
+        margin-top: 10px;
         opacity: 0.9;
         position: relative;
     }
 
     .region-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-        margin-top: 50px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
     }
 
     .region-card {
@@ -94,29 +95,29 @@
 
     .region-header {
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        padding: 20px;
+        padding: 15px;
         text-align: center;
         color: white;
     }
 
     .region-card h2 {
         margin: 0;
-        font-size: 1.6em;
+        font-size: 1.4em;
     }
 
     .region-icon {
-        font-size: 2.5em;
-        margin-bottom: 10px;
+        font-size: 2em;
+        margin-bottom: 5px;
     }
 
     .region-card ul {
         list-style-type: none;
-        padding: 20px;
+        padding: 15px;
         margin: 0;
     }
 
     .region-card li {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
 
     .region-card a {
@@ -124,7 +125,7 @@
         text-decoration: none;
         transition: all 0.3s ease;
         display: block;
-        padding: 10px 15px;
+        padding: 8px 12px;
         border-radius: 6px;
         background-color: #f0f4ff;
         font-weight: 500;
@@ -140,19 +141,19 @@
         background-color: #2c3e50;
         color: white;
         text-align: center;
-        padding: 30px 0;
-        margin-top: 60px;
+        padding: 20px 0;
+        margin-top: 40px;
     }
 
     .button {
         display: inline-block;
-        padding: 12px 25px;
+        padding: 10px 20px;
         background-color: var(--accent-color);
         color: white;
         text-decoration: none;
         border-radius: 50px;
         transition: all 0.3s ease;
-        margin-top: 25px;
+        margin-top: 20px;
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -187,8 +188,8 @@
         background-color: #fff5f5;
         border: 2px solid var(--accent-color);
         border-radius: 10px;
-        padding: 20px;
-        margin-top: 40px;
+        padding: 15px;
+        margin-top: 30px;
         text-align: center;
         position: relative;
         overflow: hidden;
@@ -209,22 +210,22 @@
 
     .announcement p {
         margin: 0;
-        font-size: 1.1em;
+        font-size: 1em;
     }
 
     .floating-help {
         position: fixed;
-        bottom: 30px;
-        right: 30px;
+        bottom: 20px;
+        right: 20px;
         background-color: var(--accent-color);
         color: white;
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 24px;
+        font-size: 20px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         cursor: pointer;
         transition: all 0.3s ease;
@@ -237,34 +238,34 @@
     .stats {
         display: flex;
         justify-content: space-around;
-        margin-top: 40px;
+        margin-top: 30px;
         flex-wrap: wrap;
     }
 
     .stat-item {
         text-align: center;
-        padding: 20px;
+        padding: 15px;
         background-color: white;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         flex: 1;
-        min-width: 200px;
+        min-width: 150px;
         margin: 10px;
     }
 
     .stat-number {
-        font-size: 2.5em;
+        font-size: 2em;
         font-weight: bold;
         color: var(--primary-color);
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     .stat-label {
-        font-size: 1.1em;
+        font-size: 1em;
         color: var(--text-color);
     }
-        /* 新增頁首樣式 */
-        .top-nav {
+
+    .top-nav {
         background-color: var(--primary-color);
         padding: 10px 0;
         position: sticky;
@@ -278,17 +279,18 @@
         padding: 0;
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
     }
 
     .top-nav li {
-        margin: 0 15px;
+        margin: 5px 10px;
     }
 
     .top-nav a {
         color: white;
         text-decoration: none;
         font-weight: bold;
-        font-size: 1.1em;
+        font-size: 1em;
         transition: all 0.3s ease;
     }
 
@@ -296,9 +298,113 @@
         color: var(--accent-color);
     }
 
+    @media (max-width: 768px) {
+        .container {
+            width: 95%;
+            padding: 10px;
+        }
+
+        h1 {
+            font-size: 1.8em;
+        }
+
+        header p {
+            font-size: 1em;
+        }
+
+        .region-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-item {
+            min-width: 120px;
+        }
+
+        .top-nav ul {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .top-nav li {
+            margin: 5px 0;
+        }
+    }
+    .floating-help {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--accent-color);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    }
+
+    .floating-help:hover {
+        transform: scale(1.1);
+    }
+
+    .help-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 1001;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .help-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 80%;
+        max-height: 80%;
+        overflow-y: auto;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .close-help {
+        float: right;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
     </style>
 </head>
 <body>
+    <div class="floating-help" onclick="showHelp()">?</div>
+
+    <div id="helpModal" class="help-modal">
+        <div class="help-content">
+            <span class="close-help" onclick="closeHelp()">&times;</span>
+            <h2>幫助與常見問題</h2>
+            <h3>1. 如何使用本網站？</h3>
+            <p>本網站提供全國各地區的國中教育會考查榜網址。您可以點擊對應地區的連結來查看您所在地區的成績。</p>
+            <h3>2. 什麼是國中教育會考？</h3>
+            <p>國中教育會考是台灣國中畢業生參加的全國性測驗，用於評估學生的學習成果，並作為高中入學的參考依據。</p>
+            <h3>3. 會考何時放榜？</h3>
+            <p>通常放榜時間會在志願填寫結束後約兩週內公布。具體日期請關注官方公告。</p>
+            <h3>4. 如果我找不到我所在的地區怎麼辦？</h3>
+            <p>如果您找不到您所在的地區，請先確認您的區域劃分，或聯繫我們尋求幫助。</p>
+            <h3>5. 網站資訊有誤怎麼辦？</h3>
+            <p>如果您發現網站上的資訊有誤，請立即聯繫我們。我們會盡快核實並更正。</p>
+            <h3>6. 如何聯繫網站管理員？</h3>
+            <p>您可以通過頁面底部提供的電子郵件地址與我們聯繫。我們會盡快回覆您的問題。</p>
+        </div>
+    </div>
     <nav class="top-nav">
         <ul>
             <li><a href="https://sites.google.com/view/tyctw/">回到主網頁</a></li>
@@ -338,7 +444,6 @@
                     <li><a href="https://ttk.entry.edu.tw/NoExamImitate_TP/NoExamImitateAdmissionList/AdmissionList.aspx">基北區</a></li>
                     <li><a href="https://tyc.entry.edu.tw/NoExamImitate_TL/NoExamImitateAdmissionList/AdmissionList.aspx">桃連區</a></li>
                     <li><a href="https://hhm.entry.edu.tw/NoExamImitate_HM/NoExamImitateAdmissionList/AdmissionList.aspx">竹苗區</a></li>
-
                 </ul>
             </div>
             <div class="region-card">
@@ -350,7 +455,6 @@
                     <li><a href="https://ct.entry.edu.tw/NoExamImitate_CT/NoExamImitateAdmissionList/AdmissionList.aspx">中投區</a></li>
                     <li><a href="https://chc.entry.edu.tw/NoExamImitate_CH/NoExamImitateAdmissionList/AdmissionList.aspx">彰化區</a></li>
                     <li><a href="https://ylc.entry.edu.tw/NoExamImitate_YL/NoExamImitateAdmissionList/AdmissionList.aspx">雲林區</a></li>
-
                 </ul>
             </div>
             <div class="region-card">
@@ -372,7 +476,6 @@
                 </div>
                 <ul>
                     <li><a href="https://hlc.entry.edu.tw/NoExamImitate_HL/NoExamImitateAdmissionList/AdmissionList.aspx">花蓮區</a></li>
-
                 </ul>
             </div>
             <div class="region-card">
@@ -399,17 +502,33 @@
         </div>
     </div>
     <footer>
-        <p>&copy; 2024 . tyctw會考落點分析系統版權所有.</p>
-        <p>如有任何問題，請聯繫我們：support@tyctw.onmicrosoft.com<a href="" style="color: var(--accent-color);"></a></p>
+        <p>&copy; 2024 . TYCTW會考落點分析系統版權所有.</p>
+        <p>如有任何問題，請聯繫我們：support@tyctw.onmicrosoft.com</p>
     </footer>
-</body>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3QKGCQRENY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script>
+        function showHelp() {
+            document.getElementById('helpModal').style.display = 'flex';
+        }
+    
+        function closeHelp() {
+            document.getElementById('helpModal').style.display = 'none';
+        }
+    
+        // 點擊模態框外部關閉
+        window.onclick = function(event) {
+            var modal = document.getElementById('helpModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        </script>    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3QKGCQRENY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'G-3QKGCQRENY');
-</script>
+      gtag('config', 'G-3QKGCQRENY');
+    </script>
+</body>
 </html>
