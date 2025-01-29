@@ -194,4 +194,49 @@ document.addEventListener('DOMContentLoaded', () => {
       showNotification(item.message);
     }
   });
+
+  // Add touch event handling for better mobile interaction
+  let touchStartY = 0;
+  let touchEndY = 0;
+
+  document.addEventListener('touchstart', e => {
+    touchStartY = e.touches[0].clientY;
+  }, false);
+
+  document.addEventListener('touchmove', e => {
+    touchEndY = e.touches[0].clientY;
+  }, false);
+
+  document.addEventListener('touchend', () => {
+    const diff = touchStartY - touchEndY;
+    const sidebar = document.getElementById('sidebar');
+    
+    // Swipe down to close sidebar
+    if (diff < -50 && sidebar.classList.contains('active')) {
+      toggleSidebar();
+    }
+  }, false);
+
+  // Optimize scroll performance on mobile
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        // Handle scroll-based UI updates here
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // Add mobile-friendly focus handling
+  document.querySelectorAll('a, button').forEach(element => {
+    element.addEventListener('touchstart', function() {
+      this.style.opacity = '0.7';
+    });
+    
+    element.addEventListener('touchend', function() {
+      this.style.opacity = '1';
+    });
+  });
 });
