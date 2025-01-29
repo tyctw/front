@@ -1,716 +1,220 @@
-<html><head>
-<title>114年度國中教育會考資訊網 - 全國統整頁面</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
-
-:root {
-    --primary-color: #3a7bd5;
-    --secondary-color: #00d2ff;
-    --accent-color: #ff6b6b;
-    --text-color: #333;
-    --bg-color: #f0f4f8;
-}
-
-body {
-    font-family: 'Noto Sans TC', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-}
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-header {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    padding: 40px 0;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-header::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.1"/></svg>');
-    background-size: 30px 30px;
-    animation: moveBackground 30s linear infinite;
-}
-
-@keyframes moveBackground {
-    0% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-    100% {
-        transform: translate(50%, 50%) rotate(360deg);
-    }
-}
-
-h1 {
-    margin: 0;
-    font-size: 2em;
-    font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    position: relative;
-}
-
-header p {
-    font-size: 1.1em;
-    margin-top: 10px;
-    opacity: 0.9;
-    position: relative;
-}
-
-.time-display {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 10px 20px;
-    display: inline-block;
-    margin-top: 15px;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.time-display:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
-
-.time-icon {
-    font-size: 1.2em;
-    margin-right: 10px;
-    vertical-align: middle;
-}
-
-.time-text {
-    font-size: 1.1em;
-    font-weight: 500;
-    vertical-align: middle;
-}
-
-#region-time {
-    font-size: 1em;
-    margin-top: 10px;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-.region-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.region-card {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    overflow: hidden;
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.5s ease-out;
-    opacity: 0;
-    transform: translateY(20px);
-}
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.region-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-}
-
-.region-header {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    padding: 15px;
-    text-align: center;
-    color: white;
-}
-
-.region-card h2 {
-    margin: 0;
-    font-size: 1.4em;
-}
-
-.region-icon {
-    font-size: 2em;
-    margin-bottom: 5px;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-10px);
-    }
-    60% {
-        transform: translateY(-5px);
-    }
-}
-
-.region-card ul {
-    list-style-type: none;
-    padding: 15px;
-    margin: 0;
-}
-
-.region-card li {
-    margin-bottom: 10px;
-}
-
-.region-card a {
-    color: var(--text-color);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    display: block;
-    padding: 8px 12px;
-    border-radius: 6px;
-    background-color: #f0f4ff;
-    font-weight: 500;
-}
-
-.region-card a:hover {
-    color: white;
-    background-color: var(--primary-color);
-    transform: translateX(5px);
-}
-
-footer {
-    background-color: #2c3e50;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-}
-
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: var(--accent-color);
-    color: white;
-    text-decoration: none;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    margin-top: 20px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
-
-.button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255,255,255,0.2);
-    transform: translateX(-100%);
-    transition: all 0.3s ease;
-    z-index: -1;
-}
-
-.button:hover::before {
-    transform: translateX(0);
-}
-
-.button:hover {
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transform: translateY(-3px);
-}
-
-.announcement {
-    background-color: #fff5f5;
-    border: 2px solid var(--accent-color);
-    border-radius: 10px;
-    padding: 15px;
-    margin-top: 30px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.announcement::before {
-    content: "公告";
-    position: absolute;
-    top: 5px;
-    left: -25px;
-    background-color: var(--accent-color);
-    color: white;
-    padding: 5px 30px;
-    transform: rotate(-45deg);
-    font-size: 0.8em;
-    font-weight: bold;
-}
-
-.announcement p {
-    margin: 0;
-    font-size: 1em;
-}
-
-.floating-help {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: var(--accent-color);
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-    100% {
-        transform: translateY(0px);
-    }
-}
-
-.floating-help:hover {
-    transform: scale(1.1);
-}
-
-.stats {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 30px;
-    flex-wrap: wrap;
-}
-
-.stat-item {
-    text-align: center;
-    padding: 15px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    flex: 1;
-    min-width: 150px;
-    margin: 10px;
-    transition: all 0.3s ease;
-}
-
-.stat-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-}
-
-.stat-number {
-    font-size: 2em;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 5px;
-    opacity: 0;
-    animation: countUp 2s forwards;
-}
-
-@keyframes countUp {
-    to {
-        opacity: 1;
-    }
-}
-
-.stat-label {
-    font-size: 1em;
-    color: var(--text-color);
-}
-
-header p {
-    font-size: 1em;
-    margin-top: 5px;
-    opacity: 0.9;
-    position: relative;
-}
-
-.top-nav {
-    background-color: var(--primary-color);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    display: none;
-    overflow-y: auto;
-    transition: all 0.5s ease;
-}
-
-.menu-toggle {
-    display: block;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5em;
-    cursor: pointer;
-    padding: 10px;
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 1001;
-    transition: all 0.3s ease;
-}
-
-.menu-toggle:hover {
-    transform: rotate(90deg);
-}
-
-.top-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 50px 0 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.top-nav li {
-    width: 100%;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
-}
-
-.top-nav.active li {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.top-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.2em;
-    padding: 15px 20px;
-    display: block;
-    transition: all 0.3s ease;
-}
-
-.top-nav a:hover {
-    background-color: var(--secondary-color);
-    transform: scale(1.1);
-}
-
-.help-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1001;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.help-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 80%;
-    max-height: 80%;
-    overflow-y: auto;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transform: scale(0.7);
-    transition: all 0.3s ease;
-}
-
-.help-modal.active {
-    opacity: 1;
-}
-
-.help-modal.active .help-content {
-    transform: scale(1);
-}
-
-.close-help {
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.close-help:hover {
-    color: var(--accent-color);
-    transform: rotate(90deg);
-}
-
-</style>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>114年度國中教育會考資訊網 - 全 Flavor統整頁面</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<button class="menu-toggle" onclick="toggleMenu()">&#9776; 選單</button>
-<nav class="top-nav" id="topNav">
-    <ul>
-        <li><a href="https://sites.google.com/view/tyctw/">回到主網頁</a></li>
-        <li><a href="https://tyctw.github.io/">落點分析系統</a></li>
-        <li><a href="https://tyctw.github.io/Navigation/">更多資訊</a></li>
-    </ul>
-</nav>
+  <div class="page-wrapper">
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233a7bd5'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E" alt="Logo" class="logo">
+        <button class="close-sidebar" onclick="toggleSidebar()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <ul class="nav-links">
+        <li><a href="https://sites.google.com/view/tyctw/"><i class="fas fa-home"></i>回到主網頁</a></li>
+        <li><a href="https://tyctw.github.io/"><i class="fas fa-chart-line"></i>落點分析系統</a></li>
+        <li><a href="https://tyctw.github.io/Navigation/"><i class="fas fa-info-circle"></i>更多資訊</a></li>
+      </ul>
+    </nav>
 
-<div class="floating-help" onclick="showHelp()">?</div>
+    <main class="main-content">
+      <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
 
-<div id="helpModal" class="help-modal">
-    <div class="help-content">
-        <span class="close-help" onclick="closeHelp()">&times;</span>
+      <header class="hero">
+        <div class="hero-content">
+          <h1>114年度國中教育會考查榜網址</h1>
+          <div class="countdown">
+            <div class="countdown-item">
+              <span class="countdown-number countdown-days">--</span>
+              <span class="countdown-label">天</span>
+            </div>
+            <div class="countdown-item">
+              <span class="countdown-number countdown-hours">--</span>
+              <span class="countdown-label">時</span>
+            </div>
+            <div class="countdown-item">
+              <span class="countdown-number countdown-minutes">--</span>
+              <span class="countdown-label">分</span>
+            </div>
+            <div class="countdown-item">
+              <span class="countdown-number countdown-seconds">--</span>
+              <span class="countdown-label">秒</span>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <i class="fas fa-user-graduate"></i>
+              <span class="stat-number" data-target="尚未公布">尚未公布</span>
+              <span class="stat-label">考生總人數</span>
+            </div>
+            <div class="stat">
+              <i class="fas fa-map-marked-alt"></i>
+              <span class="stat-number" data-target="尚未公布">尚未公布</span>
+              <span class="stat-label">參與區域</span>
+            </div>
+            <div class="stat">
+              <i class="fas fa-percentage"></i>
+              <span class="stat-number" data-target="尚未公布">尚未公布</span>
+              <span class="stat-label">今年度錄取率</span>
+            </div>
+          </div>
+          <div class="time-display">
+            <i class="far fa-clock"></i>
+            <span class="time-text"></span>
+          </div>
+        </div>
+      </header>
+
+      <div class="search-container">
+        <input type="text" 
+               id="regionSearch" 
+               class="search-bar" 
+               placeholder="搜尋地區..."
+               onkeyup="searchRegions()">
+      </div>
+
+      <div id="notifications"></div>
+
+      <div class="alert">
+        <i class="fas fa-bullhorn"></i>
+        <span>重要公告：114年度國中教育會考於5/17、18日舉行</span>
+      </div>
+
+      <section class="regions">
+        <div class="region-grid">
+          <div class="region-card" data-region="north">
+            <button class="bookmark-btn" data-region="north" onclick="toggleBookmark('north')">
+              <i class="far fa-bookmark"></i>
+            </button>
+            <div class="region-icon">
+              <i class="fas fa-city"></i>
+            </div>
+            <h2>北部地區</h2>
+            <ul>
+              <li><a href="https://ttk.entry.edu.tw/NoExamImitate_TP/NoExamImitateAdmissionList/AdmissionList.aspx">基北區</a></li>
+              <li><a href="https://tyc.entry.edu.tw/NoExamImitate_TL/NoExamImitateAdmissionList/AdmissionList.aspx">桃連區</a></li>
+              <li><a href="https://hhm.entry.edu.tw/NoExamImitate_HM/NoExamImitateAdmissionList/AdmissionList.aspx">竹苗區</a></li>
+            </ul>
+          </div>
+          <div class="region-card" data-region="central">
+            <button class="bookmark-btn" data-region="central" onclick="toggleBookmark('central')">
+              <i class="far fa-bookmark"></i>
+            </button>
+            <div class="region-icon">
+              <i class="fas fa-mountain"></i>
+            </div>
+            <h2>中部地區</h2>
+            <ul>
+              <li><a href="https://ct.entry.edu.tw/NoExamImitate_CT/NoExamImitateAdmissionList/AdmissionList.aspx">中投區</a></li>
+              <li><a href="https://chc.entry.edu.tw/NoExamImitate_CH/NoExamImitateAdmissionList/AdmissionList.aspx">彰化區</a></li>
+              <li><a href="https://ylc.entry.edu.tw/NoExamImitate_YL/NoExamImitateAdmissionList/AdmissionList.aspx">雲林區</a></li>
+            </ul>
+          </div>
+          <div class="region-card" data-region="south">
+            <button class="bookmark-btn" data-region="south" onclick="toggleBookmark('south')">
+              <i class="far fa-bookmark"></i>
+            </button>
+            <div class="region-icon">
+              <i class="fas fa-umbrella-beach"></i>
+            </div>
+            <h2>南部地區</h2>
+            <ul>
+              <li><a href="https://kh.entry.edu.tw/stu_result/login.php">高雄區</a></li>
+              <li><a href="https://tn.entry.edu.tw/NoExamImitate_TN/NoExamImitateAdmissionList/AdmissionList.aspx">台南區</a></li>
+              <li><a href="https://cyc.entry.edu.tw/NoExamImitate_CY/NoExamImitateAdmissionList/">嘉義區</a></li>
+              <li><a href="https://ptc.entry.edu.tw/NoExamImitate_PT/NoExamImitateAdmissionList/AdmissionList.aspx">屏東區</a></li>
+            </ul>
+          </div>
+          <div class="region-card" data-region="east">
+            <button class="bookmark-btn" data-region="east" onclick="toggleBookmark('east')">
+              <i class="far fa-bookmark"></i>
+            </button>
+            <div class="region-icon">
+              <i class="fas fa-tree"></i>
+            </div>
+            <h2>東部地區</h2>
+            <ul>
+              <li><a href="https://hlc.entry.edu.tw/NoExamImitate_HL/NoExamImitateAdmissionList/AdmissionList.aspx">花蓮區</a></li>
+            </ul>
+          </div>
+          <div class="region-card" data-region="islands">
+            <button class="bookmark-btn" data-region="islands" onclick="toggleBookmark('islands')">
+              <i class="far fa-bookmark"></i>
+            </button>
+            <div class="region-icon">
+              <i class="fas fa-water"></i>
+            </div>
+            <h2>離島地區</h2>
+            <ul>
+              <li><a href="https://ph.entry.edu.tw/">澎湖區</a></li>
+              <li><a href="https://km.entry.edu.tw/NoExamImitate_KM/NoExamImitateAdmissionList/AdmissionList.aspx">金門區</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="quick-links">
+      <div class="quick-links-trigger">
+        <i class="fas fa-chevron-left"></i>
+      </div>
+      <h3>快速連結</h3>
+      <ul>
+        <li><a href="https://www.cac.edu.tw/">大學甄選入學委員會</a></li>
+        <li><a href="https://www.ceec.edu.tw/">大考中心</a></li>
+        <li><a href="https://www.bctest.ntnu.edu.tw/">國中教育會考</a></li>
+      </ul>
+    </div>
+
+    <button class="help-button" onclick="showHelp()">
+      <i class="fas fa-question"></i>
+    </button>
+
+    <div class="modal" id="helpModal">
+      <div class="modal-content">
+        <button class="close-modal" onclick="closeHelp()">
+          <i class="fas fa-times"></i>
+        </button>
         <h2>幫助與常見問題</h2>
-        <h3>1. 如何使用本網站？</h3>
-        <p>本網站提供全國各地區的國中教育會考查榜網址。您可以點擊對應地區的連結來查看您所在地區的成績。</p>
-        <h3>2. 什麼是國中教育會考？</h3>
-        <p>國中教育會考是台灣國中畢業生參加的全國性測驗，用於評估學生的學習成果，並作為高中入學的參考依據。</p>
-        <h3>3. 會考何時放榜？</h3>
-        <p>通常放榜時間會在志願填寫結束後約兩週內公布。具體日期請關注官方公告。</p>
-        <h3>4. 如果我找不到我所在的地區怎麼辦？</h3>
-        <p>如果您找不到您所在的地區，請先確認您的區域劃分，或聯繫我們尋求幫助。</p>
-        <h3>5. 網站資訊有誤怎麼辦？</h3>
-        <p>如果您發現網站上的資訊有誤，請立即聯繫我們。我們會盡快核實並更正。</p>
-        <h3>6. 如何聯繫網站管理員？</h3>
-        <p>您可以通過頁面底部提供的電子郵件地址與我們聯繫。我們會盡快回覆您的問題。</p>
+        <div class="help-sections">
+          <div class="help-section">
+            <h3><i class="fas fa-question-circle"></i> 如何使用本網站？</h3>
+            <p>本網站提供全國各地區的國中教育會考查榜網址。您可以點擊對應地區的連結來查看您所在地區的成績。</p>
+          </div>
+          <div class="help-section">
+            <h3><i class="fas fa-info-circle"></i> 什麼是國中教育會考？</h3>
+            <p>國中教育會考是台灣國中畢業生參加的全國性測驗，用於評估學生的學習成果，並作為高中入學的參考依據。</p>
+          </div>
+          <div class="help-section">
+            <h3><i class="far fa-calendar-alt"></i> 會考何時放榜？</h3>
+            <p>通常放榜時間會在志願填寫結束後約兩週內公布。具體日期請關注官方公告。</p>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
 
-<header>
-    <h1>114年度國中教育會考查榜網址</h1>
-    <p>全國查榜網址</p>
-    <div id="current-time" class="time-display">
-        <span class="time-icon">🕒</span>
-        <span class="time-text"></span>
-    </div>
-</header>
-<div class="container">
-    <div class="announcement">
-        <p><strong>重要公告：</strong>114年度國中教育會考於5/17、18日舉行。</p>
-    </div>
-    <div class="stats">
-        <div class="stat-item">
-            <div class="stat-number" data-target="尚未公布">尚未公布</div>
-            <div class="stat-label">考生總人數</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" data-target="尚未公布">尚未公布</div>
-            <div class="stat-label">參與區域</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number" data-target="尚未公布">尚未公布</div>
-            <div class="stat-label">今年度錄取率</div>
-        </div>
-    </div>
-    <div class="region-grid">
-        <div class="region-card">
-            <div class="region-header">
-                <div class="region-icon">🏙️</div>
-                <h2>北部地區</h2>
-            </div>
-            <ul>
-                <li><a href="https://ttk.entry.edu.tw/NoExamImitate_TP/NoExamImitateAdmissionList/AdmissionList.aspx">基北區</a></li>
-                <li><a href="https://tyc.entry.edu.tw/NoExamImitate_TL/NoExamImitateAdmissionList/AdmissionList.aspx">桃連區</a></li>
-                <li><a href="https://hhm.entry.edu.tw/NoExamImitate_HM/NoExamImitateAdmissionList/AdmissionList.aspx">竹苗區</a></li>
-            </ul>
-        </div>
-        <div class="region-card">
-            <div class="region-header">
-                <div class="region-icon">🏞️</div>
-                <h2>中部地區</h2>
-            </div>
-            <ul>
-                <li><a href="https://ct.entry.edu.tw/NoExamImitate_CT/NoExamImitateAdmissionList/AdmissionList.aspx">中投區</a></li>
-                <li><a href="https://chc.entry.edu.tw/NoExamImitate_CH/NoExamImitateAdmissionList/AdmissionList.aspx">彰化區</a></li>
-                <li><a href="https://ylc.entry.edu.tw/NoExamImitate_YL/NoExamImitateAdmissionList/AdmissionList.aspx">雲林區</a></li>
-            </ul>
-        </div>
-        <div class="region-card">
-            <div class="region-header">
-                <div class="region-icon">🌴</div>
-                <h2>南部地區</h2>
-            </div>
-            <ul>
-                <li><a href="https://kh.entry.edu.tw/stu_result/login.php">高雄區</a></li>
-                <li><a href="https://tn.entry.edu.tw/NoExamImitate_TN/NoExamImitateAdmissionList/AdmissionList.aspx">台南區</a></li>
-                <li><a href="https://cyc.entry.edu.tw/NoExamImitate_CY/NoExamImitateAdmissionList/">嘉義區</a></li>
-                <li><a href="https://ptc.entry.edu.tw/NoExamImitate_PT/NoExamImitateAdmissionList/AdmissionList.aspx">屏東區</a></li>
-            </ul>
-        </div>
-        <div class="region-card">
-            <div class="region-header">
-                <div class="region-icon">🏔️</div>
-                <h2>東部地區</h2>
-            </div>
-            <ul>
-                <li><a href="https://hlc.entry.edu.tw/NoExamImitate_HL/NoExamImitateAdmissionList/AdmissionList.aspx">花蓮區</a></li>
-            </ul>
-        </div>
-        <div class="region-card">
-            <div class="region-header">
-                <div class="region-icon">🏝️</div>
-                <h2>離島地區</h2>
-            </div>
-            <ul>
-                <li><a href="https://ph.entry.edu.tw/">澎湖區</a></li>
-                <li><a href="https://km.entry.edu.tw/NoExamImitate_KM/NoExamImitateAdmissionList/AdmissionList.aspx">金門區</a></li>
-            </ul>
-        </div>
-        <div class="region-card">
-            <div class="region-header">
-                <div class="region-icon">ℹ️</div>
-                <h2>其他資訊</h2>
-            </div>
-            <ul>
-                <li><a href="https://tyctw.github.io/front/privacy.html">隱私權政策</a></li>
-                <li><a href="https://tyctw.github.io/news/bulletin">最新消息</a></li>
-                <li><a href="https://tyctw.github.io/front/resources.html">學習資源</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-<footer>
-    <p>&copy; 2025 . TYCTW會考落點分析系統版權所有.</p>
-    <p>如有任何問題，請聯繫我們：support@tyctw.onmicrosoft.com</p>
-</footer>
-<script>
-    function toggleMenu() {
-        var nav = document.getElementById('topNav');
-        nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
-        nav.classList.toggle('active');
-    }
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2025 TYCTW會考落點分析系統版權所有</p>
+        <p>聯絡我們：support@tyctw.onmicrosoft.com</p>
+      </div>
+    </footer>
+  </div>
 
-    function showHelp() {
-        var modal = document.getElementById('helpModal');
-        modal.style.display = 'flex';
-        setTimeout(() => {
-            modal.classList.add('active');
-        }, 10);
-    }
-
-    function closeHelp() {
-        var modal = document.getElementById('helpModal');
-        modal.classList.remove('active');
-        setTimeout(() => {
-            modal.style.display = 'none';
-        }, 300);
-    }
-
-    function updateTime() {
-        const now = new Date();
-        const options = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric', 
-            hour: '2-digit', 
-            minute: '2-digit', 
-            second: '2-digit',
-            hour12: false 
-        };
-        const timeString = now.toLocaleString('zh-TW', options);
-        document.querySelector('#current-time .time-text').textContent = timeString;
-    }
-
-    // Update time immediately and then every second
-    updateTime();
-    setInterval(updateTime, 1000);
-
-    // 點擊模態框外部關閉
-    window.onclick = function(event) {
-        var modal = document.getElementById('helpModal');
-        if (event.target == modal) {
-            closeHelp();
-        }
-    }
-
-    // 區域卡片動畫
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const cards = document.querySelectorAll('.region-card');
-        cards.forEach((card, index) => {
-            setTimeout(() => {
-                card.style.animation = `fadeInUp 0.5s ease-out ${index * 0.1}s forwards`;
-            }, 100);
-        });
-
-        // Start updating time
-        updateTime();
-    });
-
-    // 數字動畫
-    const stats = document.querySelectorAll('.stat-number');
-    stats.forEach(stat => {
-        const target = stat.getAttribute('data-target');
-        if (target !== '尚未公布') {
-            let count = 0;
-            const updateCount = () => {
-                const increment = target / 200;
-                if (count < target) {
-                    count += increment;
-                    stat.innerText = Math.ceil(count);
-                    setTimeout(updateCount, 1);
-                } else {
-                    stat.innerText = target;
-                }
-            };
-            updateCount();
-        }
-    });
-</script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3QKGCQRENY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-3QKGCQRENY');
-</script>
+  <script src="script.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3QKGCQRENY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-3QKGCQRENY');
+  </script>
 </body>
 </html>
