@@ -2,89 +2,612 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coming Soon - 網站即將上線</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="114年度國中教育會考學習資源與備考建議">
+  <title>114年度國中教育會考 - 學習資源</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233a7bd5'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E">
   <style>
-    body {
-      font-family: "Microsoft JhengHei", Arial, sans-serif;
-      background-color: #f0f8ff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .container {
-      text-align: center;
-      background-color: white;
-      padding: 3rem;
-      border-radius: 15px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
-      width: 90%;
-    }
-    h1 {
-      color: #2c3e50;
-      font-size: 2.8rem;
-      margin-bottom: 1.5rem;
-    }
-    p {
-      color: #34495e;
-      font-size: 1.3rem;
-      line-height: 1.6;
-      margin-bottom: 2.5rem;
-    }
-    .social-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .social-links a {
-      display: inline-block;
-      margin: 10px;
-      padding: 10px 20px;
-      color: white;
-      background-color: #3498db;
-      text-decoration: none;
-      font-size: 1.1rem;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-    .social-links a:hover {
-      background-color: #2980b9;
-    }
-    .coming-soon-image {
-      width: 200px;
-      height: 200px;
-      margin-bottom: 2rem;
-    }
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-      100% { transform: translateY(0px); }
-    }
-    .floating {
-      animation: float 4s ease-in-out infinite;
+    .resources-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
     }
 
-    @media screen and (max-width: 767px) {
-      h1 {
-        font-size: 2.2rem;
+    .resources-hero {
+      background: var(--gradient);
+      padding: 5rem 2rem 3rem;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 3rem;
+      border-radius: 0 0 30px 30px;
+    }
+
+    .resources-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,5 L95,50 L50,95 L5,50 Z' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3C/svg%3E");
+      background-size: 80px;
+      opacity: 0.3;
+      animation: rotate 80s linear infinite;
+      pointer-events: none;
+    }
+
+    .resources-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      letter-spacing: 1px;
+    }
+
+    .resources-subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .resources-search {
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      position: relative;
+    }
+
+    .resources-search input {
+      width: 100%;
+      padding: 1.2rem 1.5rem 1.2rem 3rem;
+      border-radius: 50px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 1rem;
+      font-family: inherit;
+      color: white;
+      backdrop-filter: blur(5px);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .resources-search input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .resources-search input:focus {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .resources-search i {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      pointer-events: none;
+    }
+
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .category-tab {
+      padding: 0.8rem 1.5rem;
+      background: var(--card-bg);
+      border: none;
+      border-radius: 50px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .category-tab:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .category-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .resource-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      position: relative;
+      animation: fadeIn 0.5s ease-out forwards;
+      border: 1px solid rgba(209, 213, 219, 0.3);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .resource-card:nth-child(1) { animation-delay: 0.1s; }
+    .resource-card:nth-child(2) { animation-delay: 0.2s; }
+    .resource-card:nth-child(3) { animation-delay: 0.3s; }
+    .resource-card:nth-child(4) { animation-delay: 0.4s; }
+    .resource-card:nth-child(5) { animation-delay: 0.5s; }
+    .resource-card:nth-child(6) { animation-delay: 0.6s; }
+
+    .resource-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(67, 97, 238, 0.2);
+    }
+
+    .resource-image {
+      height: 180px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .resource-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .resource-card:hover .resource-image img {
+      transform: scale(1.1);
+    }
+
+    .resource-category {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--primary);
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      z-index: 1;
+    }
+
+    .resource-content {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .resource-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 0.8rem;
+      transition: var(--transition);
+    }
+
+    .resource-card:hover .resource-title {
+      color: var(--primary);
+    }
+
+    .resource-description {
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .resource-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--gray-light);
+      margin-top: auto;
+    }
+
+    .resource-author {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    .resource-author img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .resource-date {
+      font-size: 0.85rem;
+      color: var(--text);
+      opacity: 0.7;
+    }
+
+    .resource-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--gray-light);
+      color: var(--primary);
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      margin-top: 1rem;
+    }
+
+    .resource-action:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateX(5px);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      color: var(--primary-dark);
+      position: relative;
+      padding-bottom: 1rem;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
+
+    .resources-empty {
+      text-align: center;
+      padding: 3rem;
+      background: var(--gray-light);
+      border-radius: 20px;
+      margin: 2rem 0;
+    }
+
+    .resources-empty i {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      opacity: 0.5;
+    }
+
+    .resources-empty h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary-dark);
+    }
+
+    .resources-empty p {
+      color: var(--text);
+      opacity: 0.7;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .resource-grid {
+        grid-template-columns: 1fr;
       }
-      p {
-        font-size: 1.1rem;
+      
+      .resources-hero {
+        padding: 4rem 1.5rem 2.5rem;
+        border-radius: 0 0 20px 20px;
       }
-      .container {
-        padding: 2rem;
-        width: 100%;
+      
+      .resources-title {
+        font-size: 1.8rem;
+      }
+      
+      .resources-container {
+        padding: 1rem;
+      }
+      
+      .category-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 1rem;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .category-tab {
+        white-space: nowrap;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>網站即將上線</h1>
-    <p>我們正在為您精心打造一個令人驚嘆的網站體驗。我們的團隊正在全力以赴，確保每一個細節都完美無缺。敬請期待我們即將為您帶來的驚喜！</p>
+  <div class="page-wrapper">
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234361ee'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E" alt="Logo" class="logo">
+        <button class="close-sidebar" onclick="toggleSidebar()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <ul class="nav-links">
+        <li><a href="https://sites.google.com/view/tyctw/"><i class="fas fa-home"></i>回到主網頁</a></li>
+        <li><a href="https://tyctw.github.io/"><i class="fas fa-chart-line"></i>落點分析系統</a></li>
+        <li><a href="https://tyctw.github.io/Navigation/"><i class="fas fa-info-circle"></i>更多資訊</a></li>
+        <li><a href="news.html"><i class="fas fa-newspaper"></i>最新消息</a></li>
+        <li><a href="resources.html" class="active"><i class="fas fa-book"></i>學習資源</a></li>
+        <li><a href="privacy.html"><i class="fas fa-shield-alt"></i>隱私權政策</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <p>© 2025 TYCTW 會考系統</p>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <button class="menu-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <div class="resources-hero">
+        <h1 class="resources-title">會考學習資源中心</h1>
+        <p class="resources-subtitle">精選各科目學習資源、歷屆試題及備考攻略，助您輕鬆應對會考挑戰</p>
+        <div class="resources-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="搜尋學習資源、關鍵字、科目..." id="resourceSearch">
+        </div>
+      </div>
+
+      <div class="resources-container">
+        <div class="category-tabs">
+          <button class="category-tab active" data-category="all">全部資源</button>
+          <button class="category-tab" data-category="chinese">國文科</button>
+          <button class="category-tab" data-category="english">英語科</button>
+          <button class="category-tab" data-category="math">數學科</button>
+          <button class="category-tab" data-category="science">自然科</button>
+          <button class="category-tab" data-category="social">社會科</button>
+          <button class="category-tab" data-category="writing">寫作測驗</button>
+        </div>
+
+        <h2 class="section-title">精選學習資源</h2>
+
+        <div class="resource-grid">
+          <div class="resource-card" data-category="chinese">
+            <div class="resource-image">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='180' viewBox='0 0 300 180'%3E%3Crect width='300' height='180' fill='%234361ee' opacity='0.2'/%3E%3Cpath d='M150,50 L190,90 L150,130 L110,90 Z' fill='%234361ee' opacity='0.5'/%3E%3Ctext x='150' y='95' font-family='Arial' font-size='20' fill='%234361ee' text-anchor='middle'%3E國文科%3C/text%3E%3C/svg%3E" alt="國文科學習資源">
+              <span class="resource-category">國文科</span>
+            </div>
+            <div class="resource-content">
+              <h3 class="resource-title">113年度會考國文科試題解析</h3>
+              <p class="resource-description">本資源包含113年度會考國文科完整試題與詳細解析，針對各大題型提供解題思路與答題技巧。</p>
+              <a href="#" class="resource-action">
+                查看資源 <i class="fas fa-arrow-right"></i>
+              </a>
+              <div class="resource-meta">
+                <div class="resource-author">
+                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Ccircle cx='15' cy='15' r='15' fill='%234361ee' opacity='0.2'/%3E%3Ccircle cx='15' cy='12' r='5' fill='%234361ee' opacity='0.5'/%3E%3Cpath d='M5,25 C5,20 10,18 15,18 C20,18 25,20 25,25' fill='%234361ee' opacity='0.5'/%3E%3C/svg%3E" alt="教師頭像">
+                  <span>王老師</span>
+                </div>
+                <div class="resource-date">2024/06/15</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-card" data-category="math">
+            <div class="resource-image">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='180' viewBox='0 0 300 180'%3E%3Crect width='300' height='180' fill='%237209b7' opacity='0.2'/%3E%3Ccircle cx='150' cy='90' r='40' fill='%237209b7' opacity='0.5'/%3E%3Ctext x='150' y='95' font-family='Arial' font-size='20' fill='%237209b7' text-anchor='middle'%3E數學科%3C/text%3E%3C/svg%3E" alt="數學科學習資源">
+              <span class="resource-category">數學科</span>
+            </div>
+            <div class="resource-content">
+              <h3 class="resource-title">數學科關鍵概念精華筆記</h3>
+              <p class="resource-description">系統性整理會考數學科所有重要概念，包含幾何、代數、機率與統計等單元，提供詳盡解題範例。</p>
+              <a href="#" class="resource-action">
+                查看資源 <i class="fas fa-arrow-right"></i>
+              </a>
+              <div class="resource-meta">
+                <div class="resource-author">
+                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Ccircle cx='15' cy='15' r='15' fill='%237209b7' opacity='0.2'/%3E%3Ccircle cx='15' cy='12' r='5' fill='%237209b7' opacity='0.5'/%3E%3Cpath d='M5,25 C5,20 10,18 15,18 C20,18 25,20 25,25' fill='%237209b7' opacity='0.5'/%3E%3C/svg%3E" alt="教師頭像">
+                  <span>林老師</span>
+                </div>
+                <div class="resource-date">2024/07/10</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="resource-card" data-category="english">
+            <div class="resource-image">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='180' viewBox='0 0 300 180'%3E%3Crect width='300' height='180' fill='%23f72585' opacity='0.2'/%3E%3Crect x='110' y='60' width='80' height='60' fill='%23f72585' opacity='0.5'/%3E%3Ctext x='150' y='95' font-family='Arial' font-size='20' fill='%23f72585' text-anchor='middle'%3E英語科%3C/text%3E%3C/svg%3E" alt="英語科學習資源">
+              <span class="resource-category">英語科</span>
+            </div>
+            <div class="resource-content">
+              <h3 class="resource-title">英語科聽力與閱讀練習題庫</h3>
+              <p class="resource-description">收錄近五年會考英語科試題，並附有聽力MP3檔案下載，針對高頻單字與文法提供專項訓練。</p>
+              <a href="#" class="resource-action">
+                查看資源 <i class="fas fa-arrow-right"></i>
+              </a>
+              <div class="resource-meta">
+                <div class="resource-author">
+                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Ccircle cx='15' cy='15' r='15' fill='%23f72585' opacity='0.2'/%3E%3Ccircle cx='15' cy='12' r='5' fill='%23f72585' opacity='0.5'/%3E%3Cpath d='M5,25 C5,20 10,18 15,18 C20,18 25,20 25,25' fill='%23f72585' opacity='0.5'/%3E%3C/svg%3E" alt="教師頭像">
+                  <span>陳老師</span>
+                </div>
+                <div class="resource-date">2024/07/22</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="resources-empty">
+          <i class="fas fa-book-reader"></i>
+          <h3>更多資源即將上線</h3>
+          <p>我們正在整理更多優質學習資源，敬請期待！您也可以訂閱我們的更新通知，第一時間獲取最新資源。</p>
+        </div>
+      </div>
+
+      <footer>
+        <div class="footer-content">
+          <div class="footer-logo">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234361ee'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E" alt="Logo" width="60" height="60">
+          </div>
+          <div class="footer-text">
+            <p>&copy; 2025 TYCTW會考落點分析系統版權所有</p>
+            <p>聯絡我們：tyctw.analyze@gmail.com</p>
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <div id="notifications"></div>
+
+    <button class="help-button" onclick="showHelp()">
+      <i class="fas fa-question"></i>
+    </button>
+
+    <div class="modal" id="helpModal">
+      <div class="modal-content">
+        <button class="close-modal" onclick="closeHelp()">
+          <i class="fas fa-times"></i>
+        </button>
+        <h2>學習資源中心使用說明</h2>
+        <div class="help-sections">
+          <div class="help-section">
+            <h3><i class="fas fa-book"></i> 如何使用資源</h3>
+            <p>您可以透過頂部的分類標籤選擇感興趣的科目，或使用搜尋框查找特定資源。點擊資源卡片上的「查看資源」按鈕即可訪問完整內容。</p>
+          </div>
+          <div class="help-section">
+            <h3><i class="fas fa-download"></i> 下載資源</h3>
+            <p>部分資源提供PDF或DOC格式下載，您可以將這些資料保存到本地裝置，以便離線學習和複習。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="mobile-nav">
+      <a href="https://sites.google.com/view/tyctw/" class="mobile-nav-item">
+        <i class="fas fa-home"></i>
+        <span>主頁</span>
+      </a>
+      <a href="https://tyctw.github.io/" class="mobile-nav-item">
+        <i class="fas fa-chart-line"></i>
+        <span>落點分析</span>
+      </a>
+      <a href="index.html" class="mobile-nav-item">
+        <i class="fas fa-search"></i>
+        <span>查榜</span>
+      </a>
+      <a href="news.html" class="mobile-nav-item">
+        <i class="fas fa-newspaper"></i>
+        <span>新聞</span>
+      </a>
+      <a href="#" onclick="showHelp(); return false;" class="mobile-nav-item">
+        <i class="fas fa-question-circle"></i>
+        <span>說明</span>
+      </a>
+    </nav>
   </div>
+
+  <script src="script.js"></script>
+  <script>
+    // 資源篩選功能
+    document.addEventListener('DOMContentLoaded', function() {
+      const categoryTabs = document.querySelectorAll('.category-tab');
+      const resourceCards = document.querySelectorAll('.resource-card');
+      const searchInput = document.getElementById('resourceSearch');
+
+      // 分類標籤點擊事件
+      categoryTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const category = this.getAttribute('data-category');
+          
+          // 更新活動標籤
+          categoryTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          // 篩選資源卡片
+          filterResources(category, searchInput.value);
+        });
+      });
+
+      // 搜尋功能
+      searchInput.addEventListener('input', function() {
+        const activeCategory = document.querySelector('.category-tab.active').getAttribute('data-category');
+        filterResources(activeCategory, this.value);
+      });
+
+      // 篩選資源函數
+      function filterResources(category, searchText) {
+        resourceCards.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          const cardText = card.textContent.toLowerCase();
+          const searchMatch = !searchText || cardText.includes(searchText.toLowerCase());
+          const categoryMatch = category === 'all' || cardCategory === category;
+          
+          if (searchMatch && categoryMatch) {
+            card.style.display = '';
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, 50);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 300);
+          }
+        });
+      }
+
+      // 初始化卡片動畫
+      resourceCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 100 + (index * 100));
+      });
+    });
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9X7EC127P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H9X7EC127P');
+  </script>
 </body>
 </html>
