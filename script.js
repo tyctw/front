@@ -25,11 +25,13 @@ function updateTime() {
 function showHelp() {
   const modal = document.getElementById('helpModal');
   modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeHelp() {
   const modal = document.getElementById('helpModal');
   modal.classList.remove('active');
+  document.body.style.overflow = '';
 }
 
 // Close modal when clicking outside
@@ -129,12 +131,14 @@ document.addEventListener('DOMContentLoaded', () => {
   updateTime();
   setInterval(updateTime, 1000);
 
-  // Initialize modal functionality
-  // Initialize sidebar functionality
-  // Initialize existing functionality
+  // Initialize animation for region cards
   const cards = document.querySelectorAll('.region-card');
   cards.forEach((card, index) => {
     card.style.animationDelay = `${index * 0.1}s`;
+    setTimeout(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, 100 + (index * 100));
   });
 
   // Initialize statistics
@@ -174,6 +178,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize countdown
   updateCountdown();
   setInterval(updateCountdown, 1000);
+
+  // Initialize bookmarks
+  updateBookmarkButtons();
 
   // Initialize notifications
   if (!localStorage.getItem('welcomeShown')) {

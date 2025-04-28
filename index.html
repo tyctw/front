@@ -2,18 +2,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="統整全國各會考區查榜網址提供給會考生查榜使用。">
+  <meta name="description" content="統整全國各會考區查榜網址提供給會考生查榜使用。">
   <meta name="keywords" content=嘉義區,金門區,竹苗區,花蓮區,基北區,高雄區,中投區,桃聯區, 會考, 落點分析, 教育, 學校,武陵高中,中壢高中,內壢高中,平鎮高中,大園高中,永豐高中,南崁高中,振聲高中,楊梅高中,治平高中,新興高中,關西高中,大溪高中">
   <meta name="author" content="會考查榜">
   <title>114年度國中教育會考 - 全國查榜網址</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233a7bd5'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E">
 </head>
 <body>
   <div class="page-wrapper">
     <nav class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233a7bd5'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E" alt="Logo" class="logo">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234361ee'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E" alt="Logo" class="logo">
         <button class="close-sidebar" onclick="toggleSidebar()">
           <i class="fas fa-times"></i>
         </button>
@@ -22,7 +23,13 @@
         <li><a href="https://sites.google.com/view/tyctw/"><i class="fas fa-home"></i>回到主網頁</a></li>
         <li><a href="https://tyctw.github.io/"><i class="fas fa-chart-line"></i>落點分析系統</a></li>
         <li><a href="https://tyctw.github.io/Navigation/"><i class="fas fa-info-circle"></i>更多資訊</a></li>
+        <li><a href="news.html"><i class="fas fa-newspaper"></i>最新消息</a></li>
+        <li><a href="resources.html"><i class="fas fa-book"></i>學習資源</a></li>
+        <li><a href="privacy.html"><i class="fas fa-shield-alt"></i>隱私權政策</a></li>
       </ul>
+      <div class="sidebar-footer">
+        <p>© 2025 TYCTW 會考系統</p>
+      </div>
     </nav>
 
     <main class="main-content">
@@ -33,6 +40,7 @@
       <header class="hero">
         <div class="hero-content">
           <h1>114國中教育會考查榜網址</h1>
+          <p class="hero-subtitle">全國考區查詢一次搞定，快速便捷的會考成績查詢入口</p>
           <div class="countdown">
             <div class="countdown-item">
               <span class="countdown-number countdown-days">--</span>
@@ -81,6 +89,9 @@
                class="search-bar" 
                placeholder="搜尋地區..."
                onkeyup="searchRegions()">
+        <div class="search-icon">
+          <i class="fas fa-search"></i>
+        </div>
       </div>
 
       <div id="notifications"></div>
@@ -88,6 +99,9 @@
       <div class="alert">
         <i class="fas fa-bullhorn"></i>
         <span>重要公告：114年度國中教育會考於5/17、18日舉行</span>
+        <button class="dismiss-alert" onclick="this.parentElement.style.display='none'">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
 
       <section class="regions">
@@ -100,10 +114,11 @@
               <i class="fas fa-city"></i>
             </div>
             <h2>北部地區</h2>
+            <p class="region-description">包含基北區、桃連區及竹苗區等學校，大台北地區及桃園新竹等地考生適用。</p>
             <ul>
-              <li><a href="https://ttk.entry.edu.tw/NoExamImitate_TP/NoExamImitateAdmissionList/AdmissionList.aspx">基北區</a></li>
-              <li><a href="https://tyc.entry.edu.tw/NoExamImitate_TL/NoExamImitateAdmissionList/AdmissionList.aspx">桃連區</a></li>
-              <li><a href="https://hhm.entry.edu.tw/NoExamImitate_HM/NoExamImitateAdmissionList/AdmissionList.aspx">竹苗區</a></li>
+              <li><a href="https://ttk.entry.edu.tw/NoExamImitate_TP/NoExamImitateAdmissionList/AdmissionList.aspx">基北區<i class="fas fa-arrow-right"></i></a></li>
+              <li><a href="https://tyc.entry.edu.tw/NoExamImitate_TL/NoExamImitateAdmissionList/AdmissionList.aspx">桃連區<i class="fas fa-arrow-right"></i></a></li>
+              <li><a href="https://hhm.entry.edu.tw/NoExamImitate_HM/NoExamImitateAdmissionList/AdmissionList.aspx">竹苗區<i class="fas fa-arrow-right"></i></a></li>
             </ul>
           </div>
           <div class="region-card" data-region="central">
@@ -114,10 +129,11 @@
               <i class="fas fa-mountain"></i>
             </div>
             <h2>中部地區</h2>
+            <p class="region-description">包含中投區、彰化區及雲林區等學校，台中、彰化、南投等地考生適用。</p>
             <ul>
-              <li><a href="https://ct.entry.edu.tw/NoExamImitate_CT/NoExamImitateAdmissionList/AdmissionList.aspx">中投區</a></li>
-              <li><a href="https://chc.entry.edu.tw/NoExamImitate_CH/NoExamImitateAdmissionList/AdmissionList.aspx">彰化區</a></li>
-              <li><a href="https://ylc.entry.edu.tw/NoExamImitate_YL/NoExamImitateAdmissionList/AdmissionList.aspx">雲林區</a></li>
+              <li><a href="https://ct.entry.edu.tw/NoExamImitate_CT/NoExamImitateAdmissionList/AdmissionList.aspx">中投區<i class="fas fa-arrow-right"></i></a></li>
+              <li><a href="https://chc.entry.edu.tw/NoExamImitate_CH/NoExamImitateAdmissionList/AdmissionList.aspx">彰化區<i class="fas fa-arrow-right"></i></a></li>
+              <li><a href="https://ylc.entry.edu.tw/NoExamImitate_YL/NoExamImitateAdmissionList/AdmissionList.aspx">雲林區<i class="fas fa-arrow-right"></i></a></li>
             </ul>
           </div>
           <div class="region-card" data-region="south">
@@ -128,11 +144,12 @@
               <i class="fas fa-umbrella-beach"></i>
             </div>
             <h2>南部地區</h2>
+            <p class="region-description">包含高雄區、台南區、嘉義區及屏東區等學校，嘉義、台南、高雄等地考生適用。</p>
             <ul>
-              <li><a href="https://kh.entry.edu.tw/stu_result/login.php">高雄區</a></li>
-              <li><a href="https://tn.entry.edu.tw/NoExamImitate_TN/NoExamImitateAdmissionList/AdmissionList.aspx">台南區</a></li>
-              <li><a href="https://cyc.entry.edu.tw/NoExamImitate_CY/NoExamImitateAdmissionList/">嘉義區</a></li>
-              <li><a href="https://ptc.entry.edu.tw/NoExamImitate_PT/NoExamImitateAdmissionList/AdmissionList.aspx">屏東區</a></li>
+              <li><a href="https://kh.entry.edu.tw/stu_result/login.php">高雄區<i class="fas fa-arrow-right"></i></a></li>
+              <li><a href="https://tn.entry.edu.tw/NoExamImitate_TN/NoExamImitateAdmissionList/AdmissionList.aspx">台南區<i class="fas fa-arrow-right"></i></a></li>
+              <li><a href="https://cyc.entry.edu.tw/NoExamImitate_CY/NoExamImitateAdmissionList/">嘉義區<i class="fas fa-arrow-right"></i></a></li>
+              <li><a href="https://ptc.entry.edu.tw/NoExamImitate_PT/NoExamImitateAdmissionList/AdmissionList.aspx">屏東區<i class="fas fa-arrow-right"></i></a></li>
             </ul>
           </div>
           <div class="region-card" data-region="east">
@@ -143,8 +160,9 @@
               <i class="fas fa-tree"></i>
             </div>
             <h2>東部地區</h2>
+            <p class="region-description">包含花蓮區及宜蘭等地學校，東部地區考生適用。</p>
             <ul>
-              <li><a href="https://hlc.entry.edu.tw/NoExamImitate_HL/NoExamImitateAdmissionList/AdmissionList.aspx">花蓮區</a></li>
+              <li><a href="https://hlc.entry.edu.tw/NoExamImitate_HL/NoExamImitateAdmissionList/AdmissionList.aspx">花蓮區<i class="fas fa-arrow-right"></i></a></li>
             </ul>
           </div>
           <div class="region-card" data-region="islands">
@@ -155,10 +173,33 @@
               <i class="fas fa-water"></i>
             </div>
             <h2>離島地區</h2>
+            <p class="region-description">包含澎湖區及金門區等離島學校，離島地區考生適用。</p>
             <ul>
-              <li><a href="https://ph.entry.edu.tw/">澎湖區</a></li>
-              <li><a href="https://km.entry.edu.tw/NoExamImitate_KM/NoExamImitateAdmissionList/AdmissionList.aspx">金門區</a></li>
+              <li><a href="https://ph.entry.edu.tw/">澎湖區<i class="fas fa-arrow-right"></i></a></li>
+              <li><a href="https://km.entry.edu.tw/NoExamImitate_KM/NoExamImitateAdmissionList/AdmissionList.aspx">金門區<i class="fas fa-arrow-right"></i></a></li>
             </ul>
+          </div>
+        </div>
+      </section>
+      
+      <section class="important-dates">
+        <h2 class="section-title">重要日期</h2>
+        <div class="date-cards">
+          <div class="date-card">
+            <div class="date">5/17</div>
+            <div class="event">會考第一天</div>
+          </div>
+          <div class="date-card">
+            <div class="date">5/18</div>
+            <div class="event">會考第二天</div>
+          </div>
+          <div class="date-card">
+            <div class="date">6/10</div>
+            <div class="event">成績公布</div>
+          </div>
+          <div class="date-card">
+            <div class="date">6/18-22</div>
+            <div class="event">志願選填</div>
           </div>
         </div>
       </section>
@@ -170,9 +211,10 @@
       </div>
       <h3>快速連結</h3>
       <ul>
-        <li><a href="https://www.cac.edu.tw/">大學甄選入學委員會</a></li>
-        <li><a href="https://www.ceec.edu.tw/">大考中心</a></li>
-        <li><a href="https://www.bctest.ntnu.edu.tw/">國中教育會考</a></li>
+        <li><a href="https://www.cac.edu.tw/"><i class="fas fa-external-link-alt"></i> 大學甄選入學委員會</a></li>
+        <li><a href="https://www.ceec.edu.tw/"><i class="fas fa-external-link-alt"></i> 大考中心</a></li>
+        <li><a href="https://www.bctest.ntnu.edu.tw/"><i class="fas fa-external-link-alt"></i> 國中教育會考</a></li>
+        <li><a href="https://sites.google.com/view/tyctw/"><i class="fas fa-external-link-alt"></i> TYCTW主頁</a></li>
       </ul>
     </div>
 
@@ -189,15 +231,19 @@
         <div class="help-sections">
           <div class="help-section">
             <h3><i class="fas fa-question-circle"></i> 如何使用本網站？</h3>
-            <p>本網站提供全國各地區的國中教育會考查榜網址。您可以點擊對應地區的連結來查看您所在地區的成績。</p>
+            <p>本網站提供全國各地區的國中教育會考查榜網址。您可以點擊對應地區的連結來查看您所在地區的成績。您也可以使用頁面上方的搜尋功能快速找到您的地區。</p>
           </div>
           <div class="help-section">
             <h3><i class="fas fa-info-circle"></i> 什麼是國中教育會考？</h3>
-            <p>國中教育會考是台灣國中畢業生參加的全國性測驗，用於評估學生的學習成果，並作為高中入學的參考依據。</p>
+            <p>國中教育會考是台灣國中畢業生參加的全國性測驗，用於評估學生的學習成果，並作為高中入學的參考依據。會考科目包括國文、英語、數學、社會、自然及寫作測驗。</p>
           </div>
           <div class="help-section">
             <h3><i class="far fa-calendar-alt"></i> 會考何時放榜？</h3>
-            <p>通常放榜時間會在志願填寫結束後約兩週內公布。具體日期請關注官方公告。</p>
+            <p>通常放榜時間會在志願填寫結束後約兩週內公布。具體日期請關注官方公告或本網站的最新消息區塊。</p>
+          </div>
+          <div class="help-section">
+            <h3><i class="fas fa-bookmark"></i> 如何使用書籤功能？</h3>
+            <p>在各地區卡片右上角有書籤按鈕，點擊可將該地區加入書籤。加入書籤的地區會在您下次訪問時更加醒目，方便快速查找。</p>
           </div>
         </div>
       </div>
@@ -224,8 +270,19 @@
 
     <footer>
       <div class="footer-content">
-        <p>&copy; 2025 TYCTW會考落點分析系統版權所有</p>
-        <p>聯絡我們：tyctw.analyze@gmail.com</p>
+        <div class="footer-logo">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234361ee'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E" alt="Logo" width="60" height="60">
+        </div>
+        <div class="footer-text">
+          <p>&copy; 2025 TYCTW會考落點分析系統版權所有</p>
+          <p>聯絡我們：tyctw.analyze@gmail.com</p>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Youtube"><i class="fab fa-youtube"></i></a>
+        </div>
       </div>
     </footer>
   </div>
