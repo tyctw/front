@@ -2,6 +2,18 @@
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
   sidebar.classList.toggle('active');
+  
+  // Toggle the menu icon animation
+  const menuToggle = document.querySelector('.menu-toggle');
+  menuToggle.classList.toggle('active');
+  
+  // When sidebar is active, slightly dim the main content
+  const mainContent = document.querySelector('.main-content');
+  if (sidebar.classList.contains('active')) {
+    mainContent.style.filter = 'brightness(0.8)';
+  } else {
+    mainContent.style.filter = '';
+  }
 }
 
 // Time display functionality
@@ -246,4 +258,58 @@ document.addEventListener('DOMContentLoaded', () => {
       this.style.opacity = '1';
     });
   });
+
+  // Add active state to current page in navigation
+  function setActiveNavItem() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+    
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPath || 
+          (currentPath === '/' && link.getAttribute('href') === 'index.html') ||
+          (currentPath === '/index.html' && link.getAttribute('href') === 'index.html')) {
+        link.classList.add('active');
+        // Add highlight effect to parent li
+        if (link.parentElement.tagName === 'LI') {
+          link.parentElement.classList.add('active');
+        }
+      }
+    });
+    
+    mobileNavItems.forEach(item => {
+      if (item.getAttribute('href') === currentPath || 
+          (currentPath === '/' && item.getAttribute('href') === 'index.html') ||
+          (currentPath === '/index.html' && item.getAttribute('href') === 'index.html')) {
+        item.classList.add('active');
+      }
+    });
+  }
+  
+  setActiveNavItem();
+  
+  // Add smooth transition when clicking menu items
+  document.querySelectorAll('.nav-links a, .mobile-nav-item').forEach(link => {
+    if (link.getAttribute('href').startsWith('http')) return; // Skip external links
+    
+    link.addEventListener('click', function(e) {
+      if (this.getAttribute('href') === '#' || this.hasAttribute('onclick')) return;
+      
+      e.preventDefault();
+      const target = this.getAttribute('href');
+      
+      // Add exit animation
+      document.body.classList.add('page-transition');
+      
+      // Navigate after animation completes
+      setTimeout(() => {
+        window.location.href = target;
+      }, 300);
+    });
+  });
+  
+  // Add animation class to body for page transitions
+  if (!document.body.classList.contains('loaded')) {
+    document.body.classList.add('loaded');
+  }
 });
