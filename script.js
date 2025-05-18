@@ -63,7 +63,7 @@ document.addEventListener('keydown', (e) => {
 
 // Countdown timer functionality
 function updateCountdown() {
-  const examDate = new Date('2025-05-17T08:30:00');
+  const examDate = new Date('2025-07-08T08:30:00');
   const now = new Date();
   const diff = examDate - now;
 
@@ -202,8 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Add reminders for important dates
   const importantDates = [
-    { date: '2025-05-17', message: '會考第一天開始' },
-    { date: '2025-05-18', message: '會考第二天開始' }
+    { date: '2025-07-08', message: '就學區免試入學放榜' }
   ];
 
   importantDates.forEach(item => {
