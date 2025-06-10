@@ -658,39 +658,82 @@ body {
 }
 
 .notification {
-  background: white;
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  animation: slideIn 0.3s ease-out forwards;
-  border-left: 4px solid var(--primary);
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  position: relative;
+  animation: slideIn 0.5s ease-out;
 }
 
-@keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+.notification.important {
+  border-left: 5px solid #4361ee;
+  background-color: #f0f3ff;
 }
 
 .notification i {
-  color: var(--primary);
-  font-size: 1.2rem;
+  font-size: 24px;
+  color: #4361ee;
+  margin-right: 15px;
+  vertical-align: top;
 }
 
-.notification button {
+.notification-content {
+  display: inline-block;
+  width: calc(100% - 80px);
+}
+
+.notification h3 {
+  color: #4361ee;
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+}
+
+.notification p {
+  margin: 5px 0;
+  color: #333;
+  line-height: 1.5;
+}
+
+.notification a {
+  color: #4361ee;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.notification a:hover {
+  color: #2541b2;
+  text-decoration: underline;
+}
+
+.dismiss-notification {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   background: none;
   border: none;
-  color: var(--gray);
+  color: #666;
   cursor: pointer;
-  margin-left: auto;
-  transition: var(--transition);
+  padding: 5px;
+  transition: color 0.3s;
 }
 
-.notification button:hover {
-  color: var(--danger);
-  transform: scale(1.2);
+.dismiss-notification:hover {
+  color: #333;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* ===== 快速連結樣式 ===== */
