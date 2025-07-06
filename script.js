@@ -157,8 +157,24 @@ function updateBookmarkButtons() {
   });
 }
 
-// Initialize all features
+// Page loader
 document.addEventListener('DOMContentLoaded', () => {
+  // Hide loader after page is fully loaded
+  setTimeout(() => {
+    const loader = document.querySelector('.page-loader');
+    loader.classList.add('hidden');
+    // Remove loader from DOM after animation completes
+    setTimeout(() => {
+      loader.style.display = 'none';
+    }, 500);
+  }, 800);
+  
+  // Initialize all features
+  initializeApp();
+});
+
+// Initialize all features
+function initializeApp() {
   // Initialize time updates
   updateTime();
   setInterval(updateTime, 1000);
@@ -268,13 +284,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Add mobile-friendly focus handling
-  document.querySelectorAll('a, button').forEach(element => {
-    element.addEventListener('touchstart', function() {
-      this.style.opacity = '0.7';
+  document.querySelectorAll('a, button, input').forEach(el => {
+    el.addEventListener('touchstart', function() {
+      this.classList.add('touch-focus');
     });
     
-    element.addEventListener('touchend', function() {
-      this.style.opacity = '1';
+    el.addEventListener('touchend', function() {
+      this.classList.remove('touch-focus');
     });
   });
 
@@ -331,4 +347,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!document.body.classList.contains('loaded')) {
     document.body.classList.add('loaded');
   }
-});
+}
