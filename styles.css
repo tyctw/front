@@ -1508,3 +1508,105 @@ footer::before {
     justify-content: center;
   }
 }
+
+/* ===== 重要日期按鈕 ===== */
+.important-dates-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.important-dates-button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+  transition: var(--transition);
+}
+
+.important-dates-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+  background: var(--primary-dark);
+}
+
+.important-dates-button i {
+  font-size: 1.2rem;
+}
+
+/* ===== 重要日期模態框 ===== */
+#importantDatesModal .modal-content {
+  max-width: 700px;
+}
+
+#importantDatesModal .date-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+#importantDatesModal .date-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: calc(50% - 1.5rem);
+  min-width: 250px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  border: 1px solid var(--gray-light);
+  animation: fadeIn 0.5s ease-out forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#importantDatesModal .date-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(67, 97, 238, 0.15);
+}
+
+#importantDatesModal .date {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+#importantDatesModal .event {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+@media (max-width: 768px) {
+  .important-dates-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  #importantDatesModal .date-cards {
+    gap: 1rem;
+  }
+  
+  #importantDatesModal .date-card {
+    width: 100%;
+    padding: 1.2rem;
+  }
+  
+  #importantDatesModal .date {
+    font-size: 1.8rem;
+  }
+}

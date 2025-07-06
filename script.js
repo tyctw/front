@@ -46,11 +46,30 @@ function closeHelp() {
   document.body.style.overflow = '';
 }
 
+// Important dates modal functionality
+function showImportantDates() {
+  const modal = document.getElementById('importantDatesModal');
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeImportantDates() {
+  const modal = document.getElementById('importantDatesModal');
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
 // Close modal when clicking outside
 window.onclick = function(event) {
-  const modal = document.getElementById('helpModal');
-  if (event.target === modal) {
+  const helpModal = document.getElementById('helpModal');
+  const datesModal = document.getElementById('importantDatesModal');
+  
+  if (event.target === helpModal) {
     closeHelp();
+  }
+  
+  if (event.target === datesModal) {
+    closeImportantDates();
   }
 }
 
@@ -58,6 +77,7 @@ window.onclick = function(event) {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeHelp();
+    closeImportantDates();
   }
 });
 

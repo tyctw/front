@@ -60,16 +60,7 @@
             </div>
           </div>
           <div class="hero-stats">
-            <div class="stat">
-              <i class="fas fa-user-graduate"></i>
-              <span class="stat-number" data-target="17萬5,247人">尚未公布</span>
-              <span class="stat-label">考生總人數</span>
-            </div>
-            <div class="stat">
-              <i class="fas fa-map-marked-alt"></i>
-              <span class="stat-number" data-target="13區">尚未公布</span>
-              <span class="stat-label">參與區域</span>
-            </div>
+
 
           </div>
           <div class="time-display">
@@ -107,27 +98,39 @@
         </div>
       </div>
 
-      <section class="important-dates">
-        <h2 class="section-title">重要日期</h2>
-        <div class="date-cards">
-          <div class="date-card">
-            <div class="date">6/20</div>
-            <div class="event">個人序位區間公告</div>
-          </div>
-          <div class="date-card">
-            <div class="date">6/20</div>
-            <div class="event">就學區免試入學開始填志願<br><small>（結束依各地區時間為主）</small></div>
-          </div>
-          <div class="date-card">
-            <div class="date">7/8</div>
-            <div class="event">就學區免試入學放榜<br><small>（放榜依各地區時間為主）</small></div>
-          </div>
-          <div class="date-card">
-            <div class="date">7/10</div>
-            <div class="event">免試入學報到</div>
+      <div class="important-dates-button-container">
+        <button class="important-dates-button" onclick="showImportantDates()">
+          <i class="fas fa-calendar-alt"></i>
+          <span>查看重要日期</span>
+        </button>
+      </div>
+
+      <div class="modal" id="importantDatesModal">
+        <div class="modal-content">
+          <button class="close-modal" onclick="closeImportantDates()">
+            <i class="fas fa-times"></i>
+          </button>
+          <h2>重要日期</h2>
+          <div class="date-cards">
+            <div class="date-card">
+              <div class="date">6/20</div>
+              <div class="event">個人序位區間公告</div>
+            </div>
+            <div class="date-card">
+              <div class="date">6/20</div>
+              <div class="event">就學區免試入學開始填志願<br><small>（結束依各地區時間為主）</small></div>
+            </div>
+            <div class="date-card">
+              <div class="date">7/8</div>
+              <div class="event">就學區免試入學放榜<br><small>（放榜依各地區時間為主）</small></div>
+            </div>
+            <div class="date-card">
+              <div class="date">7/10</div>
+              <div class="event">免試入學報到</div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <div id="notifications">
         <div class="notification important">
