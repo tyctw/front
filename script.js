@@ -83,11 +83,14 @@ document.addEventListener('keydown', (e) => {
 
 // Countdown timer functionality
 function updateCountdown() {
-  const examDate = new Date('2025-07-08T08:30:00');
+  const startDate = new Date('2025-07-08T11:00:00');
+  const endDate = new Date('2025-07-31T11:00:00');
   const now = new Date();
-  const diff = examDate - now;
-
-  if (diff > 0) {
+  
+  // 檢查是否在開放時間範圍內
+  if (now >= startDate && now <= endDate) {
+    // 已開放，顯示剩餘開放時間
+    const diff = endDate - now;
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -97,6 +100,42 @@ function updateCountdown() {
     document.querySelector('.countdown-hours').textContent = hours;
     document.querySelector('.countdown-minutes').textContent = minutes;
     document.querySelector('.countdown-seconds').textContent = seconds;
+    
+    // 更新標題顯示開放中
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    if (heroSubtitle) {
+      heroSubtitle.innerHTML = '<span class="status-open">✅ 系統開放中</span> 將於 2025/07/31 11:00 關閉';
+    }
+  } else if (now < startDate) {
+    // 尚未開放，顯示距離開放還有多久
+    const diff = startDate - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.querySelector('.countdown-days').textContent = days;
+    document.querySelector('.countdown-hours').textContent = hours;
+    document.querySelector('.countdown-minutes').textContent = minutes;
+    document.querySelector('.countdown-seconds').textContent = seconds;
+    
+    // 更新標題顯示尚未開放
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    if (heroSubtitle) {
+      heroSubtitle.innerHTML = '<span class="status-waiting">⏳ 系統即將開放</span> 開放時間：2025/07/08 11:00';
+    }
+  } else {
+    // 已結束
+    document.querySelector('.countdown-days').textContent = '0';
+    document.querySelector('.countdown-hours').textContent = '0';
+    document.querySelector('.countdown-minutes').textContent = '0';
+    document.querySelector('.countdown-seconds').textContent = '0';
+    
+    // 更新標題顯示已結束
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    if (heroSubtitle) {
+      heroSubtitle.innerHTML = '<span class="status-closed">❌ 系統已關閉</span> 查詢期間已結束';
+    }
   }
 }
 
@@ -121,15 +160,38 @@ function searchRegions() {
 function showNotification(message) {
   const notification = document.createElement('div');
   notification.className = 'notification';
+  
+  // 根據消息類型添加不同的圖標
+  let icon = 'fa-info-circle';
+  if (message.includes('已加入書籤')) {
+    icon = 'fa-bookmark';
+    notification.classList.add('bookmark-added');
+  } else if (message.includes('已從書籤移除')) {
+    icon = 'fa-bookmark-slash';
+    notification.classList.add('bookmark-removed');
+  }
+  
   notification.innerHTML = `
-    <i class="fas fa-info-circle"></i>
-    <span>${message}</span>
-    <button onclick="this.parentElement.remove()">
+    <i class="fas ${icon}"></i>
+    <div class="notification-content">
+      <span>${message}</span>
+    </div>
+    <button class="dismiss-notification" onclick="this.parentElement.remove()">
       <i class="fas fa-times"></i>
     </button>
   `;
   document.getElementById('notifications').appendChild(notification);
-  setTimeout(() => notification.remove(), 5000);
+  
+  // 添加動畫效果
+  setTimeout(() => {
+    notification.classList.add('show');
+  }, 10);
+  
+  // 自動關閉通知
+  setTimeout(() => {
+    notification.classList.add('hide');
+    setTimeout(() => notification.remove(), 300);
+  }, 5000);
 }
 
 // Bookmark functionality
@@ -139,10 +201,12 @@ function toggleBookmark(regionId) {
   
   if (index === -1) {
     bookmarks.push(regionId);
-    showNotification('已加入書籤！');
+    const regionName = document.querySelector(`.region-card[data-region="${regionId}"] h2`).textContent;
+    showNotification(`<strong>${regionName}</strong> 已加入書籤！`);
   } else {
     bookmarks.splice(index, 1);
-    showNotification('已移除書籤！');
+    const regionName = document.querySelector(`.region-card[data-region="${regionId}"] h2`).textContent;
+    showNotification(`<strong>${regionName}</strong> 已從書籤移除！`);
   }
   
   localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
@@ -229,6 +293,9 @@ function initializeApp() {
 
   // Initialize bookmarks
   updateBookmarkButtons();
+
+  // Initialize menu active state
+  setActiveMenuItem();
 
   // Initialize notifications
   if (!localStorage.getItem('welcomeShown')) {
@@ -347,4 +414,27 @@ function initializeApp() {
   if (!document.body.classList.contains('loaded')) {
     document.body.classList.add('loaded');
   }
+}
+
+// 處理菜單項目的活動狀態
+function setActiveMenuItem() {
+  // 獲取當前頁面的路徑
+  const currentPath = window.location.pathname;
+  const pageName = currentPath.split('/').pop() || 'index.html';
+  
+  // 移除所有活動狀態
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  
+  // 設置當前頁面的菜單項為活動狀態
+  const menuItems = document.querySelectorAll('.nav-item a');
+  menuItems.forEach(item => {
+    const href = item.getAttribute('href');
+    if (href === pageName || 
+        (pageName === 'index.html' && href === 'index.html') ||
+        (href.includes(pageName))) {
+      item.closest('.nav-item').classList.add('active');
+    }
+  });
 }
