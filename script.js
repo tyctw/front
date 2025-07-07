@@ -1,20 +1,37 @@
 // Sidebar functionality
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
+  
+  // 切換側邊欄狀態
   sidebar.classList.toggle('active');
   
   // Toggle the menu icon animation
   const menuToggle = document.querySelector('.menu-toggle');
   menuToggle.classList.toggle('active');
   
-  // When sidebar is active, slightly dim the main content
+  // When sidebar is active, slightly dim the main content and prevent body scrolling
   const mainContent = document.querySelector('.main-content');
+  const body = document.body;
+  
   if (sidebar.classList.contains('active')) {
     mainContent.style.filter = 'brightness(0.8)';
+    body.style.overflow = 'hidden'; // 防止背景滾動
   } else {
     mainContent.style.filter = '';
+    body.style.overflow = ''; // 恢復滾動
   }
 }
+
+// 初始化遮罩層點擊事件
+document.addEventListener('DOMContentLoaded', function() {
+  const backdrop = document.querySelector('.sidebar-backdrop');
+  if (backdrop) {
+    backdrop.addEventListener('click', function(e) {
+      e.preventDefault();
+      toggleSidebar();
+    });
+  }
+});
 
 // Time display functionality
 function updateTime() {

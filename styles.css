@@ -1826,3 +1826,23 @@ footer::before {
   color: #e74c3c;
   border: 1px solid rgba(231, 76, 60, 0.3);
 }
+
+/* ===== 側邊欄遮罩層 ===== */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  backdrop-filter: blur(3px);
+}
+
+.sidebar.active + .sidebar-backdrop {
+  opacity: 1;
+  visibility: visible;
+}
