@@ -1,34 +1,100 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
+  /* 全新現代化配色方案 - 淺色主題 */
   --primary: #6366f1;
   --primary-dark: #4f46e5;
-  --primary-light: #a5b4fc;
-  --secondary: #ec4899;
-  --secondary-dark: #db2777;
-  --accent: #f59e0b;
-  --accent-dark: #d97706;
-  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --background-light: #f8fafc;
+  --primary-light: #818cf8;
+  --primary-ultra-light: #c7d2fe;
+  
+  --secondary: #8b5cf6;
+  --secondary-dark: #7c3aed;
+  --secondary-light: #a78bfa;
+  
+  --accent: #ec4899;
+  --accent-dark: #db2777;
+  --accent-light: #f472b6;
+  
+  --teal: #14b8a6;
+  --teal-dark: #0d9488;
+  --cyan: #06b6d4;
+  --cyan-dark: #0891b2;
+  
+  /* 漸變背景 - 淺色主題 */
+  --background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 25%, #e2e8f0 50%, #cbd5e1 75%, #94a3b8 100%);
+  --background-alt: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  --background-light: #ffffff;
+  --background-dark: #f8fafc;
+  
+  /* 文字顏色 */
   --text: #1e293b;
-  --text-light: #64748b;
-  --card-bg: rgba(255, 255, 255, 0.95);
-  --card-bg-glass: rgba(255, 255, 255, 0.1);
-  --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --card-shadow-hover: 0 35px 60px -12px rgba(0, 0, 0, 0.35);
-  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
-  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  --text-light: #475569;
+  --text-lighter: #64748b;
+  --text-dark: #0f172a;
+  
+  /* 卡片樣式 - 玻璃態效果 */
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-bg-glass: rgba(255, 255, 255, 0.95);
+  --card-bg-light: rgba(255, 255, 255, 1);
+  --card-border: rgba(0, 0, 0, 0.1);
+  
+  /* 陰影效果 */
+  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 12px 48px 0 rgba(99, 102, 241, 0.25);
+  --card-shadow-glow: 0 0 30px rgba(99, 102, 241, 0.3);
+  
+  /* 漸變效果 */
+  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  --gradient-secondary: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f472b6 100%);
+  --gradient-accent: linear-gradient(135deg, #14b8a6 0%, #06b6d4 50%, #3b82f6 100%);
+  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+  --gradient-glow: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  
+  /* 狀態顏色 */
   --success: #10b981;
+  --success-light: #34d399;
   --warning: #f59e0b;
+  --warning-light: #fbbf24;
   --danger: #ef4444;
-  --gray-light: #f1f5f9;
-  --gray: #cbd5e1;
-  --border: rgba(255, 255, 255, 0.2);
+  --danger-light: #f87171;
+  --info: #3b82f6;
+  --info-light: #60a5fa;
+  
+  /* 灰階 */
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+  
+  /* 邊框與分隔 */
+  --border: rgba(0, 0, 0, 0.1);
+  --border-light: rgba(0, 0, 0, 0.05);
+  --border-strong: rgba(0, 0, 0, 0.2);
+  
+  /* 動畫與過渡 */
   --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* 模糊效果 */
   --blur: blur(20px);
   --blur-light: blur(10px);
+  --blur-heavy: blur(30px);
+  
+  /* 其他 */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
 }
 
 * {
@@ -38,15 +104,17 @@
 }
 
 body {
-  font-family: 'Noto Sans TC', sans-serif;
-  background: var(--background);
+  font-family: 'Noto Sans TC', 'Inter', sans-serif;
+  background: var(--background-dark);
   background-attachment: fixed;
   color: var(--text);
-  line-height: 1.6;
+  line-height: 1.7;
   font-size: 16px;
   overflow-x: hidden;
   min-height: 100vh;
   position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body::before {
@@ -57,11 +125,28 @@ body::before {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 30% 70%, rgba(20, 184, 166, 0.04) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: -2;
+  animation: backgroundShift 20s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.01) 2px, rgba(0, 0, 0, 0.01) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 0, 0, 0.01) 2px, rgba(0, 0, 0, 0.01) 4px);
   pointer-events: none;
   z-index: -1;
+  opacity: 0.2;
 }
 
 .page-wrapper {
@@ -388,14 +473,16 @@ body::before {
 .hero {
   position: relative;
   background: var(--gradient-hero);
-  padding: 10rem 2rem 8rem;
+  padding: 12rem 2rem 10rem;
   text-align: center;
   color: white;
   overflow: hidden;
   margin-bottom: 4rem;
-  border-radius: 0 0 50px 50px;
+  border-radius: 0 0 60px 60px;
   box-shadow: var(--card-shadow);
   backdrop-filter: var(--blur);
+  border-bottom: 2px solid var(--border);
+  position: relative;
 }
 
 .hero::before {
@@ -406,10 +493,12 @@ body::before {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
-    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
   animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .hero::after {
@@ -437,36 +526,59 @@ body::before {
   z-index: 2;
   max-width: 900px;
   margin: 0 auto;
+  color: white;
 }
 
 .hero h1 {
-  font-size: 3.5rem;
-  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 900;
   margin-bottom: 2rem;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  letter-spacing: 2px;
-  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  text-shadow: 0 0 40px rgba(99, 102, 241, 0.3), 0 4px 20px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #1e293b 0%, #475569 50%, #6366f1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: glow 3s ease-in-out infinite alternate;
+  animation: titleGlow 4s ease-in-out infinite alternate;
+  position: relative;
+  line-height: 1.2;
 }
 
 .hero-subtitle {
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
   margin-bottom: 3rem;
   opacity: 0.95;
-  max-width: 800px;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.8;
+  color: rgba(255, 255, 255, 0.95);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1.5rem 2rem;
-  border-radius: 20px;
-  backdrop-filter: var(--blur-light);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2rem 2.5rem;
+  border-radius: var(--radius-xl);
+  backdrop-filter: var(--blur);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-subtitle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.hero-subtitle:hover::before {
+  left: 100%;
 }
 
 .hero-stats {
@@ -520,15 +632,16 @@ body::before {
   justify-content: center;
   margin: 3rem auto;
   gap: 1.5rem;
-  max-width: 700px;
+  max-width: 800px;
+  flex-wrap: wrap;
 }
 
 .countdown-item {
-  background: var(--card-bg-glass);
+  background: var(--card-bg);
   backdrop-filter: var(--blur);
-  border-radius: 20px;
-  padding: 1.5rem 2rem;
-  min-width: 120px;
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.5rem;
+  min-width: 130px;
   text-align: center;
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border);
@@ -538,9 +651,10 @@ body::before {
 }
 
 .countdown-item:hover {
-  transform: translateY(-8px) scale(1.05);
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-10px) scale(1.08);
+  background: var(--card-bg-glass);
+  box-shadow: var(--card-shadow-hover), var(--card-shadow-glow);
+  border-color: var(--primary);
 }
 
 .countdown-item::before {
@@ -560,25 +674,30 @@ body::before {
 }
 
 .countdown-number {
-  font-size: 3rem;
-  font-weight: 800;
+  font-size: 3.5rem;
+  font-weight: 900;
   display: block;
   margin-bottom: 0.8rem;
-  color: white;
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  color: var(--text);
+  text-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 4px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   z-index: 2;
-  animation: pulse 2s ease-in-out infinite;
+  animation: numberPulse 2s ease-in-out infinite;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .countdown-label {
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  opacity: 0.95;
+  opacity: 0.8;
   font-weight: 600;
   position: relative;
   z-index: 2;
+  color: var(--text-light);
 }
 
 /* ===== 通知樣式 ===== */
@@ -718,27 +837,40 @@ body::before {
   }
 }
 
+/* ===== 搜尋與日期容器樣式 ===== */
+.search-and-dates-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+  flex-wrap: wrap;
+}
+
 /* ===== 搜尋欄樣式 ===== */
 .search-container {
-  max-width: 700px;
-  margin: 3rem auto;
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
   position: relative;
   animation: searchContainerFloat 8s ease-in-out infinite;
 }
 
 .search-bar {
   width: 100%;
-  padding: 1.8rem 2.5rem 1.8rem 5rem;
+  padding: 1.8rem 2.5rem 1.8rem 5.5rem;
   border: none;
-  border-radius: 60px;
+  border-radius: var(--radius-full);
   background: var(--card-bg);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
   font-size: 1.2rem;
   transition: var(--transition);
   border: 2px solid var(--border);
   color: var(--text);
   backdrop-filter: var(--blur);
-  font-weight: 600;
+  font-weight: 500;
   position: relative;
   overflow: hidden;
 }
@@ -757,10 +889,11 @@ body::before {
 
 .search-bar:focus {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.3), var(--card-shadow-hover);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), var(--card-shadow-hover);
   border-color: var(--primary);
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.98);
+  transform: translateY(-3px) scale(1.01);
+  background: var(--card-bg-glass);
+  border-width: 2px;
 }
 
 .search-bar:focus + .search-icon {
@@ -789,30 +922,30 @@ body::before {
 
 /* ===== 區域卡片樣式 ===== */
 .regions {
-  padding: 2rem;
+  padding: 3rem 2rem;
 }
 
 .region-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2.5rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
 .region-card {
   background: var(--card-bg);
-  border-radius: 24px;
+  border-radius: var(--radius-lg);
   padding: 2.5rem;
   box-shadow: var(--card-shadow);
   transition: var(--transition);
   position: relative;
   overflow: hidden;
   border: 1px solid var(--border);
-  backdrop-filter: var(--blur-light);
+  backdrop-filter: var(--blur);
   opacity: 0;
   transform: translateY(30px);
-  animation: fadeIn 0.6s ease-out forwards;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .region-card::before {
@@ -822,48 +955,53 @@ body::before {
   left: 0;
   width: 100%;
   height: 6px;
-  background: var(--gradient);
+  background: var(--gradient-primary);
   opacity: 0.9;
   transition: var(--transition);
   border-radius: 24px 24px 0 0;
 }
 
 .region-card:hover {
-  transform: translateY(-15px) scale(1.02);
-  box-shadow: var(--card-shadow-hover);
-  background: rgba(255, 255, 255, 0.98);
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: var(--card-shadow-hover), var(--card-shadow-glow);
+  background: var(--card-bg-glass);
+  border-color: var(--primary);
 }
 
 .region-icon {
-  font-size: 3rem;
-  color: var(--primary);
+  font-size: 3.5rem;
+  color: var(--primary-light);
   margin-bottom: 2rem;
-  transition: var(--transition);
+  transition: var(--transition-bounce);
   display: inline-block;
-  padding: 1rem;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-  border-radius: 20px;
-  border: 1px solid rgba(99, 102, 241, 0.2);
-}
-
-.region-card:hover .region-icon {
-  transform: scale(1.15) rotate(5deg);
-  color: var(--secondary);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
-  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
-}
-
-.region-card h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  color: var(--text);
-  font-weight: 700;
-  position: relative;
-  display: inline-block;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  padding: 1.5rem;
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  border-radius: var(--radius-lg);
+  position: relative;
+  filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.3));
+}
+
+.region-card:hover .region-icon {
+  transform: scale(1.2) rotate(8deg);
+  filter: drop-shadow(0 8px 24px rgba(99, 102, 241, 0.6));
+}
+
+.region-card h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
 }
 
 .region-card ul {
@@ -878,18 +1016,19 @@ body::before {
 .region-card a {
   color: var(--text);
   text-decoration: none;
-  padding: 1rem 1.5rem;
-  border-radius: 16px;
+  padding: 1.2rem 1.8rem;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(135deg, var(--gray-light) 0%, rgba(99, 102, 241, 0.05) 100%);
+  background: var(--card-bg-glass);
   transition: var(--transition);
   font-weight: 600;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(99, 102, 241, 0.1);
+  border: 1px solid var(--border);
   backdrop-filter: var(--blur-light);
+  font-size: 1.05rem;
 }
 
 .region-card a::after {
@@ -899,16 +1038,17 @@ body::before {
   left: 0;
   width: 0;
   height: 3px;
-  background: var(--gradient);
+  background: var(--gradient-primary);
   transition: var(--transition);
 }
 
 .region-card a:hover {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
-  color: var(--primary);
-  transform: translateX(8px) scale(1.02);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.3);
+  background: var(--card-bg-glass);
+  color: var(--primary-light);
+  transform: translateX(10px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+  border-color: var(--primary);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
 }
 
 .region-card a:hover::after {
@@ -1050,7 +1190,7 @@ body::before {
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: var(--gradient);
+  background: var(--gradient-primary);
   color: white;
   display: flex;
   align-items: center;
@@ -1156,7 +1296,7 @@ body::before {
   left: 0;
   width: 60px;
   height: 4px;
-  background: var(--gradient);
+  background: var(--gradient-primary);
   border-radius: 2px;
 }
 
@@ -1318,9 +1458,15 @@ footer::before {
     border-radius: 20px;
   }
 
+  .search-and-dates-container {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  
   .search-container {
-    margin: 0 1rem 2rem;
-    animation: none;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
   }
   
   .search-bar {
@@ -1453,7 +1599,7 @@ footer::before {
   transform: translateX(-50%) scaleX(0);
   width: 20px;
   height: 3px;
-  background: var(--gradient);
+  background: var(--gradient-primary);
   border-radius: 10px;
   transition: var(--transition);
 }
@@ -1530,7 +1676,7 @@ footer::before {
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: var(--gradient);
+  background: var(--gradient-primary);
   border-radius: 2px;
 }
 
@@ -1757,29 +1903,29 @@ footer::before {
 .important-dates-button-container {
   display: flex;
   justify-content: center;
-  margin: 2.5rem 0;
+  flex-shrink: 0;
 }
 
 .important-dates-button {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+  background: var(--gradient-accent);
   color: white;
   border: none;
-  padding: 1.5rem 3.5rem;
-  border-radius: 60px;
-  font-size: 1.3rem;
-  font-weight: 800;
+  padding: 1.5rem 2.5rem;
+  border-radius: var(--radius-full);
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  box-shadow: 0 20px 40px rgba(245, 158, 11, 0.4);
+  gap: 1rem;
+  box-shadow: var(--card-shadow);
   transition: var(--transition);
   position: relative;
   overflow: hidden;
   z-index: 1;
   backdrop-filter: var(--blur-light);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  animation: datesButtonPulse 4s ease-in-out infinite;
+  border: 2px solid var(--border-strong);
+  white-space: nowrap;
 }
 
 .important-dates-button::before {
@@ -1818,9 +1964,9 @@ footer::before {
 }
 
 .important-dates-button:hover {
-  transform: translateY(-8px) scale(1.08);
-  box-shadow: 0 25px 50px rgba(245, 158, 11, 0.5);
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: var(--card-shadow-hover), var(--card-shadow-glow);
+  background: var(--gradient-accent);
 }
 
 .important-dates-button:hover::before {
@@ -1882,16 +2028,29 @@ footer::before {
 }
 
 @media (max-width: 768px) {
-  .important-dates-button {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    border-radius: 50px;
+  .search-and-dates-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+  
+  .search-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: auto;
     animation: none;
+  }
+  
+  .important-dates-button {
+    padding: 1.2rem 2rem;
+    font-size: 1rem;
+    border-radius: var(--radius-full);
+    width: 100%;
+    justify-content: center;
   }
   
   .important-dates-button i {
     font-size: 1.2rem;
-    animation: none;
   }
   
   #importantDatesModal .date-cards {
@@ -2176,7 +2335,7 @@ footer::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   z-index: 999;
   opacity: 0;
   visibility: hidden;
@@ -2187,4 +2346,183 @@ footer::before {
 .sidebar.active + .sidebar-backdrop {
   opacity: 1;
   visibility: visible;
+}
+
+/* ===== 新增動畫效果 ===== */
+@keyframes backgroundShift {
+  0% { 
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  50% { 
+    transform: translate(20px, -20px) scale(1.1);
+    opacity: 1;
+  }
+  100% { 
+    transform: translate(-10px, 10px) scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+@keyframes titleGlow {
+  0% { 
+    filter: brightness(1) drop-shadow(0 0 15px rgba(99, 102, 241, 0.3));
+  }
+  100% { 
+    filter: brightness(1.1) drop-shadow(0 0 25px rgba(99, 102, 241, 0.5));
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes numberPulse {
+  0%, 100% { 
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shimmerEffect {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* ===== 側邊欄樣式優化 ===== */
+.sidebar {
+  background: var(--card-bg);
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-header {
+  border-bottom: 1px solid var(--border);
+}
+
+/* ===== 按鈕樣式優化 ===== */
+.menu-toggle {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  backdrop-filter: var(--blur);
+  box-shadow: var(--card-shadow);
+}
+
+.menu-toggle:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: var(--card-shadow-glow);
+}
+
+/* ===== 模態框樣式優化 ===== */
+.modal-content {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+}
+
+/* ===== 通知樣式優化 ===== */
+.notification {
+  background: var(--card-bg);
+  border-left: 4px solid var(--primary);
+  backdrop-filter: var(--blur);
+}
+
+.notification.important {
+  border-left-color: var(--info);
+  background: var(--card-bg-glass);
+}
+
+/* ===== 分享橫幅樣式優化 ===== */
+.share-results-banner {
+  background: var(--gradient-accent);
+  border: 1px solid var(--border-strong);
+}
+
+/* ===== 重要日期按鈕樣式優化 ===== */
+.important-dates-button {
+  background: var(--gradient-accent);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--card-shadow);
+}
+
+.important-dates-button:hover {
+  box-shadow: var(--card-shadow-hover), var(--card-shadow-glow);
+}
+
+/* ===== 警告橫幅樣式優化 ===== */
+.alert {
+  background: var(--gradient-primary);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--card-shadow);
+}
+
+/* ===== 頁腳樣式優化 ===== */
+footer {
+  background: var(--gradient-hero);
+  border-top: 2px solid var(--border);
+}
+
+/* ===== 區域描述樣式 ===== */
+.region-description {
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+/* ===== 響應式優化 ===== */
+@media (max-width: 768px) {
+  .hero {
+    padding: 8rem 1.5rem 6rem;
+    border-radius: 0 0 40px 40px;
+  }
+  
+  .hero h1 {
+    font-size: 2.2rem;
+    letter-spacing: 0;
+  }
+  
+  .countdown-number {
+    font-size: 2.5rem;
+  }
+  
+  .region-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .region-card h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* ===== 深色主題優化 ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-bg-glass: rgba(255, 255, 255, 0.05);
+  }
 }
