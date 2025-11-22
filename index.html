@@ -1,420 +1,846 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="統整全國各會考區查榜網址提供給會考生查榜使用。">
-  <meta name="keywords" content="嘉義區,金門區,竹苗區,花蓮區,基北區,高雄區,中投區,桃聯區, 會考, 落點分析, 教育, 學校,武陵高中,中壢高中,內壢高中,平鎮高中,大園高中,永豐高中,南崁高中,振聲高中,楊梅高中,治平高中,新興高中,關西高中,大溪高中">
-  <meta name="author" content="會考查榜">
-  <meta name="theme-color" content="#3a86ff">
-  <meta property="og:title" content="115年度國中教育會考 - 全國查榜網址">
-  <meta property="og:description" content="統整全國各會考區查榜網址提供給會考生查榜使用。快速便捷的放榜查詢入口！">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://tyctw.github.io/">
-  <meta property="og:image" content="https://tyctw.github.io/images/og-image.jpg">
-  <title>115年度國中教育會考 - 全國查榜網址</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233a86ff'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>115會考查榜小幫手 | TYCTW</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .bg-dot-pattern {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        /* Animations */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        
+        /* Hide scrollbar for horizontal scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
 </head>
-<body>
-  <!-- 頁面載入動畫 -->
-  <div class="page-loader">
-    <div class="loader-content">
-      <div class="loader-icon"></div>
-      <p>載入中...</p>
+<body class="bg-dot-pattern text-slate-900 overflow-x-hidden selection:bg-blue-100 selection:text-blue-900 pb-12">
+    <!-- React Root (Kept for compatibility if needed, but main content is rendered directly below) -->
+    <div id="root"></div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[60] transition-opacity duration-300 opacity-0 pointer-events-none" onclick="toggleMobileMenu()"></div>
+
+    <!-- Mobile Menu Sidebar -->
+    <div id="mobile-menu-sidebar" class="fixed top-0 right-0 h-full w-[300px] bg-white z-[70] shadow-2xl transform transition-transform duration-300 ease-out translate-x-full border-l border-slate-100">
+        <div class="flex flex-col h-full">
+            <div class="flex justify-between items-center p-6 border-b border-slate-100 bg-slate-50/50">
+                <span class="text-lg font-bold text-slate-800 flex items-center">
+                    <span class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-3 shadow-lg shadow-blue-600/20">
+                        <span class="text-white font-bold text-xs">TY</span>
+                    </span>
+                    選單導航
+                </span>
+                <button onclick="toggleMobileMenu()" class="p-2 rounded-full hover:bg-white hover:shadow-md text-slate-500 transition-all">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-3">
+                <a href="https://tyctw.github.io/spare" target="_blank" class="flex items-center justify-between px-4 py-4 rounded-xl text-slate-600 hover:text-blue-600 hover:bg-white hover:shadow-md hover:shadow-slate-200/50 transition-all group border border-transparent hover:border-slate-100">
+                    <div class="flex items-center">
+                        <div class="bg-slate-100 p-2 rounded-lg mr-4 group-hover:bg-blue-50 transition-colors">
+                           <i data-lucide="bar-chart-3" class="w-5 h-5 text-slate-600 group-hover:text-blue-600"></i>
+                        </div>
+                        <span class="font-bold">會考落點分析</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 group-hover:text-blue-400"></i>
+                </a>
+                <a href="https://tyctw.github.io/shared/" target="_blank" class="flex items-center justify-between px-4 py-4 rounded-xl text-slate-600 hover:text-blue-600 hover:bg-white hover:shadow-md hover:shadow-slate-200/50 transition-all group border border-transparent hover:border-slate-100">
+                    <div class="flex items-center">
+                        <div class="bg-slate-100 p-2 rounded-lg mr-4 group-hover:bg-blue-50 transition-colors">
+                           <i data-lucide="share-2" class="w-5 h-5 text-slate-600 group-hover:text-blue-600"></i>
+                        </div>
+                        <span class="font-bold">成績分享平台</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 group-hover:text-blue-400"></i>
+                </a>
+                <a href="https://tyctw.github.io/score/" target="_blank" class="flex items-center justify-between px-4 py-4 rounded-xl text-slate-600 hover:text-blue-600 hover:bg-white hover:shadow-md hover:shadow-slate-200/50 transition-all group border border-transparent hover:border-slate-100">
+                    <div class="flex items-center">
+                        <div class="bg-slate-100 p-2 rounded-lg mr-4 group-hover:bg-blue-50 transition-colors">
+                           <i data-lucide="share-2" class="w-5 h-5 text-slate-600 group-hover:text-blue-600"></i>
+                        </div>
+                        <span class="font-bold">全國序位分享平台</span>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300 group-hover:text-blue-400"></i>
+                </a>
+                <button onclick="toggleMobileMenu(); toggleScheduleModal(true);" class="w-full flex items-center justify-between px-4 py-4 rounded-xl text-slate-600 hover:text-blue-600 hover:bg-white hover:shadow-md hover:shadow-slate-200/50 transition-all group border border-transparent hover:border-slate-100">
+                   <div class="flex items-center">
+                     <div class="bg-slate-100 p-2 rounded-lg mr-4 group-hover:bg-blue-50 transition-colors">
+                        <i data-lucide="zap" class="w-5 h-5 text-slate-600 group-hover:text-blue-600"></i>
+                     </div>
+                     <span class="font-bold">重要日程表</span>
+                   </div>
+                </button>
+            </nav>
+
+            <div class="p-6 bg-slate-50 border-t border-slate-100">
+                <div class="flex items-center justify-center space-x-2 mb-2">
+                   <span class="text-slate-900 font-black tracking-tighter">TYCTW</span>
+                   <span class="text-slate-400">|</span>
+                   <span class="text-slate-600 font-bold">會考落點</span>
+                </div>
+                <p class="text-xs text-slate-400 text-center leading-relaxed">
+                  Professional Education Data Analysis
+                </p>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="page-wrapper">
-    <nav class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233a86ff'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E" alt="Logo" class="logo">
-        <button class="close-sidebar" onclick="toggleSidebar()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      
-      <div class="menu-section">
-        <h3 class="menu-title">主要功能</h3>
-        <ul class="nav-links">
-          <li class="nav-item active">
-            <a href="index.html">
-              <div class="nav-icon"><i class="fas fa-search"></i></div>
-              <div class="nav-content">
-                <span class="nav-label">查榜系統</span>
-                <span class="nav-description">各區查榜網址</span>
-              </div>
-              <div class="nav-indicator"></div>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="https://tyctw.github.io/">
-              <div class="nav-icon"><i class="fas fa-chart-line"></i></div>
-              <div class="nav-content">
-                <span class="nav-label">落點分析</span>
-                <span class="nav-description">志願選填輔助</span>
-              </div>
-              <div class="nav-indicator"></div>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="resources.html">
-              <div class="nav-icon"><i class="fas fa-book"></i></div>
-              <div class="nav-content">
-                <span class="nav-label">學習資源</span>
-                <span class="nav-description">考試準備教材</span>
-              </div>
-              <div class="nav-indicator"></div>
-            </a>
-          </li>
-        </ul>
-      </div>
-      
-      <div class="menu-section">
-        <h3 class="menu-title">資訊中心</h3>
-        <ul class="nav-links">
-          <li class="nav-item">
-            <a href="news.html">
-              <div class="nav-icon"><i class="fas fa-newspaper"></i></div>
-              <div class="nav-content">
-                <span class="nav-label">最新消息</span>
-                <span class="nav-description">會考相關公告</span>
-              </div>
-              <div class="nav-indicator"></div>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="https://tyctw.github.io/shared/">
-              <div class="nav-icon"><i class="fas fa-share-alt"></i></div>
-              <div class="nav-content">
-                <span class="nav-label">成績分享</span>
-                <span class="nav-description">錄取分數參考</span>
-              </div>
-              <div class="nav-indicator"></div>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="https://tyctw.github.io/Navigation/">
-              <div class="nav-icon"><i class="fas fa-info-circle"></i></div>
-              <div class="nav-content">
-                <span class="nav-label">更多資訊</span>
-                <span class="nav-description">會考相關連結</span>
-              </div>
-              <div class="nav-indicator"></div>
-            </a>
-          </li>
-        </ul>
-      </div>
-      
-      <div class="menu-section">
-        <h3 class="menu-title">其他連結</h3>
-        <ul class="nav-links">
-          <li class="nav-item">
-            <a href="https://sites.google.com/view/tyctw/">
-              <div class="nav-icon"><i class="fas fa-home"></i></div>
-              <div class="nav-content">
-                <span class="nav-label">主網頁</span>
-              </div>
-              <div class="nav-indicator"></div>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="privacy.html">
-              <div class="nav-icon"><i class="fas fa-shield-alt"></i></div>
-              <div class="nav-content">
-                <span class="nav-label">隱私權政策</span>
-              </div>
-              <div class="nav-indicator"></div>
-            </a>
-          </li>
-        </ul>
-      </div>
-      
-      <div class="sidebar-footer">
-        <p>© 2025 TYCTW 會考系統</p>
-      </div>
-    </nav>
-    <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
-
-    <main class="main-content">
-      <button class="menu-toggle" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-      </button>
-
-      <header class="hero">
-        <div class="hero-content">
-          <h1>115會考各區查榜網址</h1>
-          <p class="hero-subtitle">115/07/08(二) 全國考區查詢一次搞定，快速便捷的放榜查詢入口</p>
-          <div class="countdown">
-            <div class="countdown-item">
-              <span class="countdown-number countdown-days">--</span>
-              <span class="countdown-label">天</span>
+    <!-- Schedule Modal -->
+    <div id="schedule-modal" class="fixed inset-0 z-[80] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="toggleScheduleModal(false)"></div>
+        <div class="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl max-h-[90vh] overflow-hidden flex flex-col animate-fade-in-up">
+            <div class="absolute top-4 right-4 z-50">
+                <button onclick="toggleScheduleModal(false)" class="p-2 bg-white/90 hover:bg-white rounded-full text-slate-500 hover:text-slate-900 transition-all shadow-md border border-slate-100">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
             </div>
-            <div class="countdown-item">
-              <span class="countdown-number countdown-hours">--</span>
-              <span class="countdown-label">時</span>
+            <div class="overflow-y-auto" id="schedule-list-container">
+                <!-- Schedule List Content Injected Here -->
             </div>
-            <div class="countdown-item">
-              <span class="countdown-number countdown-minutes">--</span>
-              <span class="countdown-label">分</span>
-            </div>
-            <div class="countdown-item">
-              <span class="countdown-number countdown-seconds">--</span>
-              <span class="countdown-label">秒</span>
-            </div>
-          </div>
-          <div class="hero-stats">
-          
-          </div>
-          <div class="time-display">
-            <i class="far fa-clock"></i>
-            <span class="time-text"></span>
-          </div>
         </div>
-      </header>
+    </div>
 
-      <!-- 會考成績分享按鈕區域 -->
-      <div class="share-results-banner">
-        <div class="share-content">
-          <div class="share-icon">
-            <i class="fas fa-share-alt-square"></i>
-          </div>
-          <div class="share-text">
-            <h2>📣 邀請所有會考生分享放榜結果！</h2>
-            <p>您的分享將幫助學弟妹做出更好的志願選擇</p>
-          </div>
-          <a href="https://tyctw.github.io/shared/" target="_blank" class="share-button">
-            <span>立即分享成績</span>
-            <i class="fas fa-arrow-right"></i>
-          </a>
+    <!-- Warning Modal -->
+    <div id="warning-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" onclick="closeWarningModal()"></div>
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center animate-fade-in-up border border-white/20">
+            <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                <i data-lucide="alert-triangle" class="w-8 h-8 text-orange-500"></i>
+            </div>
+            <h3 class="text-xl font-black text-slate-800 mb-2">
+              非開放查詢時間
+            </h3>
+            <p class="text-slate-500 mb-6 leading-relaxed text-sm">
+              目前並非正式開放時間，網站可能僅供測試或無法登入。
+            </p>
+            
+            <!-- Schedule Info Block -->
+            <div class="bg-slate-50 rounded-2xl p-5 mb-8 border border-slate-100 text-left shadow-sm">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center">
+                    <i data-lucide="clock" class="w-3 h-3 mr-1.5"></i>
+                    開放時程表
+                </h4>
+                <div class="space-y-3">
+                    <div class="flex flex-col">
+                        <div class="flex justify-between items-baseline mb-1">
+                             <span class="text-sm font-bold text-slate-700">個人序位查詢 & 志願選填</span>
+                        </div>
+                         <span class="text-sm font-mono text-blue-600 font-bold bg-blue-50 px-2 py-1 rounded self-start">
+                            06/18 (四) 12:00 ~ 06/25 (四) 12:00
+                        </span>
+                    </div>
+                    <div class="w-full h-px bg-slate-200/50"></div>
+                    <div class="flex flex-col">
+                         <div class="flex justify-between items-baseline mb-1">
+                             <span class="text-sm font-bold text-slate-700">免試入學放榜</span>
+                        </div>
+                         <span class="text-sm font-mono text-emerald-600 font-bold bg-emerald-50 px-2 py-1 rounded self-start">
+                            07/07 (二) 08:00 起
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex space-x-3">
+                <button onclick="closeWarningModal()" class="flex-1 py-3.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition-colors">
+                    取消
+                </button>
+                <button onclick="confirmNavigation()" class="flex-1 py-3.5 rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20 flex items-center justify-center">
+                    <span>仍然前往</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </button>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div class="search-and-dates-container">
-        <div class="search-container">
-          <input type="text" 
-                 id="regionSearch" 
-                 class="search-bar" 
-                 placeholder="搜尋地區..."
-                 onkeyup="searchRegions()">
-          <div class="search-icon">
-            <i class="fas fa-search"></i>
-          </div>
+    <!-- Header -->
+    <header id="main-header" class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center group cursor-default">
+                    <div class="relative">
+                        <div class="bg-slate-900 w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-slate-900/20 group-hover:scale-105 transition-transform duration-300">
+                           <i data-lucide="zap" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center">
+                            <span class="text-[8px] font-bold text-white">115</span>
+                        </div>
+                    </div>
+                    <div class="ml-3 flex flex-col">
+                        <h1 class="text-xl font-black text-slate-800 tracking-tight leading-none">
+                            TYCTW<span class="text-blue-600 ml-1">會考落點</span>
+                        </h1>
+                        <span class="text-xs font-medium text-slate-500 tracking-wide mt-0.5">查榜與日程整合平台</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-2">
+                    <button onclick="toggleScheduleModal(true)" class="px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm rounded-full transition-all duration-200 border border-transparent hover:border-slate-200">
+                        重要日程
+                    </button>
+                    <a href="https://tyctw.github.io/spare" target="_blank" class="flex items-center px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm rounded-full transition-all duration-200 border border-transparent hover:border-slate-200">
+                        會考落點分析 <i data-lucide="external-link" class="w-3 h-3 ml-1.5 opacity-40"></i>
+                    </a>
+                    <a href="https://tyctw.github.io/shared/" target="_blank" class="flex items-center px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm rounded-full transition-all duration-200 border border-transparent hover:border-slate-200">
+                        成績分享平台 <i data-lucide="external-link" class="w-3 h-3 ml-1.5 opacity-40"></i>
+                    </a>
+                    <a href="https://tyctw.github.io/score/" target="_blank" class="flex items-center px-5 py-2.5 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm rounded-full transition-all duration-200 border border-transparent hover:border-slate-200">
+                        全國序位分享平台 <i data-lucide="external-link" class="w-3 h-3 ml-1.5 opacity-40"></i>
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="p-2.5 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 transition-all">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
         </div>
+    </header>
 
-        <div class="important-dates-button-container">
-          <button class="important-dates-button" onclick="showImportantDates()">
-            <i class="fas fa-calendar-alt"></i>
-            <span>查看重要日期</span>
-          </button>
-        </div>
-      </div>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-20">
+        <!-- Hero Countdown -->
+        <section class="animate-fade-in-up" id="hero-countdown">
+            <!-- Content injected by JS -->
+        </section>
 
-      <div class="modal" id="importantDatesModal">
-        <div class="modal-content">
-          <button class="close-modal" onclick="closeImportantDates()">
-            <i class="fas fa-times"></i>
-          </button>
-          <h2>重要日期</h2>
-          <div class="date-cards">
-            <div class="date-card">
-              <div class="date">6/20</div>
-              <div class="event">個人序位區間公告</div>
+        <!-- Share Result CTA -->
+        <section class="mb-20 animate-fade-in-up delay-100">
+            <div class="relative overflow-hidden rounded-3xl bg-slate-900 shadow-2xl ring-1 ring-white/10 group">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-violet-600/20 to-slate-900 z-0"></div>
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-500/30 rounded-full blur-3xl group-hover:bg-blue-500/40 transition-colors duration-700"></div>
+                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-violet-500/30 rounded-full blur-3xl group-hover:bg-violet-500/40 transition-colors duration-700"></div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row items-center justify-between p-8 md:p-12 gap-8">
+                    <div class="flex-1 text-center md:text-left">
+                        <div class="inline-flex items-center space-x-2 mb-4">
+                           <span class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-500/30 uppercase tracking-wider">
+                             Community
+                           </span>
+                        </div>
+                        <h3 class="text-2xl md:text-3xl font-black text-white mb-4 leading-tight">
+                            數據共享計畫 <span class="text-slate-400 font-light">|</span> <span class="text-blue-400">成績回報</span>
+                        </h3>
+                        <p class="text-slate-300 text-lg leading-relaxed max-w-2xl font-medium">
+                            您的回報將成為下一屆學弟妹們最寶貴的參考資料。
+                            <br class="hidden md:block" />
+                            加入 TYCTW 數據庫，讓落點分析更精準。
+                        </p>
+                    </div>
+                    
+                    <div class="flex-shrink-0 relative">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-violet-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-200"></div>
+                        <a href="https://tyctw.github.io/shared/" target="_blank" class="relative flex items-center justify-center px-8 py-4 bg-slate-900 text-white font-bold text-lg rounded-full hover:bg-slate-800 transition-all duration-200 ring-1 ring-white/10">
+                            <span>前往回報系統</span>
+                            <i data-lucide="share-2" class="w-5 h-5 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="date-card">
-              <div class="date">6/20</div>
-              <div class="event">就學區免試入學開始填志願<br><small>（結束依各地區時間為主）</small></div>
-            </div>
-            <div class="date-card">
-              <div class="date">7/8</div>
-              <div class="event">就學區免試入學放榜<br><small>（放榜依各地區時間為主）</small></div>
-            </div>
-            <div class="date-card">
-              <div class="date">7/8</div>
-              <div class="event">查詢系統開放<br><small>（開放時間：11:00）</small></div>
-            </div>
-            <div class="date-card">
-              <div class="date">7/10</div>
-              <div class="event">免試入學報到</div>
-            </div>
-            <div class="date-card">
-              <div class="date">7/31</div>
-              <div class="event">查詢系統關閉<br><small>（關閉時間：11:00）</small></div>
-            </div>
-          </div>
-        </div>
-      </div>
+        </section>
 
-      <div id="notifications">
-        <div class="notification important">
-          <i class="fas fa-share-alt"></i>
-          <div class="notification-content">
-            <h3>📢 邀請您分享會考成績！</h3>
-            <p>請至 <a href="https://tyctw.github.io/shared/" target="_blank">全國會考序位分享平台</a> 分享您的會考成績，幫助學弟妹做出更好的選擇！</p>
-            <p>您的分享將幫助更多學生了解各校錄取趨勢 💪</p>
-          </div>
-          <button class="dismiss-notification" onclick="this.parentElement.style.display='none'">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-      </div>
+        <!-- Region Links Grid -->
+        <section id="regions" class="animate-fade-in-up delay-200">
+            <div class="flex flex-col md:flex-row items-end justify-between mb-12 gap-8">
+                <div class="max-w-xl">
+                    <div class="flex items-center space-x-2 mb-3">
+                        <div class="h-px w-8 bg-blue-500"></div>
+                        <span class="text-xs font-bold text-blue-500 uppercase tracking-[0.2em]">Area Selection</span>
+                    </div>
+                    <h3 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                        選擇您的就學區
+                    </h3>
+                </div>
 
-      <div class="alert">
-        <i class="fas fa-bullhorn"></i>
-        <span>重要公告：115年度就學區免試入學查詢系統開放時間為 2025/07/08 11:00 至 2025/07/31 11:00</span>
-        <button class="dismiss-alert" onclick="this.parentElement.style.display='none'">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
+                <!-- Search Input -->
+                <div class="w-full md:w-96 relative group z-10">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i data-lucide="search" class="h-5 w-5 text-slate-400 group-focus-within:text-blue-600 transition-colors"></i>
+                    </div>
+                    <input type="text" id="region-search" class="block w-full pl-12 pr-10 py-4 bg-white border-0 ring-1 ring-slate-200 rounded-2xl text-slate-900 placeholder-slate-400 focus:ring-2 focus:ring-blue-500 shadow-sm hover:shadow-md transition-all duration-200" placeholder="快速搜尋區域..." oninput="handleSearch(this.value)">
+                    <button id="clear-search" onclick="clearSearch()" class="absolute inset-y-0 right-0 pr-4 flex items-center hidden">
+                        <div class="p-1 rounded-full hover:bg-slate-100 transition-colors">
+                            <i data-lucide="x" class="h-4 w-4 text-slate-400"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
 
-      <section class="regions">
-        <div class="region-grid">
-          <div class="region-card" data-region="north">
-            <button class="bookmark-btn" data-region="north" onclick="toggleBookmark('north')">
-              <i class="far fa-bookmark"></i>
-            </button>
-            <div class="region-icon">
-              <i class="fas fa-city"></i>
+            <!-- Category Filters -->
+            <div class="mb-10 overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 no-scrollbar">
+                <div class="flex space-x-3 min-w-max" id="category-filters">
+                    <!-- Filters injected by JS -->
+                </div>
             </div>
-            <h2>北部地區</h2>
-            <p class="region-description">包含基北區、桃連區及竹苗區等學校，大台北地區及桃園新竹等地考生適用。</p>
-            <ul>
-              <li><a href="https://ttk.entry.edu.tw/NoExamImitate_TP/NoExamImitateAdmissionList/AdmissionList.aspx">基北區<i class="fas fa-arrow-right"></i></a></li>
-              <li><a href="https://tyc.entry.edu.tw/NoExamImitate_TL/NoExamImitateAdmissionList/AdmissionList.aspx">桃連區<i class="fas fa-arrow-right"></i></a></li>
-              <li><a href="https://hhm.entry.edu.tw/NoExamImitate_HM/NoExamImitateAdmissionList/AdmissionList.aspx">竹苗區<i class="fas fa-arrow-right"></i></a></li>
-            </ul>
-          </div>
-          <div class="region-card" data-region="central">
-            <button class="bookmark-btn" data-region="central" onclick="toggleBookmark('central')">
-              <i class="far fa-bookmark"></i>
-            </button>
-            <div class="region-icon">
-              <i class="fas fa-mountain"></i>
+
+            <!-- Regions Content -->
+            <div id="regions-container" class="min-h-[400px]">
+                <!-- Regions Grid injected by JS -->
             </div>
-            <h2>中部地區</h2>
-            <p class="region-description">包含中投區、彰化區及雲林區等學校，台中、彰化、南投等地考生適用。</p>
-            <ul>
-              <li><a href="https://ct.entry.edu.tw/NoExamImitate_CT/NoExamImitateAdmissionList/AdmissionList.aspx">中投區<i class="fas fa-arrow-right"></i></a></li>
-              <li><a href="https://chc.entry.edu.tw/NoExamImitate_CH/NoExamImitateAdmissionList/AdmissionList.aspx">彰化區<i class="fas fa-arrow-right"></i></a></li>
-              <li><a href="https://ylc.entry.edu.tw/NoExamImitate_YL/NoExamImitateAdmissionList/AdmissionList.aspx">雲林區<i class="fas fa-arrow-right"></i></a></li>
-            </ul>
-          </div>
-          <div class="region-card" data-region="south">
-            <button class="bookmark-btn" data-region="south" onclick="toggleBookmark('south')">
-              <i class="far fa-bookmark"></i>
-            </button>
-            <div class="region-icon">
-              <i class="fas fa-umbrella-beach"></i>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="animate-fade-in-up delay-300 mb-20">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center mb-10">
+                    <div class="inline-flex items-center justify-center p-3 bg-violet-100 rounded-full mb-4">
+                        <i data-lucide="help-circle" class="w-6 h-6 text-violet-600"></i>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-black text-slate-900 mb-2">
+                        常見問題與幫助
+                    </h3>
+                    <p className="text-slate-500">
+                        Frequently Asked Questions
+                    </p>
+                </div>
+                <div id="faq-container" class="space-y-4">
+                    <!-- FAQ Items injected by JS -->
+                </div>
             </div>
-            <h2>南部地區</h2>
-            <p class="region-description">包含高雄區、台南區、嘉義區及屏東區等學校，嘉義、台南、高雄等地考生適用。</p>
-            <ul>
-              <li><a href="https://kh.entry.edu.tw/stu_result/login.php">高雄區<i class="fas fa-arrow-right"></i></a></li>
-              <li><a href="https://tn.entry.edu.tw/NoExamImitate_TN/NoExamImitateAdmissionList/AdmissionList.aspx">台南區<i class="fas fa-arrow-right"></i></a></li>
-              <li><a href="https://cyc.entry.edu.tw/NoExamImitate_CY/NoExamImitateAdmissionList/">嘉義區<i class="fas fa-arrow-right"></i></a></li>
-              <li><a href="https://ptc.entry.edu.tw/NoExamImitate_PT/NoExamImitateAdmissionList/AdmissionList.aspx">屏東區<i class="fas fa-arrow-right"></i></a></li>
-            </ul>
-          </div>
-          <div class="region-card" data-region="east">
-            <button class="bookmark-btn" data-region="east" onclick="toggleBookmark('east')">
-              <i class="far fa-bookmark"></i>
-            </button>
-            <div class="region-icon">
-              <i class="fas fa-tree"></i>
-            </div>
-            <h2>東部地區</h2>
-            <p class="region-description">包含花蓮區及宜蘭等地學校，東部地區考生適用。</p>
-            <ul>
-              <li><a href="https://hlc.entry.edu.tw/NoExamImitate_HL/NoExamImitateAdmissionList/AdmissionList.aspx">花蓮區<i class="fas fa-arrow-right"></i></a></li>
-            </ul>
-          </div>
-          <div class="region-card" data-region="islands">
-            <button class="bookmark-btn" data-region="islands" onclick="toggleBookmark('islands')">
-              <i class="far fa-bookmark"></i>
-            </button>
-            <div class="region-icon">
-              <i class="fas fa-water"></i>
-            </div>
-            <h2>離島地區</h2>
-            <p class="region-description">包含澎湖區及金門區等離島學校，離島地區考生適用。</p>
-            <ul>
-              <li><a href="https://ph.entry.edu.tw/">澎湖區<i class="fas fa-arrow-right"></i></a></li>
-              <li><a href="https://km.entry.edu.tw/NoExamImitate_KM/NoExamImitateAdmissionList/AdmissionList.aspx">金門區<i class="fas fa-arrow-right"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-      
+        </section>
     </main>
 
-    <div class="quick-links">
-      <div class="quick-links-trigger">
-        <i class="fas fa-chevron-left"></i>
-      </div>
-      <h3>快速連結</h3>
-      <ul>
-        <li><a href="https://tyctw.github.io/shared/"><i class="fas fa-external-link-alt"></i> 高中錄取分數分享平台</a></li>
-        <li><a href="https://cap.rcpet.edu.tw/"><i class="fas fa-external-link-alt"></i> 國中教育會考</a></li>
-        <li><a href="https://tyctw.github.io/score/"><i class="fas fa-external-link-alt"></i> 全國會考序位分享平台</a></li>
-      </ul>
-    </div>
-
-    <button class="help-button" onclick="showHelp()">
-      <i class="fas fa-question"></i>
-    </button>
-
-    <div class="modal" id="helpModal">
-      <div class="modal-content">
-        <button class="close-modal" onclick="closeHelp()">
-          <i class="fas fa-times"></i>
-        </button>
-        <h2>幫助與常見問題</h2>
-        <div class="help-sections">
-          <div class="help-section">
-            <h3><i class="fas fa-question-circle"></i> 如何使用本網站？</h3>
-            <p>本網站提供全國各地區的國中教育會考查榜網址。您可以點擊對應地區的連結來查看您所在地區的成績。您也可以使用頁面上方的搜尋功能快速找到您的地區。</p>
-          </div>
-          <div class="help-section">
-            <h3><i class="fas fa-info-circle"></i> 什麼是國中教育會考？</h3>
-            <p>國中教育會考是台灣國中畢業生參加的全國性測驗，用於評估學生的學習成果，並作為高中入學的參考依據。會考科目包括國文、英語、數學、社會、自然及寫作測驗。</p>
-          </div>
-          <div class="help-section">
-            <h3><i class="far fa-calendar-alt"></i> 會考何時放榜？</h3>
-            <p>通常放榜時間會在志願填寫結束後約兩週內公布。具體日期請關注官方公告或本網站的最新消息區塊。</p>
-          </div>
-          <div class="help-section">
-            <h3><i class="fas fa-bookmark"></i> 如何使用書籤功能？</h3>
-            <p>在各地區卡片右上角有書籤按鈕，點擊可將該地區加入書籤。加入書籤的地區會在您下次訪問時更加醒目，方便快速查找。</p>
-          </div>
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 bg-white/50 backdrop-blur-sm mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start space-x-2 mb-2">
+                        <span class="text-slate-900 font-black text-xl">TYCTW</span>
+                        <span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-bold">會考落點</span>
+                    </div>
+                    <p class="text-slate-400 text-sm">Designed by TYCTW Design Team</p>
+                </div>
+                
+                <div class="flex flex-col items-center md:items-end space-y-2">
+                    <p class="text-slate-400 text-sm">資料來源：各就學區免試入學委員會</p>
+                    <div class="flex space-x-6 text-sm font-medium">
+                        <a href="https://tyctw.github.io/spare" target="_blank" class="text-slate-500 hover:text-blue-600 transition-colors">會考落點分析</a>
+                        <a href="https://tyctw.github.io/shared/" target="_blank" class="text-slate-500 hover:text-blue-600 transition-colors">成績分享平台</a>
+                        <a href="https://tyctw.github.io/score/" target="_blank" class="text-slate-500 hover:text-blue-600 transition-colors">全國序位分享平台</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-slate-100 text-center">
+                <p class="text-xs text-slate-300">© 2026 TYCTW. All rights reserved.</p>
+            </div>
         </div>
-      </div>
-    </div>
-
-
-    <footer>
-      <div class="footer-content">
-        <div class="footer-logo">
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233a86ff'/%3E%3Ctext x='50' y='65' font-family='Arial' font-size='40' fill='white' text-anchor='middle'%3E會考%3C/text%3E%3C/svg%3E" alt="Logo" width="60" height="60">
-        </div>
-        <div class="footer-text">
-          <p>&copy; 2025 TYCTW會考落點分析系統版權所有</p>
-          <p>聯絡我們：tyctw.analyze@gmail.com</p>
-        </div>
-
-      </div>
     </footer>
-  </div>
 
-  <script src="script.js"></script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H9X7EC127P"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- DATA & CONSTANTS ---
+        const YEAR = 2026;
+        const ADMISSION_LIST_OPEN_DATE = `${YEAR}-06-18T12:00:00`;
+        const ADMISSION_LIST_CLOSE_DATE = `${YEAR}-06-25T12:00:00`;
 
-  gtag('config', 'G-H9X7EC127P');
-</script>
+        const REGIONS = [
+            { id: 'tp', name: '基北區', url: 'https://ttk.entry.edu.tw/NoExamImitate_TP/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-blue-500', category: '北部區域' },
+            { id: 'tl', name: '桃連區', url: 'https://tyc.entry.edu.tw/NoExamImitate_TL/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-indigo-500', category: '北部區域' },
+            { id: 'hm', name: '竹苗區', url: 'https://hhm.entry.edu.tw/NoExamImitate_HM/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-teal-500', category: '北部區域' },
+            { id: 'ct', name: '中投區', url: 'https://ct.entry.edu.tw/NoExamImitate_CT/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-emerald-500', category: '中部區域' },
+            { id: 'chc', name: '彰化區', url: 'https://chc.entry.edu.tw/NoExamImitate_CH/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-orange-500', category: '中部區域' },
+            { id: 'ylc', name: '雲林區', url: 'https://ylc.entry.edu.tw/NoExamImitate_YL/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-lime-600', category: '中部區域' },
+            { id: 'cyc', name: '嘉義區', url: 'https://cyc.entry.edu.tw/NoExamImitate_CY/NoExamImitateAdmissionList/', colorClass: 'bg-amber-500', category: '中部區域' },
+            { id: 'tn', name: '台南區', url: 'https://tn.entry.edu.tw/NoExamImitate_TN/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-red-500', category: '南部區域' },
+            { id: 'kh', name: '高雄區', url: 'https://kh.entry.edu.tw/stu_result/login.php', colorClass: 'bg-rose-500', category: '南部區域' },
+            { id: 'ptc', name: '屏東區', url: 'https://ptc.entry.edu.tw/NoExamImitate_PT/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-pink-500', category: '南部區域' },
+            { id: 'hlc', name: '花蓮區', url: 'https://hlc.entry.edu.tw/NoExamImitate_HL/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-purple-500', category: '東部區域' },
+            { id: 'ph', name: '澎湖區', url: 'https://ph.entry.edu.tw/', colorClass: 'bg-sky-500', category: '離島區域' },
+            { id: 'km', name: '金門區', url: 'https://km.entry.edu.tw/NoExamImitate_KM/NoExamImitateAdmissionList/AdmissionList.aspx', colorClass: 'bg-yellow-600', category: '離島區域' },
+        ];
+
+        const EVENTS = [
+            { id: 'reg', title: '國中教育會考報名', dateStart: `${YEAR}-03-05T08:00:00`, dateEnd: `${YEAR}-03-07T17:00:00`, isRange: true },
+            { id: 'card', title: '寄發准考證', dateStart: `${YEAR}-04-10T08:00:00`, isRange: false },
+            { id: 'exam', title: '國中教育會考日期', dateStart: `${YEAR}-05-16T08:00:00`, dateEnd: `${YEAR}-05-17T12:00:00`, isRange: true },
+            { id: 'score', title: '國中教育會考成績公布', dateStart: `${YEAR}-06-05T08:00:00`, isRange: false },
+            { id: 'rank', title: '個人序位區間公告/查詢', dateStart: `${YEAR}-06-18T12:00:00`, isRange: false },
+            { id: 'vol', title: '就學區免試入學志願選填', dateStart: `${YEAR}-06-18T12:00:00`, dateEnd: `${YEAR}-06-25T12:00:00`, isRange: true },
+            { id: 'final', title: '就學區免試入學放榜', dateStart: `${YEAR}-07-07T08:00:00`, isRange: false }
+        ];
+
+        const FAQ_DATA = [
+            { q: "忘記登入密碼怎麼辦？", a: "如果您忘記了志願選填或查榜系統的密碼，請立即聯繫您就讀國中的註冊組老師協助重置，或依各就學區系統首頁之「忘記密碼」功能進行操作。請勿嘗試多次錯誤輸入以免帳號被鎖定。" },
+            { q: "什麼時候可以查詢個人序位區間？", a: "115學年度個人序位區間查詢時間預計於 115年06月18日(四) 中午12:00 開放，至 115年06月25日(四) 中午12:00 截止。請務必在期限內完成查詢並進行志願選填。" },
+            { q: "免試入學分發結果如何查詢？", a: "各就學區免試入學放榜時間為 115年07月07日(二)。屆時請點選本平台上方之「各就學區查榜入口」，選擇您的就學區並輸入相關資料即可查詢錄取學校。" },
+            { q: "如果對成績有疑義可以複查嗎？", a: "可以。若對國中教育會考成績有疑義，請在成績公布後（依簡章規定日期，通常為成績公布隔日）向國中教育會考全國試務會或考區試務會提出複查申請。需注意複查僅確認分數計算無誤，不重新閱卷。" },
+            { q: "超額比序是什麼？", a: "當報名人數超過學校招生名額時，會依據各就學區訂定之「超額比序項目」積分高低進行錄取。常見項目包含：多元學習表現、志願序、教育會考成績等。詳細比序規則請參閱各就學區免試入學簡章。" }
+        ];
+
+        // --- STATE ---
+        let currentSearch = '';
+        let currentCategory = 'ALL';
+        let pendingUrl = null;
+
+        // --- UTILS ---
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            const rocYear = d.getFullYear() - 1911;
+            const month = (d.getMonth() + 1).toString().padStart(2, '0');
+            const day = d.getDate().toString().padStart(2, '0');
+            const weekDay = d.toLocaleDateString('zh-TW', { weekday: 'short' });
+            return `${rocYear}.${month}.${day} (${weekDay})`;
+        }
+
+        // --- COUNTDOWN LOGIC ---
+        function initCountdown() {
+            const container = document.getElementById('hero-countdown');
+            const now = new Date();
+            const rankOpenDate = new Date(ADMISSION_LIST_OPEN_DATE);
+            const rankCloseDate = new Date(ADMISSION_LIST_CLOSE_DATE);
+            
+            let target = null;
+            let status = 'upcoming';
+
+            const timeToRank = rankOpenDate.getTime() - now.getTime();
+            const daysToRank = timeToRank / (1000 * 60 * 60 * 24);
+
+            if (now >= rankOpenDate && now <= rankCloseDate) {
+                target = { title: "個人序位查詢 & 志願選填", date: ADMISSION_LIST_OPEN_DATE, closeDate: ADMISSION_LIST_CLOSE_DATE };
+            } else if (daysToRank <= 20 && daysToRank > 0) {
+                target = { title: "距離 個人序位查詢 開放", date: ADMISSION_LIST_OPEN_DATE, closeDate: ADMISSION_LIST_CLOSE_DATE };
+            } else {
+                const sortedEvents = [...EVENTS]
+                    .filter(e => new Date(e.dateStart).getTime() > now.getTime())
+                    .sort((a, b) => new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime());
+                
+                if (sortedEvents.length > 0) {
+                    target = { title: `距離 ${sortedEvents[0].title}`, date: sortedEvents[0].dateStart, closeDate: sortedEvents[0].dateEnd };
+                } else {
+                    target = { title: "本年度重要日程已結束", date: now.toISOString(), ended: true };
+                }
+            }
+
+            function updateTimer() {
+                const currentNow = new Date().getTime();
+                const start = new Date(target.date).getTime();
+                const end = target.closeDate ? new Date(target.closeDate).getTime() : start + 86400000;
+                let diff = 0;
+
+                if (target.ended) status = 'ended';
+                else if (currentNow < start) { status = 'upcoming'; diff = start - currentNow; }
+                else if (currentNow >= start && currentNow < end) { status = 'active'; diff = end - currentNow; }
+                else { status = 'ended'; }
+
+                if (status === 'ended') diff = 0;
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                renderCountdownHTML(container, target.title, { days, hours, minutes, seconds }, status);
+            }
+
+            setInterval(updateTimer, 1000);
+            updateTimer();
+        }
+
+        function renderCountdownHTML(container, title, time, status) {
+            let statusConfig = { color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100', text: '即將到來', icon: 'clock' };
+            if (status === 'active') statusConfig = { color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100', text: '現在進行中', icon: 'activity' };
+            if (status === 'ended') statusConfig = { color: 'text-slate-500', bg: 'bg-slate-100', border: 'border-slate-200', text: '本階段已結束', icon: 'check-circle-2' };
+
+            container.innerHTML = `
+                <div class="relative rounded-3xl overflow-hidden bg-white text-slate-900 shadow-xl ring-1 ring-slate-100 mb-12">
+                    <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 40px 40px"></div>
+                    <div class="absolute -top-24 -left-24 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
+                    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-violet-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+
+                    <div class="relative z-10 p-8 md:p-12">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-bold mb-8 shadow-sm ${statusConfig.bg} ${statusConfig.color} border ${statusConfig.border}">
+                                <i data-lucide="${statusConfig.icon}" class="w-5 h-5 mr-2 ${status === 'active' ? 'animate-pulse' : ''}"></i>
+                                ${statusConfig.text}
+                            </div>
+                            <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-10 text-slate-800 leading-tight drop-shadow-sm">${title}</h2>
+                            
+                            ${status !== 'ended' ? `
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 w-full max-w-4xl">
+                                ${['DAYS', 'HOURS', 'MINUTES', 'SECONDS'].map((label, i) => {
+                                    const val = [time.days, time.hours, time.minutes, time.seconds][i];
+                                    return `
+                                    <div class="flex flex-col items-center group">
+                                        <div class="relative w-full aspect-[4/3] flex items-center justify-center mb-3 rounded-2xl transition-all duration-300 ${status === 'active' ? 'bg-white border-2 border-blue-100 shadow-xl shadow-blue-100' : 'bg-slate-50 border border-slate-100 shadow-inner'}">
+                                            <span class="text-4xl md:text-6xl font-mono font-bold tracking-tighter ${status === 'active' ? 'text-blue-600' : 'text-slate-400'}">${val.toString().padStart(2, '0')}</span>
+                                        </div>
+                                        <span class="text-[10px] md:text-xs font-bold tracking-[0.2em] text-slate-400 uppercase">${label}</span>
+                                    </div>`;
+                                }).join('')}
+                            </div>` : `<div class="py-8 px-12 rounded-2xl bg-slate-50 border border-slate-200 text-slate-500 font-medium">目前無進行中事項，請查看完整日程表</div>`}
+
+                            ${status === 'active' ? `
+                            <div class="mt-8 w-full max-w-md bg-emerald-50 border border-emerald-100 rounded-xl p-4 shadow-sm">
+                               <p class="text-emerald-700 text-sm font-bold flex items-center justify-center">
+                                 <span class="relative flex h-2.5 w-2.5 mr-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span></span>
+                                系統開放中，請把握時間完成作業
+                               </p>
+                            </div>` : ''}
+
+                            <div class="mt-10">
+                                <button onclick="toggleScheduleModal(true)" class="group relative inline-flex items-center justify-center px-8 py-3 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 hover:border-blue-200 rounded-full shadow-sm hover:shadow-md transition-all duration-300">
+                                    <i data-lucide="calendar-days" class="w-5 h-5 text-blue-500 mr-2 group-hover:text-blue-600"></i>
+                                    <span class="font-bold group-hover:text-slate-900">查看完整重要日程表</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // --- REGION GRID LOGIC ---
+        function handleSearch(val) {
+            currentSearch = val;
+            const clearBtn = document.getElementById('clear-search');
+            if (val) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+            renderRegions();
+        }
+
+        function clearSearch() {
+            document.getElementById('region-search').value = '';
+            handleSearch('');
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.getElementById('region-search').value = '';
+            currentSearch = '';
+            renderFilters();
+            renderRegions();
+        }
+
+        function renderFilters() {
+            const container = document.getElementById('category-filters');
+            const categories = ['ALL', '北部區域', '中部區域', '南部區域', '東部區域', '離島區域'];
+            container.innerHTML = categories.map(cat => {
+                const isActive = currentCategory === cat;
+                const activeClass = 'bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20 scale-105';
+                const inactiveClass = 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50';
+                return `<button onclick="setCategory('${cat}')" class="flex items-center px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 border ${isActive ? activeClass : inactiveClass}">
+                    <i data-lucide="${cat === 'ALL' ? 'layout-grid' : 'map'}" class="w-4 h-4 mr-2"></i>
+                    ${cat === 'ALL' ? '顯示全部' : cat}
+                </button>`;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function checkResultPeriod(url) {
+            const now = new Date();
+            const rankOpen = new Date(ADMISSION_LIST_OPEN_DATE);
+            const rankClose = new Date(ADMISSION_LIST_CLOSE_DATE);
+            const finalEvent = EVENTS.find(ev => ev.id === 'final');
+            const resultOpen = finalEvent ? new Date(finalEvent.dateStart) : new Date('2026-07-07T08:00:00');
+
+            const isRankPeriod = now >= rankOpen && now <= rankClose;
+            const isResultPeriod = now >= resultOpen;
+
+            if (isRankPeriod || isResultPeriod) {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            } else {
+                pendingUrl = url;
+                document.getElementById('warning-modal').classList.remove('hidden');
+            }
+        }
+
+        function confirmNavigation() {
+            if (pendingUrl) {
+                window.open(pendingUrl, '_blank', 'noopener,noreferrer');
+                closeWarningModal();
+            }
+        }
+
+        function closeWarningModal() {
+            document.getElementById('warning-modal').classList.add('hidden');
+            pendingUrl = null;
+        }
+
+        function renderRegions() {
+            const container = document.getElementById('regions-container');
+            const filtered = REGIONS.filter(r => {
+                const matchSearch = r.name.includes(currentSearch) || r.category.includes(currentSearch);
+                const matchCat = currentCategory === 'ALL' || r.category === currentCategory;
+                return matchSearch && matchCat;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-24 bg-white rounded-3xl border border-dashed border-slate-200">
+                        <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4"><i data-lucide="search" class="w-8 h-8 text-slate-300"></i></div>
+                        <p class="text-xl font-bold text-slate-800 mb-2">找不到相關結果</p>
+                        <button onclick="clearSearch(); setCategory('ALL');" class="mt-6 px-6 py-2 text-blue-600 font-bold hover:bg-blue-50 rounded-full transition-colors">重置所有篩選</button>
+                    </div>`;
+                lucide.createIcons();
+                return;
+            }
+
+            const generateCards = (list) => `
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    ${list.map(r => `
+                        <div onclick="checkResultPeriod('${r.url}')" class="group relative flex flex-col overflow-hidden rounded-3xl bg-white p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ring-1 ring-slate-100 hover:ring-transparent cursor-pointer">
+                             <div class="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500 ${r.colorClass}"></div>
+                             <div class="absolute top-0 left-0 w-full h-1.5 ${r.colorClass} origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                             <div class="relative z-10 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between mb-4">
+                                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full ${r.colorClass} bg-opacity-10 text-opacity-100">
+                                            <i data-lucide="map-pin" class="w-4 h-4 ${r.colorClass.replace('bg-', 'text-')}"></i>
+                                        </span>
+                                        <div class="p-2 rounded-full bg-slate-50 group-hover:bg-white group-hover:shadow-sm transition-all"><i data-lucide="external-link" class="w-4 h-4 text-slate-300 group-hover:text-slate-600"></i></div>
+                                    </div>
+                                    <h3 class="text-2xl font-black text-slate-800 mb-1 tracking-tight group-hover:text-blue-700 transition-colors">${r.name}</h3>
+                                    <p class="text-sm font-bold text-slate-400 uppercase tracking-wider">Admission Portal</p>
+                                </div>
+                                <div class="mt-8 pt-6 border-t border-slate-100 group-hover:border-slate-200/50 transition-colors">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm font-bold text-slate-500 group-hover:text-slate-800 transition-colors">前往查榜</span>
+                                        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-50 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 ${r.colorClass.replace('bg-', 'text-')}"><i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform"></i></span>
+                                    </div>
+                                </div>
+                             </div>
+                             <i data-lucide="compass" class="absolute -bottom-6 -right-6 w-32 h-32 text-slate-50 group-hover:text-slate-100/80 transition-colors duration-500 -rotate-12 pointer-events-none"></i>
+                        </div>
+                    `).join('')}
+                </div>`;
+
+            if (currentCategory === 'ALL' && !currentSearch) {
+                const cats = ['北部區域', '中部區域', '南部區域', '東部區域', '離島區域'];
+                container.innerHTML = `<div class="space-y-16">
+                    ${cats.map(cat => {
+                        const subList = filtered.filter(x => x.category === cat);
+                        if (subList.length === 0) return '';
+                        return `
+                        <div class="animate-fade-in-up">
+                            <div class="flex items-center mb-8">
+                                <div class="w-2 h-8 bg-blue-500 rounded-r-full mr-4"></div>
+                                <h4 class="text-2xl font-bold text-slate-800">${cat}</h4>
+                                <div class="ml-6 flex-1 h-px bg-gradient-to-r from-slate-200 to-transparent"></div>
+                            </div>
+                            ${generateCards(subList)}
+                        </div>`;
+                    }).join('')}
+                </div>`;
+            } else {
+                container.innerHTML = `<div class="animate-fade-in-up">${generateCards(filtered)}</div>`;
+            }
+            lucide.createIcons();
+        }
+
+        // --- SCHEDULE LIST LOGIC ---
+        function renderSchedule() {
+            const container = document.getElementById('schedule-list-container');
+            const sorted = [...EVENTS].sort((a, b) => new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime());
+            
+            const listHTML = sorted.map((event, index) => {
+                const now = new Date();
+                const start = new Date(event.dateStart);
+                const end = event.dateEnd ? new Date(event.dateEnd) : new Date(start.getTime() + 86400000);
+                
+                let status = 'future';
+                if (now > end) status = 'past';
+                else if (now >= start && now <= end) status = 'current';
+
+                let iconBg = 'bg-white border-2 border-slate-200', iconColor = 'text-slate-300', cardClass = 'opacity-60 hover:opacity-100', iconName = 'circle';
+                if (status === 'past') { iconBg = 'bg-slate-100 border-2 border-slate-200'; iconName = 'check'; cardClass = 'opacity-50 grayscale'; }
+                else if (status === 'current') { iconBg = 'bg-blue-600 border-4 border-blue-100 shadow-lg shadow-blue-600/30'; iconName = 'clock'; cardClass = 'scale-[1.02] shadow-xl ring-1 ring-blue-100 bg-white z-10'; }
+                else { cardClass = 'bg-white hover:bg-slate-50'; }
+
+                return `
+                <div class="relative pl-14 md:pl-20 py-3 transition-all duration-500 ${cardClass} rounded-xl ${status === 'current' ? 'my-6' : 'my-2'}">
+                    <div class="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center z-10 transition-all duration-500 ${iconBg}">
+                        <i data-lucide="${iconName}" class="w-3 h-3 ${status === 'past' ? 'text-slate-500' : (status === 'current' ? 'text-white' : 'text-slate-200 fill-slate-200')} ${status === 'current' ? 'animate-pulse' : ''}"></i>
+                    </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between p-2">
+                        <div class="mb-1 md:mb-0">
+                            <div class="flex items-center text-sm font-mono font-bold text-slate-400 mb-1">
+                                ${formatDate(event.dateStart)}
+                                ${event.isRange ? `<i data-lucide="arrow-right" class="w-3 h-3 mx-2 text-slate-300"></i> ${formatDate(event.dateEnd)}` : ''}
+                            </div>
+                            <h4 class="text-lg font-bold ${status === 'current' ? 'text-blue-700' : 'text-slate-800'}">${event.title}</h4>
+                        </div>
+                        ${status === 'current' ? '<span class="inline-flex self-start md:self-center px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold mt-2 md:mt-0">NOW</span>' : ''}
+                        ${status === 'future' ? `<div class="mt-2 md:mt-0 text-xs font-medium text-orange-500 bg-orange-50 px-2 py-1 rounded inline-block self-start md:self-center">${Math.ceil((new Date(event.dateStart).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} 天後</div>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="bg-slate-50/80 border-b border-slate-100 p-6 md:p-8 flex items-center justify-between sticky top-0 z-20 backdrop-blur-md">
+                    <div class="flex items-center">
+                        <div class="bg-orange-500 rounded-lg p-2 mr-4 shadow-lg shadow-orange-500/20"><i data-lucide="calendar" class="w-6 h-6 text-white"></i></div>
+                        <div><h3 class="text-xl font-black text-slate-800">115 重要日程表</h3><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mt-1">Key Milestones</p></div>
+                    </div>
+                </div>
+                <div class="p-6 md:p-10"><div class="relative space-y-0"><div class="absolute left-[19px] md:left-[23px] top-4 bottom-4 w-0.5 bg-slate-100"></div>${listHTML}</div></div>
+            `;
+            lucide.createIcons();
+        }
+
+        // --- FAQ LOGIC ---
+        function renderFAQ() {
+            const container = document.getElementById('faq-container');
+            container.innerHTML = FAQ_DATA.map((item, idx) => `
+                <div class="border border-slate-200 rounded-xl bg-white overflow-hidden transition-all duration-200 hover:shadow-sm">
+                    <button onclick="toggleFAQ(${idx})" class="w-full px-6 py-4 flex items-center justify-between text-left focus:outline-none">
+                        <div class="flex items-center">
+                            <div id="faq-icon-${idx}" class="p-2 rounded-full mr-4 transition-colors bg-slate-100 text-slate-500"><i data-lucide="message-circle" class="w-5 h-5"></i></div>
+                            <span id="faq-q-${idx}" class="font-bold text-lg text-slate-800">${item.q}</span>
+                        </div>
+                        <i id="faq-arrow-${idx}" data-lucide="chevron-down" class="w-5 h-5 text-slate-400"></i>
+                    </button>
+                    <div id="faq-ans-${idx}" class="overflow-hidden transition-all duration-300 ease-in-out max-h-0 opacity-0">
+                        <div class="px-6 pb-6 pl-[4.5rem] pr-8"><p class="text-slate-600 leading-relaxed text-sm md:text-base">${item.a}</p></div>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function toggleFAQ(idx) {
+            const ans = document.getElementById(`faq-ans-${idx}`);
+            const icon = document.getElementById(`faq-icon-${idx}`);
+            const q = document.getElementById(`faq-q-${idx}`);
+            const arrow = document.getElementById(`faq-arrow-${idx}`);
+            
+            const isOpen = ans.classList.contains('max-h-96');
+            
+            if (isOpen) {
+                ans.classList.remove('max-h-96', 'opacity-100');
+                ans.classList.add('max-h-0', 'opacity-0');
+                icon.classList.remove('bg-blue-100', 'text-blue-600');
+                icon.classList.add('bg-slate-100', 'text-slate-500');
+                q.classList.remove('text-blue-700');
+                q.classList.add('text-slate-800');
+            } else {
+                ans.classList.add('max-h-96', 'opacity-100');
+                ans.classList.remove('max-h-0', 'opacity-0');
+                icon.classList.add('bg-blue-100', 'text-blue-600');
+                icon.classList.remove('bg-slate-100', 'text-slate-500');
+                q.classList.add('text-blue-700');
+                q.classList.remove('text-slate-800');
+            }
+        }
+
+        // --- UI ACTIONS ---
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobile-menu-overlay');
+            const sidebar = document.getElementById('mobile-menu-sidebar');
+            const isOpen = sidebar.classList.contains('translate-x-0');
+            
+            if (isOpen) {
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.remove('opacity-100', 'pointer-events-auto');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = '';
+            } else {
+                sidebar.classList.add('translate-x-0');
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.add('opacity-100', 'pointer-events-auto');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function toggleScheduleModal(show) {
+            const modal = document.getElementById('schedule-modal');
+            if (show) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 20) {
+                header.classList.add('bg-white/80', 'backdrop-blur-md', 'shadow-sm', 'border-b', 'border-slate-200/50');
+                header.classList.remove('bg-transparent');
+            } else {
+                header.classList.remove('bg-white/80', 'backdrop-blur-md', 'shadow-sm', 'border-b', 'border-slate-200/50');
+                header.classList.add('bg-transparent');
+            }
+        });
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            lucide.createIcons();
+            initCountdown();
+            renderFilters();
+            renderRegions();
+            renderSchedule();
+            renderFAQ();
+        };
+    </script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>
