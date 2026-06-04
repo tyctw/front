@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>115會考全國查榜網址 | TYCTW</title>
     
+    <title>115年國中會考全國查榜入口與落點分析平台 | TYCTW</title>
+    <meta name="description" content="115學年度國中教育會考全國查榜總入口。提供基北、桃連、竹苗、中投等全國15個就學區免試入學查榜連結、個人序位查詢、志願選填及重要日程表，協助考生輕鬆掌握放榜資訊與落點分析。" />
+    <meta name="keywords" content="115會考, 國中會考, 會考查榜, 會考放榜, 免試入學, 落點分析, 個人序位, 志願選填, 基北區, 桃連區, 中投區, 會考成績查詢" />
+    <meta name="author" content="TYCTW Team" />
+    <meta name="robots" content="index, follow" />
+    
+    <link rel="canonical" href="https://tyctw.github.io/front" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="115年國中會考全國查榜入口與落點分析 | TYCTW" />
+    <meta property="og:description" content="全國15個就學區免試入學放榜查詢總整理！快速查詢個人序位、志願選填與落點分析，祝您金榜題名！" />
+    <meta property="og:url" content="https://tyctw.github.io/front" />
+    <meta property="og:site_name" content="TYCTW Edu Platform" />
+    <meta name="twitter:title" content="115年國中會考全國查榜入口與落點分析 | TYCTW" />
+    <meta name="twitter:description" content="全國15個就學區免試入學放榜查詢總整理！快速查詢個人序位、志願選填與重要日程。" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
@@ -12,6 +27,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "TYCTW 115會考全國查榜平台",
+      "alternateName": "115年國中教育會考查榜",
+      "url": "https://tyctw.github.io/",
+      "description": "提供115年國中會考全國各區免試入學查榜、落點分析與成績分享服務。",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://tyctw.github.io/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
     <style>
         :root {
             --glass-border: rgba(255, 255, 255, 0.4);
@@ -98,7 +129,7 @@
                     </span>
                     導航選單
                 </span>
-                <button onclick="toggleMobileMenu()" class="p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-all">
+                <button onclick="toggleMobileMenu()" aria-label="關閉選單" class="p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-all">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -154,7 +185,7 @@
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-emerald-400/20 rounded-full blur-2xl"></div>
             <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-teal-400/20 rounded-full blur-2xl"></div>
             
-            <button onclick="closeScoreModal()" class="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-all z-10">
+            <button onclick="closeScoreModal()" aria-label="關閉通知" class="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-all z-10">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
             
@@ -162,7 +193,7 @@
                 <i data-lucide="award" class="w-10 h-10 text-white"></i>
             </div>
             
-            <h3 class="text-3xl font-black text-slate-800 mb-3 tracking-tight">會考成績公布</h3>
+            <h3 class="text-3xl font-black text-slate-800 mb-3 tracking-tight">會考成績6/5早上8點公布</h3>
             <p class="text-slate-500 mb-8 leading-relaxed text-[15px] font-medium">
               請前往「<span class="text-slate-700 font-bold">國中教育會考全國試務會</span>」<br>官方網站查詢您的正式成績。祝您金榜題名！
             </p>
@@ -182,7 +213,7 @@
     <div id="announcement-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-md transition-opacity" onclick="closeAnnouncement()"></div>
         <div class="relative bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl p-8 max-w-md w-full animate-fade-in-up border border-white">
-            <button onclick="closeAnnouncement()" class="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-all">
+            <button onclick="closeAnnouncement()" aria-label="關閉公告" class="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-all">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
             <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -208,7 +239,7 @@
         <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onclick="toggleScheduleModal(false)"></div>
         <div class="relative w-full max-w-3xl glass-card rounded-[2rem] max-h-[90vh] overflow-hidden flex flex-col animate-fade-in-up">
             <div class="absolute top-4 right-4 z-50">
-                <button onclick="toggleScheduleModal(false)" class="p-2 bg-white hover:bg-slate-50 rounded-full text-slate-400 hover:text-slate-700 transition-all shadow-sm border border-slate-100">
+                <button onclick="toggleScheduleModal(false)" aria-label="關閉日程表" class="p-2 bg-white hover:bg-slate-50 rounded-full text-slate-400 hover:text-slate-700 transition-all shadow-sm border border-slate-100">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -280,7 +311,7 @@
                     </nav>
 
                     <div class="md:hidden flex items-center">
-                        <button onclick="toggleMobileMenu()" class="p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-all bg-white/50 border border-slate-200/50">
+                        <button onclick="toggleMobileMenu()" aria-label="開啟行動版選單" class="p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-all bg-white/50 border border-slate-200/50">
                             <i data-lucide="menu" class="w-5 h-5"></i>
                         </button>
                     </div>
@@ -343,8 +374,8 @@
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <i data-lucide="search" class="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
                     </div>
-                    <input type="text" id="region-search" class="block w-full pl-12 pr-10 py-3.5 glass-card rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300" placeholder="搜尋區域..." oninput="handleSearch(this.value)">
-                    <button id="clear-search" onclick="clearSearch()" class="absolute inset-y-0 right-0 pr-3 hidden items-center">
+                    <input type="text" id="region-search" aria-label="搜尋就學區" class="block w-full pl-12 pr-10 py-3.5 glass-card rounded-2xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300" placeholder="搜尋區域..." oninput="handleSearch(this.value)">
+                    <button id="clear-search" onclick="clearSearch()" aria-label="清除搜尋內容" class="absolute inset-y-0 right-0 pr-3 hidden items-center">
                         <div class="p-1.5 rounded-lg hover:bg-slate-200/50 text-slate-400 transition-colors">
                             <i data-lucide="x" class="h-4 w-4"></i>
                         </div>
@@ -391,7 +422,7 @@
                         <a href="https://tyctw.github.io/shared/" target="_blank" class="text-slate-500 hover:text-indigo-600 transition-colors">成績分享</a>
                         <a href="https://tyctw.github.io/score/" target="_blank" class="text-slate-500 hover:text-violet-600 transition-colors">序位分享</a>
                     </div>
-                    <p class="text-slate-400 text-xs">資料來源：各就學區免試入學委員會</p>
+                    <p class="text-slate-400 text-xs">資料來源：各就學區免試入學委員會非官方民間架設</p>
                 </div>
             </div>
             <div class="mt-10 pt-6 border-t border-slate-200/50 text-center">
@@ -496,8 +527,8 @@
             document.body.style.overflow = '';
         }
 
-        // --- COUNTDOWN LOGIC (優化版本) ---
-        let currentCountdownStatus = null; // 用來記錄當前狀態，避免重複渲染 DOM
+        // --- COUNTDOWN LOGIC (效能優化版本) ---
+        let currentCountdownStatus = null;
 
         function initCountdown() {
             const container = document.getElementById('hero-countdown');
@@ -548,12 +579,10 @@
             }
 
             setInterval(updateTimer, 1000);
-            updateTimer(); // 初次執行
+            updateTimer();
         }
 
-        // 優化重點：分離了「結構建立」與「數值更新」
         function renderCountdownHTML(container, title, time, status) {
-            // 如果狀態改變了（例如從「即將到來」變成「進行中」，或是第一次載入），才重新建立整個 HTML
             if (currentCountdownStatus !== status) {
                 currentCountdownStatus = status;
 
@@ -574,7 +603,6 @@
                                 ${status !== 'ended' ? `
                                 <div class="flex justify-center gap-4 md:gap-6 w-full max-w-3xl">
                                     ${['DAYS', 'HOURS', 'MINS', 'SECS'].map((label, i) => {
-                                        // 幫數字加上 ID，方便後續單獨修改
                                         const ids = ['cd-days', 'cd-hours', 'cd-mins', 'cd-secs'];
                                         const val = [time.days, time.hours, time.minutes, time.seconds][i];
                                         return `
@@ -596,10 +624,8 @@
                         </div>
                     </div>
                 `;
-                // 只在重新渲染 DOM 時呼叫 Lucide
                 if(window.lucide) lucide.createIcons({root: container});
             } else {
-                // 如果狀態沒改變，只更新數字文字，不動 DOM 結構 (大幅節省效能)
                 if (status !== 'ended') {
                     document.getElementById('cd-days').textContent = time.days.toString().padStart(2, '0');
                     document.getElementById('cd-hours').textContent = time.hours.toString().padStart(2, '0');
@@ -793,7 +819,7 @@
             const container = document.getElementById('faq-container');
             container.innerHTML = FAQ_DATA.map((item, idx) => `
                 <div class="glass-card rounded-2xl overflow-hidden transition-all duration-300">
-                    <button onclick="toggleFAQ(${idx})" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none group bg-white/40 hover:bg-white/80 transition-colors">
+                    <button onclick="toggleFAQ(${idx})" aria-label="展開常見問題" class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none group bg-white/40 hover:bg-white/80 transition-colors">
                         <span id="faq-q-${idx}" class="font-bold text-lg text-slate-700 group-hover:text-slate-900 transition-colors pr-4">${item.q}</span>
                         <div id="faq-icon-bg-${idx}" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 transition-colors">
                             <i id="faq-arrow-${idx}" data-lucide="plus" class="w-4 h-4 text-slate-500 transition-transform duration-300"></i>
