@@ -4,11 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>115會考全國查榜網址 | TYCTW</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6966991656561179" crossorigin="anonymous"></script>
     <style>
@@ -91,20 +88,16 @@
 <link rel="stylesheet" href="/index.css">
 </head>
 <body class="text-slate-900 overflow-x-hidden selection:bg-blue-200 selection:text-blue-900 pb-12">
-    <!-- Ambient Background -->
     <div class="ambient-bg">
         <div class="ambient-orb orb-1"></div>
         <div class="ambient-orb orb-2"></div>
         <div class="ambient-orb orb-3"></div>
     </div>
 
-    <!-- React Root -->
     <div id="root"></div>
 
-    <!-- Mobile Menu Overlay -->
     <div id="mobile-menu-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[60] transition-all duration-300 opacity-0 pointer-events-none" onclick="toggleMobileMenu()"></div>
 
-    <!-- Mobile Menu Sidebar -->
     <div id="mobile-menu-sidebar" class="fixed top-0 right-0 h-full w-[300px] bg-white/90 backdrop-blur-2xl z-[70] shadow-2xl transform transition-transform duration-300 ease-out translate-x-full border-l border-white/50">
         <div class="flex flex-col h-full">
             <div class="flex justify-between items-center p-6 border-b border-slate-200/50">
@@ -164,11 +157,9 @@
         </div>
     </div>
 
-    <!-- Score Inquiry Modal (NEW) -->
     <div id="score-modal" class="fixed inset-0 z-[120] hidden flex items-center justify-center p-4" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md transition-opacity" onclick="closeScoreModal()"></div>
         <div class="relative bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl p-8 md:p-10 max-w-md w-full animate-fade-in-up border border-white text-center">
-            <!-- Decorative background elements -->
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-emerald-400/20 rounded-full blur-2xl"></div>
             <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-teal-400/20 rounded-full blur-2xl"></div>
             
@@ -197,7 +188,6 @@
         </div>
     </div>
 
-    <!-- Announcement Modal -->
     <div id="announcement-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-md transition-opacity" onclick="closeAnnouncement()"></div>
         <div class="relative bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl p-8 max-w-md w-full animate-fade-in-up border border-white">
@@ -223,7 +213,6 @@
         </div>
     </div>
 
-    <!-- Schedule Modal -->
     <div id="schedule-modal" class="fixed inset-0 z-[80] hidden flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onclick="toggleScheduleModal(false)"></div>
         <div class="relative w-full max-w-3xl glass-card rounded-[2rem] max-h-[90vh] overflow-hidden flex flex-col animate-fade-in-up">
@@ -233,12 +222,10 @@
                 </button>
             </div>
             <div class="overflow-y-auto no-scrollbar" id="schedule-list-container">
-                <!-- Schedule List Content Injected Here -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <!-- Warning Modal -->
     <div id="warning-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-md" onclick="closeWarningModal()"></div>
         <div class="relative bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-2xl p-8 max-w-sm w-full animate-fade-in-up border border-white">
@@ -277,12 +264,10 @@
         </div>
     </div>
 
-    <!-- Floating Header -->
     <div class="fixed top-4 w-full z-50 flex justify-center px-4 pointer-events-none">
         <header id="main-header" class="pointer-events-auto w-full max-w-5xl transition-all duration-500 bg-white/70 backdrop-blur-xl rounded-2xl shadow-sm border border-white/60">
             <div class="px-5 sm:px-8">
                 <div class="flex items-center justify-between h-16">
-                    <!-- Logo -->
                     <div class="flex items-center group cursor-default">
                         <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-slate-900 to-slate-800 shadow-md group-hover:scale-105 transition-transform duration-300">
                             <i data-lucide="zap" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
@@ -297,7 +282,6 @@
                         </div>
                     </div>
 
-                    <!-- Desktop Navigation -->
                     <nav class="hidden md:flex items-center space-x-1">
                         <button onclick="toggleScheduleModal(true)" class="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 rounded-xl transition-all duration-200">
                             重要日程
@@ -310,7 +294,6 @@
                         </a>
                     </nav>
 
-                    <!-- Mobile Menu Button -->
                     <div class="md:hidden flex items-center">
                         <button onclick="toggleMobileMenu()" class="p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-all bg-white/50 border border-slate-200/50">
                             <i data-lucide="menu" class="w-5 h-5"></i>
@@ -323,13 +306,10 @@
 
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8">
 
-        <!-- Hero Countdown -->
         <section class="animate-fade-in-up" id="hero-countdown"></section>
 
-        <!-- Share Result CTA -->
         <section class="mb-24 animate-fade-in-up delay-100">
             <div class="relative overflow-hidden rounded-[2.5rem] bg-slate-900 shadow-2xl">
-                <!-- Background meshes for CTA -->
                 <div class="absolute inset-0 opacity-40 mix-blend-color-dodge">
                     <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-500 rounded-full blur-[80px]"></div>
                     <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500 rounded-full blur-[80px]"></div>
@@ -362,7 +342,6 @@
             </div>
         </section>
 
-        <!-- Region Links Grid -->
         <section id="regions" class="animate-fade-in-up delay-200">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
                 <div>
@@ -375,7 +354,6 @@
                     </h3>
                 </div>
 
-                <!-- Search Input -->
                 <div class="w-full md:w-80 relative group z-10">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <i data-lucide="search" class="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
@@ -389,20 +367,15 @@
                 </div>
             </div>
 
-            <!-- Category Filters -->
             <div class="mb-8 overflow-x-auto pb-4 -mx-4 px-4 md:mx-0 md:px-0 no-scrollbar">
                 <div class="flex space-x-2 min-w-max" id="category-filters">
-                    <!-- Filters injected by JS -->
-                </div>
+                    </div>
             </div>
 
-            <!-- Regions Content -->
             <div id="regions-container" class="min-h-[400px]">
-                <!-- Regions Grid injected by JS -->
-            </div>
+                </div>
         </section>
 
-        <!-- FAQ Section -->
         <section id="faq" class="animate-fade-in-up delay-300 mt-32 mb-20">
             <div class="max-w-3xl mx-auto">
                 <div class="text-center mb-12">
@@ -410,13 +383,11 @@
                     <h3 class="text-3xl font-black text-slate-900">常見問題解答</h3>
                 </div>
                 <div id="faq-container" class="space-y-4">
-                    <!-- FAQ Items injected by JS -->
-                </div>
+                    </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="border-t border-slate-200/60 bg-white/40 backdrop-blur-lg mt-12">
         <div class="max-w-6xl mx-auto px-4 py-12">
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
@@ -447,7 +418,6 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
         // --- DATA & CONSTANTS ---
         const YEAR = 2026;
@@ -514,11 +484,13 @@
         // --- POPUP LOGIC ---
         function checkAndShowPopups() {
             const now = new Date();
-            const scoreOpen = new Date(SCORE_OPEN_DATE);
-            const scoreClose = new Date(SCORE_CLOSE_DATE);
             
-            // 優先判定是否為「成績查詢期間」
-            if (now >= scoreOpen && now < scoreClose) {
+            // 設定成績查詢彈窗的專屬顯示期間：2026/6/4 ~ 2026/6/10
+            const scorePopupStart = new Date("2026-06-04T00:00:00");
+            const scorePopupEnd = new Date("2026-06-10T23:59:59");
+            
+            // 優先判定是否在此「成績查詢期間」
+            if (now >= scorePopupStart && now <= scorePopupEnd) {
                 const el = document.getElementById('score-modal');
                 el.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
@@ -926,8 +898,7 @@
         };
     </script>
 <script type="module" src="/index.tsx"></script>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H9X7EC127P"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9X7EC127P"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
