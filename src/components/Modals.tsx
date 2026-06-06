@@ -251,7 +251,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean, onClose: () =
           
         <h3 className="text-[24px] font-black text-slate-900 mb-2 tracking-tight leading-[1.2]">分享給朋友</h3>
         <p className="text-slate-500 mb-6 leading-relaxed text-[14px] font-medium">
-          一起預測落點，陪伴彼此走過會考最後一哩路！
+          一起查榜、一起分享喜悅與緊張，陪你走過會考放榜的重要時刻！
         </p>
 
         <div className="bg-slate-50 p-5 rounded-[20px] mb-6 border border-slate-100 flex flex-col items-center">
