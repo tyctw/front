@@ -1,0 +1,6 @@
+{
+  "name": "115年國中會考全國查榜入口與落點分析平台",
+  "description": "提供各區國中教育會考免試入學落點分析、成績分享與志願選填資訊的非官方平台。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
