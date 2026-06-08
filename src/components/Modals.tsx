@@ -35,7 +35,7 @@ export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean,
         <div className="bg-slate-50 rounded-[24px] py-6 px-6 mb-8 border border-slate-100 relative overflow-hidden">
            <h4 className="text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">免試入學放榜</h4>
            <div className="text-2xl font-black text-slate-800 tracking-tighter">
-             115/07/07 上午11:00
+             115年7月7日 上午11:00
            </div>
         </div>
 
