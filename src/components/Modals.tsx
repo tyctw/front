@@ -152,43 +152,43 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/45 backdrop-blur-md" onClick={onClose} />
       <motion.div 
         initial={{ opacity: 0, scale: 0.96, y: 24 }} 
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.96, y: 24 }}
         transition={{ type: "spring", stiffness: 280, damping: 26 }}
-        className="relative w-full max-w-[440px] overflow-hidden rounded-[32px] border border-white/80 bg-white shadow-[0_30px_80px_-24px_rgba(15,23,42,0.55)]"
+        className="relative w-full max-w-[360px] max-h-[92vh] overflow-y-auto overflow-x-hidden rounded-[24px] border border-white/80 bg-white shadow-[0_24px_64px_-24px_rgba(15,23,42,0.5)]"
       >
         <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-[#4ECDC4] via-[#FFE66D] to-[#FF6B6B]" />
-        <button onClick={onClose} className="absolute top-5 right-5 z-20 p-2 rounded-full bg-white/80 text-slate-400 shadow-sm ring-1 ring-slate-200/70 backdrop-blur hover:bg-slate-50 hover:text-slate-700 transition-colors focus:outline-none focus:ring-4 focus:ring-teal-100">
-          <X className="w-5 h-5" />
+        <button onClick={onClose} className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/80 text-slate-400 shadow-sm ring-1 ring-slate-200/70 backdrop-blur hover:bg-slate-50 hover:text-slate-700 transition-colors focus:outline-none focus:ring-4 focus:ring-teal-100">
+          <X className="w-4 h-4" />
         </button>
 
-        <div className="relative px-7 pb-7 pt-9 sm:px-8 sm:pb-8">
-          <div className="absolute right-[-4.5rem] top-[-4.5rem] h-44 w-44 rounded-full bg-[#4ECDC4]/10" />
-          <div className="absolute left-[-5rem] bottom-[-5rem] h-48 w-48 rounded-full bg-[#FFE66D]/20" />
+        <div className="relative px-5 pb-5 pt-7 sm:px-6 sm:pb-6">
+          <div className="absolute right-[-4rem] top-[-4rem] h-36 w-36 rounded-full bg-[#4ECDC4]/10" />
+          <div className="absolute left-[-4rem] bottom-[-4rem] h-40 w-40 rounded-full bg-[#FFE66D]/20" />
 
           <div className="relative">
-            <div className="mb-6 flex items-start gap-4 pr-10">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[22px] bg-teal-50 text-teal-500 shadow-sm ring-1 ring-teal-100">
-                <MapPinned className="h-8 w-8" />
+            <div className="mb-4 flex items-start gap-3 pr-9">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] bg-teal-50 text-teal-500 shadow-sm ring-1 ring-teal-100">
+                <MapPinned className="h-6 w-6" />
               </div>
               <div className="min-w-0 text-left">
-                <div className="mb-2 inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em] text-slate-500">
+                <div className="mb-1.5 inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
                   115 學年度
                 </div>
-                <h3 className="text-[28px] font-black leading-tight tracking-tight text-slate-950">
+                <h3 className="text-[23px] font-black leading-tight tracking-tight text-slate-950">
                   免試入學<br />
                   <span className="text-teal-500">各區志願選填</span>
                 </h3>
               </div>
             </div>
 
-            <div className="mb-5 grid grid-cols-[auto_1fr] gap-4 rounded-[24px] border border-teal-100 bg-gradient-to-br from-teal-50 to-white p-5 text-left shadow-sm">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-teal-500 shadow-sm">
-                <Clock3 className="h-5 w-5" />
+            <div className="mb-4 grid grid-cols-[auto_1fr] gap-3 rounded-[20px] border border-teal-100 bg-gradient-to-br from-teal-50 to-white p-4 text-left shadow-sm">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-teal-500 shadow-sm">
+                <Clock3 className="h-4 w-4" />
               </div>
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-teal-600">選填期間</p>
@@ -197,15 +197,15 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
               </div>
             </div>
 
-            <div className="mb-6 space-y-3 text-left">
+            <div className="mb-5 space-y-2 text-left">
               {[
                 "先確認個人序位區間，再安排志願順序。",
                 "不同就學區系統入口不同，請選擇正確區域。",
                 "送出前再次檢查帳號、資料與志願清單。"
               ].map((item) => (
-                <div key={item} className="flex items-start gap-3 rounded-2xl bg-slate-50 px-4 py-3">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
-                  <p className="text-sm font-bold leading-relaxed text-slate-600">{item}</p>
+                <div key={item} className="flex items-start gap-2.5 rounded-2xl bg-slate-50 px-3 py-2.5">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                  <p className="text-xs font-bold leading-relaxed text-slate-600">{item}</p>
                 </div>
               ))}
             </div>
@@ -213,12 +213,12 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
             <div className="flex flex-col gap-3">
               <a
                 href="https://tyctw.github.io/volunteer/" target="_blank" rel="noreferrer" onClick={onClose}
-                className="group flex w-full items-center justify-center rounded-[20px] bg-slate-950 px-5 py-4 font-black text-white shadow-lg shadow-slate-950/20 transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
+                className="group flex w-full items-center justify-center rounded-[18px] bg-slate-950 px-4 py-3.5 text-sm font-black text-white shadow-lg shadow-slate-950/20 transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
               >
                 前往各區選填網址
                 <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
-              <button onClick={onClose} className="w-full rounded-[20px] border-2 border-slate-100 bg-white px-5 py-4 font-black text-slate-500 transition-colors hover:border-slate-200 hover:bg-slate-50 hover:text-slate-700 focus:outline-none focus:ring-4 focus:ring-slate-100">
+              <button onClick={onClose} className="w-full rounded-[18px] border-2 border-slate-100 bg-white px-4 py-3.5 text-sm font-black text-slate-500 transition-colors hover:border-slate-200 hover:bg-slate-50 hover:text-slate-700 focus:outline-none focus:ring-4 focus:ring-slate-100">
                 稍後再看
               </button>
             </div>
