@@ -22,8 +22,8 @@ const ScoreModal = lazy(() => import("./components/Modals").then(m => ({ default
 const VolunteerModal = lazy(() => import("./components/Modals").then(m => ({ default: m.VolunteerModal })));
 const ShareModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ShareModal })));
 
-const RESULT_LIST_OPEN_DATE = "2026-07-05T08:00:00";
-const RESULT_LIST_DAY_START = "2026-06-05T00:00:00";
+const RESULT_LIST_OPEN_DATE = "2026-07-07T08:00:00";
+const RESULT_LIST_DAY_START = "2026-07-07T00:00:00";
 
 export default function App() {
   const [scheduleOpen, setScheduleOpen] = useState(false);
@@ -74,7 +74,7 @@ export default function App() {
       <Background />
       <Header onOpenSchedule={() => setScheduleOpen(true)} />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-10">
         <HeroCountdown onOpenSchedule={() => setScheduleOpen(true)} />
         <Banner />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400">Loading...</div>}>
@@ -88,7 +88,7 @@ export default function App() {
       {/* Floating Share Button */}
       <button 
         onClick={() => setShareOpen(true)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-teal-500 rounded-full shadow-lg shadow-teal-500/30 flex items-center justify-center text-white hover:bg-teal-600 hover:-translate-y-1 hover:scale-105 transition-all focus:outline-none focus:ring-4 focus:ring-teal-200"
+        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-lg bg-slate-950 text-white shadow-lg shadow-slate-900/20 transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
         aria-label="分享平台"
       >
         <Share2 className="w-6 h-6" />

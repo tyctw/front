@@ -7,61 +7,68 @@ export function FAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="mt-32 mb-20 px-6"
+      className="mb-16"
     >
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-16">
-          <span className="font-outfit text-sm font-bold tracking-widest text-[#FF6B6B] uppercase mb-4 block">FAQ</span>
-          <h3 className="text-4xl font-black text-slate-900 italic tracking-tight">常見問題解答</h3>
+      <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <span className="font-outfit text-[11px] font-black uppercase tracking-[0.18em] text-rose-700">
+            FAQ
+          </span>
+          <h3 className="mt-2 text-3xl font-black tracking-normal text-slate-950">
+            常見問題
+          </h3>
         </div>
-        <div className="space-y-4">
-          {FAQ_DATA.map((item, idx) => {
-            const isOpen = openIdx === idx;
-            return (
-              <div 
-                key={idx} 
-                className={`bg-white rounded-[24px] overflow-hidden border transition-all duration-300 ${isOpen ? 'border-[#4ECDC4] shadow-lg shadow-teal-50' : 'border-slate-100 shadow-sm hover:shadow-md'}`}
+        <p className="max-w-xl text-sm font-medium leading-6 text-slate-600">
+          整理查榜、志願選填與成績相關問題，實際流程仍以官方簡章與各區系統公告為準。
+        </p>
+      </div>
+
+      <div className="grid gap-3">
+        {FAQ_DATA.map((item, idx) => {
+          const isOpen = openIdx === idx;
+          return (
+            <div
+              key={idx}
+              className={`overflow-hidden rounded-lg border bg-white shadow-sm transition-all ${
+                isOpen ? "border-teal-300" : "border-slate-200 hover:border-slate-300"
+              }`}
+            >
+              <button
+                onClick={() => setOpenIdx(isOpen ? null : idx)}
+                className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left focus:outline-none sm:px-5"
               >
-                <button 
-                  onClick={() => setOpenIdx(isOpen ? null : idx)}
-                  className="w-full px-6 py-5 sm:px-8 sm:py-6 flex items-center justify-between text-left focus:outline-none"
-                >
-                  <div className="flex items-center space-x-4 pr-4">
-                    <div className="w-10 h-10 bg-[#FFE66D]/20 rounded-[14px] hidden sm:flex items-center justify-center shrink-0 text-[#E0A800] font-black text-lg italic font-outfit">
-                      Q
+                <span className={`text-base font-black leading-6 ${isOpen ? "text-teal-700" : "text-slate-900"}`}>
+                  {item.q}
+                </span>
+                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                  isOpen ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-500"
+                }`}>
+                  <Plus className={`h-5 w-5 transition-transform ${isOpen ? "rotate-45" : ""}`} />
+                </span>
+              </button>
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="border-t border-slate-100 px-4 pb-5 pt-4 sm:px-5">
+                      <p className="text-sm font-medium leading-7 text-slate-600">
+                        {item.a}
+                      </p>
                     </div>
-                    <span className={`font-bold text-lg sm:text-xl transition-colors duration-300 ${isOpen ? 'text-[#4ECDC4]' : 'text-slate-800'}`}>
-                      {item.q}
-                    </span>
-                  </div>
-                  <div className={`w-8 h-8 rounded-[12px] flex items-center justify-center shrink-0 transition-colors duration-300 ${isOpen ? 'bg-[#4ECDC4] text-white' : 'bg-slate-50 text-slate-400'}`}>
-                    <Plus className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
-                  </div>
-                </button>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-6 pb-6 pt-2 sm:px-8 sm:pb-8 sm:pt-4 sm:ml-14">
-                        <p className="text-slate-500 leading-relaxed text-sm sm:text-base font-medium">
-                          {item.a}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
       </div>
     </motion.section>
   );

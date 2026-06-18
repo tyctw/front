@@ -1,46 +1,68 @@
 import { motion, AnimatePresence } from "motion/react";
-import { CalendarDays, Menu, Zap, X, MapPin, Share2, Compass, Mail, BarChart3 } from "lucide-react";
+import { CalendarDays, Menu, Zap, X, MapPin, Share2, Mail, BarChart3 } from "lucide-react";
 import { useState } from "react";
 
 export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const links = [
+    { label: "重要日程", detail: "115 會考時程", icon: CalendarDays, action: onOpenSchedule },
+    { label: "落點分析", detail: "志願評估工具", icon: BarChart3, href: "https://tyctw.github.io/spare" },
+    { label: "序位分享", detail: "查閱各區排名", icon: MapPin, href: "https://tyctw.github.io/score/" },
+    { label: "成績回報", detail: "回報分數資料", icon: Share2, href: "https://tyctw.github.io/shared/" },
+  ];
+
   return (
     <>
-      <div className="fixed top-4 w-full z-50 flex justify-center px-4 pointer-events-none">
+      <div className="fixed top-3 z-50 flex w-full justify-center px-3 pointer-events-none">
         <motion.header
-          initial={{ y: -20, opacity: 0 }}
+          initial={{ y: -16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="pointer-events-auto w-full max-w-5xl glass-header rounded-[24px]"
+          className="pointer-events-auto w-full max-w-6xl rounded-lg glass-header"
         >
-          <div className="px-5 sm:px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center group cursor-default">
-                <div className="relative flex items-center justify-center w-10 h-10 rounded-[14px] bg-[#FF6B6B] shadow-lg shadow-red-200 transform group-hover:scale-105 transition-transform duration-300">
-                  <Zap className="w-5 h-5 text-white fill-white" />
-                  <div className="absolute -bottom-1.5 -right-1.5 px-1.5 py-0.5 bg-white rounded-md border-2 border-white flex items-center justify-center shadow-sm">
-                    <span className="font-outfit text-[9px] font-black text-[#FF6B6B] leading-none tracking-tighter">
-                      115
-                    </span>
-                  </div>
-                </div>
-                <div className="ml-4 flex flex-col justify-center">
-                  <h1 className="text-lg font-black text-slate-900 tracking-tight leading-none">
-                    全國<span className="text-[#4ECDC4] ml-1">會考查榜網址</span>
-                  </h1>
-                </div>
+          <div className="flex h-16 items-center justify-between px-4 sm:px-6">
+            <div className="flex items-center">
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-slate-950 text-white shadow-sm">
+                <Zap className="h-5 w-5 fill-white" />
+                <span className="absolute -bottom-1 -right-1 rounded bg-teal-500 px-1.5 py-0.5 font-outfit text-[9px] font-black leading-none text-white">
+                  115
+                </span>
               </div>
-
-              <div className="flex items-center">
-                <button
-                  onClick={() => setMobileMenuOpen(true)}
-                  aria-label="開啟導航選單"
-                  className="p-2.5 rounded-[16px] text-slate-500 hover:text-[#FF6B6B] hover:bg-red-50 transition-all focus:outline-none focus:ring-2 focus:ring-red-100"
-                >
-                  <Menu className="w-6 h-6" />
-                </button>
+              <div className="ml-3">
+                <h1 className="text-base font-black leading-none tracking-normal text-slate-950 sm:text-lg">
+                  全國會考查榜入口
+                </h1>
+                <p className="mt-1 hidden text-xs font-bold text-slate-500 sm:block">
+                  免試入學放榜與志願資訊整理
+                </p>
               </div>
             </div>
+
+            <div className="hidden items-center gap-2 md:flex">
+              {links.slice(0, 3).map((link) => {
+                const Icon = link.icon;
+                const className = "inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-200";
+                return link.href ? (
+                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={className}>
+                    <Icon className="h-4 w-4" />
+                    {link.label}
+                  </a>
+                ) : (
+                  <button key={link.label} onClick={link.action} className={className}>
+                    <Icon className="h-4 w-4" />
+                    {link.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="開啟導航選單"
+              className="rounded-lg p-2.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-200 md:hidden"
+            >
+              <Menu className="h-6 w-6" />
+            </button>
           </div>
         </motion.header>
       </div>
@@ -52,7 +74,7 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+              className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm"
               onClick={() => setMobileMenuOpen(false)}
             />
             <motion.div
@@ -60,96 +82,71 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="relative w-full max-w-[320px] bg-white h-full shadow-2xl flex flex-col"
+              className="relative flex h-full w-full max-w-[320px] flex-col bg-white shadow-2xl"
             >
-              <div className="flex items-center justify-between p-6 border-b border-slate-100">
-                <span className="text-xl font-black text-slate-900 flex items-center">
-                  <div className="w-8 h-8 rounded-[10px] bg-[#FF6B6B] flex items-center justify-center mr-3 shadow-md shadow-red-200">
-                    <Zap className="w-4 h-4 text-white fill-white" />
-                  </div>
+              <div className="flex items-center justify-between border-b border-slate-200 p-5">
+                <span className="flex items-center text-lg font-black text-slate-950">
+                  <span className="mr-3 flex h-9 w-9 items-center justify-center rounded-lg bg-slate-950 text-white">
+                    <Zap className="h-4 w-4 fill-white" />
+                  </span>
                   導航選單
                 </span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-2.5 rounded-[16px] hover:bg-slate-50 text-slate-400 hover:text-[#FF6B6B] transition-all focus:outline-none focus:ring-2 focus:ring-red-100"
+                  className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-200"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenSchedule();
-                  }}
-                  className="w-full flex items-center p-4 rounded-[24px] bg-[#FEFAF6] hover:bg-[#FFE66D]/20 text-[#E0A800] transition-colors group text-left"
-                >
-                  <div className="w-10 h-10 rounded-2xl bg-white flex items-center justify-center mr-4 shadow-sm group-hover:scale-110 transition-transform">
-                    <CalendarDays className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-800">重要日程</div>
-                    <div className="text-xs font-medium opacity-80">115會考時程表</div>
-                  </div>
-                </button>
+              <div className="flex-1 space-y-2 overflow-y-auto p-4">
+                {links.map((link) => {
+                  const Icon = link.icon;
+                  const content = (
+                    <>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      <span>
+                        <span className="block font-bold text-slate-900">{link.label}</span>
+                        <span className="block text-xs font-medium text-slate-500">{link.detail}</span>
+                      </span>
+                    </>
+                  );
 
-                <a
-                  href="https://tyctw.github.io/spare"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full flex items-center p-4 rounded-[24px] bg-teal-50/50 hover:bg-[#4ECDC4]/10 text-[#4ECDC4] transition-colors group text-left block"
-                >
-                  <div className="w-10 h-10 rounded-2xl bg-white flex items-center justify-center mr-4 shadow-sm group-hover:scale-110 transition-transform">
-                    <BarChart3 className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-800">落點分析</div>
-                    <div className="text-xs font-medium opacity-80">精準志願評估</div>
-                  </div>
-                </a>
-
-                <a
-                  href="https://tyctw.github.io/score/"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full flex items-center p-4 rounded-[24px] bg-blue-50/50 hover:bg-blue-100/50 text-blue-500 transition-colors group text-left block"
-                >
-                  <div className="w-10 h-10 rounded-2xl bg-white flex items-center justify-center mr-4 shadow-sm group-hover:scale-110 transition-transform">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-800">序位分享</div>
-                    <div className="text-xs font-medium opacity-80">查閱各區排名</div>
-                  </div>
-                </a>
-
-                <a
-                  href="https://tyctw.github.io/shared/"
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full flex items-center p-4 rounded-[24px] bg-red-50/50 hover:bg-[#FF6B6B]/10 text-[#FF6B6B] transition-colors group text-left block"
-                >
-                  <div className="w-10 h-10 rounded-2xl bg-white flex items-center justify-center mr-4 shadow-sm group-hover:scale-110 transition-transform">
-                    <Share2 className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-800">成績分享</div>
-                    <div className="text-xs font-medium opacity-80">回報您的分數</div>
-                  </div>
-                </a>
+                  return link.href ? (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-slate-50"
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <button
+                      key={link.label}
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        link.action?.();
+                      }}
+                      className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-slate-50"
+                    >
+                      {content}
+                    </button>
+                  );
+                })}
               </div>
-              
-              <div className="p-6 border-t border-slate-100 bg-[#FEFAF6] text-center">
-                <a 
+
+              <div className="border-t border-slate-200 bg-slate-50 p-5 text-center">
+                <a
                   href="mailto:tyctw.analyze@gmail.com"
-                  className="inline-flex items-center justify-center space-x-2 text-sm text-slate-500 hover:text-[#FF6B6B] transition-colors"
+                  className="inline-flex items-center justify-center gap-2 text-sm font-bold text-slate-500 transition-colors hover:text-teal-600"
                 >
-                  <Mail className="w-4 h-4" />
-                  <span className="font-bold font-outfit tracking-wide">Contact Team</span>
+                  <Mail className="h-4 w-4" />
+                  Contact Team
                 </a>
               </div>
             </motion.div>
