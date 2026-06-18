@@ -7,8 +7,8 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
 
   const links = [
     { label: "重要日程", detail: "115 會考時程", icon: CalendarDays, action: onOpenSchedule },
-    { label: "落點分析", detail: "志願評估工具", icon: BarChart3, href: "https://tyctw.github.io/spare" },
-    { label: "序位分享", detail: "查閱各區排名", icon: MapPin, href: "https://tyctw.github.io/score/" },
+    { label: "錄取分享", detail: "分享錄取分數", icon: BarChart3, href: "https://tyctw.github.io/shared/" },
+    { label: "序位分享", detail: "對照各區排名", icon: MapPin, href: "https://tyctw.github.io/score/" },
     { label: "成績回報", detail: "回報分數資料", icon: Share2, href: "https://tyctw.github.io/shared/" },
   ];
 
