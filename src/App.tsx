@@ -22,8 +22,8 @@ const ScoreModal = lazy(() => import("./components/Modals").then(m => ({ default
 const VolunteerModal = lazy(() => import("./components/Modals").then(m => ({ default: m.VolunteerModal })));
 const ShareModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ShareModal })));
 
-const RESULT_LIST_OPEN_DATE = "2026-07-07T08:00:00";
-const RESULT_LIST_DAY_START = "2026-07-07T00:00:00";
+const RESULT_LIST_OPEN_DATE = "2026-07-05T08:00:00";
+const RESULT_LIST_DAY_START = "2026-07-05T00:00:00";
 
 export default function App() {
   const [scheduleOpen, setScheduleOpen] = useState(false);
