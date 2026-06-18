@@ -26,7 +26,7 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
                 </div>
                 <div className="ml-4 flex flex-col justify-center">
                   <h1 className="text-lg font-black text-slate-900 tracking-tight leading-none">
-                    TYCTW<span className="text-[#4ECDC4] ml-1">會考查榜</span>
+                    全國<span className="text-[#4ECDC4] ml-1">會考查榜網址</span>
                   </h1>
                 </div>
               </div>
