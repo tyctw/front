@@ -8,7 +8,7 @@ import { Background } from "./components/Background";
 import { Header } from "./components/Header";
 import { HeroCountdown } from "./components/HeroCountdown";
 import { Banner } from "./components/Banner";
-import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, LATEST_ANNOUNCEMENT } from "./data";
+import { LATEST_ANNOUNCEMENT } from "./data";
 import { AnimatePresence } from "motion/react";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
@@ -52,11 +52,9 @@ export default function App() {
 
   const handleWarnUrl = (url: string) => {
     const now = new Date();
-    const rankOpen = new Date(ADMISSION_LIST_OPEN_DATE);
-    const rankClose = new Date(ADMISSION_LIST_CLOSE_DATE);
     const resultOpen = new Date(RESULT_LIST_OPEN_DATE);
 
-    if ((now >= rankOpen && now <= rankClose) || now >= resultOpen) {
+    if (now >= resultOpen) {
       window.open(url, '_blank', 'noopener,noreferrer');
     } else {
       setPendingUrl(url);
