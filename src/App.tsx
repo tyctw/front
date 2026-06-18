@@ -22,8 +22,7 @@ const ScoreModal = lazy(() => import("./components/Modals").then(m => ({ default
 const VolunteerModal = lazy(() => import("./components/Modals").then(m => ({ default: m.VolunteerModal })));
 const ShareModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ShareModal })));
 
-const RESULT_LIST_OPEN_DATE = "2026-07-07T08:00:00";
-const RESULT_LIST_DAY_START = "2026-07-07T00:00:00";
+const RESULT_LIST_OPEN_DATE = "2026-07-05T08:00:00";
 
 export default function App() {
   const [scheduleOpen, setScheduleOpen] = useState(false);
@@ -41,12 +40,8 @@ export default function App() {
     const scoreStart = new Date("2026-06-04T00:00:00");
     const scoreEnd = new Date("2026-06-15T00:00:00"); // exclusive
     const volunteerEnd = new Date("2026-06-25T23:59:59");
-    const resultDayStart = new Date(RESULT_LIST_DAY_START);
-    const resultOpen = new Date(RESULT_LIST_OPEN_DATE);
     
-    if (now >= resultDayStart && now < resultOpen) {
-      setWarningOpen(true);
-    } else if (now >= scoreStart && now < scoreEnd) {
+    if (now >= scoreStart && now < scoreEnd) {
       setScoreOpen(true);
     } else if (now >= scoreEnd && now <= volunteerEnd) {
       setVolunteerOpen(true);
@@ -88,7 +83,7 @@ export default function App() {
       {/* Floating Share Button */}
       <button 
         onClick={() => setShareOpen(true)}
-        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-lg bg-slate-950 text-white shadow-lg shadow-slate-900/20 transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
+        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-lg shadow-slate-900/20 transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
         aria-label="分享平台"
       >
         <Share2 className="w-6 h-6" />
