@@ -1,7 +1,29 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import { REGIONS } from "../data";
-import { ArrowUpRight, Compass, LayoutGrid, Map as MapIcon, MapPin, Search, X } from "lucide-react";
+import {
+  ArrowUpRight,
+  Building2,
+  Castle,
+  Compass,
+  Factory,
+  Landmark,
+  LayoutGrid,
+  Map as MapIcon,
+  MapPin,
+  Mountain,
+  Palmtree,
+  School,
+  Ship,
+  Sprout,
+  TentTree,
+  TrainFront,
+  Trees,
+  Waves,
+  Wheat,
+  X,
+  Search,
+} from "lucide-react";
 import { cn } from "../lib/utils";
 
 const CATEGORIES = ["ALL", "北部區域", "中部區域", "南部區域", "東部區域", "離島區域"];
@@ -54,6 +76,24 @@ const regionBadges: Record<string, { label: string; className: string; strip: st
     className: "bg-amber-50 text-amber-800 ring-amber-100",
     strip: "from-amber-300 to-lime-400",
   },
+};
+
+const regionIcons: Record<string, typeof MapPin> = {
+  tp: Building2,
+  tl: TrainFront,
+  hm: Mountain,
+  ct: School,
+  chc: Factory,
+  ylc: Wheat,
+  cyc: Landmark,
+  tn: Castle,
+  kh: Waves,
+  ptc: Palmtree,
+  iln: TentTree,
+  ttf: Sprout,
+  hlc: Trees,
+  ph: Ship,
+  km: Landmark,
 };
 
 export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
@@ -152,7 +192,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
               </button>
             </div>
           ) : category === "ALL" && !search ? (
-            <div className="space-y-9">
+            <div className="space-y-12">
               {CATEGORIES.map((cat) => {
                 if (cat === "ALL") return null;
                 const subList = filtered.filter((x) => x.category === cat);
@@ -166,7 +206,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
                         {subList.length} 個入口
                       </span>
                     </div>
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
                       {subList.map((r) => (
                         <RegionCard key={r.id} r={r} onClick={() => onWarnUrl(r.url)} />
                       ))}
@@ -176,7 +216,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
               })}
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
               {filtered.map((r) => (
                 <RegionCard key={r.id} r={r} onClick={() => onWarnUrl(r.url)} />
               ))}
@@ -191,6 +231,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
 function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
   const accent = accents[r.colorClass] || accents.teal;
   const badge = regionBadges[r.category] || regionBadges["北部區域"];
+  const RegionIcon = regionIcons[r.id] || MapPin;
 
   return (
     <button
@@ -206,8 +247,8 @@ function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
           </span>
           <span className="truncate text-xs font-bold text-slate-400">{r.category}</span>
         </div>
-        <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/90 shadow-sm ring-1 ring-white", accent.icon)}>
-          <MapPin className="h-5 w-5" />
+        <div className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] bg-white/90 shadow-sm ring-1 ring-white transition-transform group-hover:scale-105", accent.icon)}>
+          <RegionIcon className="h-5 w-5" aria-hidden="true" />
         </div>
       </div>
 

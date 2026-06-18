@@ -35,7 +35,7 @@ export const EVENTS = [
   { id: 'score', title: '國中教育會考成績公布', dateStart: SCORE_OPEN_DATE, isRange: false },
   { id: 'rank', title: '個人序位區間公告/查詢', dateStart: ADMISSION_LIST_OPEN_DATE, isRange: false },
   { id: 'vol', title: '就學區免試入學志願選填', dateStart: ADMISSION_LIST_OPEN_DATE, dateEnd: ADMISSION_LIST_CLOSE_DATE, isRange: true },
-  { id: 'final', title: '就學區免試入學放榜', dateStart: `${YEAR}-07-07T08:00:00`, isRange: false },
+  { id: 'final', title: '就學區免試入學放榜', dateStart: `${YEAR}-07-07T11:00:00`, isRange: false },
 ];
 
 export const FAQ_DATA = [

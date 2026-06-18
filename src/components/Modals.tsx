@@ -44,7 +44,7 @@ export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean,
             </div>
             <div>
               <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">正式開放時間</p>
-              <p className="mt-1 text-xl font-black tracking-normal text-slate-950">115年7月7日 08:00</p>
+              <p className="mt-1 text-xl font-black tracking-normal text-slate-950">115年7月7日 11:00</p>
             </div>
           </div>
         </div>
