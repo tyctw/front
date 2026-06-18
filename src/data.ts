@@ -7,7 +7,7 @@ export const ADMISSION_LIST_CLOSE_DATE = `${YEAR}-06-25T12:00:00`;
 export const LATEST_ANNOUNCEMENT = {
   active: true,
   text: "115年國中教育會考倒數計時中，請考生多加留意重要日程。本平台將持續更新最新資訊。",
-  date: "2026-03-01",
+  date: "2026-06-19",
 };
 
 export const REGIONS = [
