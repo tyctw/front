@@ -28,6 +28,34 @@ const accents: Record<string, { glow: string; icon: string; bg: string }> = {
   yellow: { glow: "from-yellow-400/28", icon: "text-yellow-700", bg: "bg-yellow-50" },
 };
 
+const regionBadges: Record<string, { label: string; className: string; strip: string }> = {
+  北部區域: {
+    label: "北部",
+    className: "bg-sky-50 text-sky-700 ring-sky-100",
+    strip: "from-sky-400 to-indigo-400",
+  },
+  中部區域: {
+    label: "中部",
+    className: "bg-emerald-50 text-emerald-700 ring-emerald-100",
+    strip: "from-emerald-400 to-teal-400",
+  },
+  南部區域: {
+    label: "南部",
+    className: "bg-orange-50 text-orange-700 ring-orange-100",
+    strip: "from-orange-400 to-rose-400",
+  },
+  東部區域: {
+    label: "東部",
+    className: "bg-violet-50 text-violet-700 ring-violet-100",
+    strip: "from-violet-400 to-fuchsia-400",
+  },
+  離島區域: {
+    label: "離島",
+    className: "bg-amber-50 text-amber-800 ring-amber-100",
+    strip: "from-amber-300 to-lime-400",
+  },
+};
+
 export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("ALL");
@@ -162,26 +190,34 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
 
 function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
   const accent = accents[r.colorClass] || accents.teal;
+  const badge = regionBadges[r.category] || regionBadges["北部區域"];
 
   return (
     <button
       onClick={onClick}
-      aria-label={`前往${r.name}查榜入口`}
-      className="group relative flex min-h-[142px] flex-col justify-between overflow-hidden rounded-[30px] border border-white/80 bg-white/82 p-4 text-left shadow-[0_18px_50px_-36px_rgba(15,23,42,0.48)] transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_26px_70px_-42px_rgba(15,23,42,0.62)] focus:outline-none focus:ring-4 focus:ring-sky-100"
+      aria-label={`前往${r.category}${r.name}查榜入口`}
+      className="group relative flex min-h-[158px] flex-col justify-between overflow-hidden rounded-[30px] border border-white/80 bg-white/82 p-4 text-left shadow-[0_18px_50px_-36px_rgba(15,23,42,0.48)] transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_26px_70px_-42px_rgba(15,23,42,0.62)] focus:outline-none focus:ring-4 focus:ring-sky-100"
     >
       <div className={cn("absolute inset-x-0 top-0 h-20 bg-gradient-to-b to-transparent", accent.glow)} />
+      <div className={cn("absolute inset-x-5 top-0 h-1 rounded-b-full bg-gradient-to-r", badge.strip)} />
       <div className="relative flex items-start justify-between gap-4">
-        <div className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px]", accent.bg, accent.icon)}>
-          <MapPin className="h-5 w-5" />
+        <div className="flex items-center gap-3">
+          <div className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px]", accent.bg, accent.icon)}>
+            <MapPin className="h-5 w-5" />
+          </div>
+          <span className={cn("rounded-full px-3 py-1 text-xs font-black ring-1", badge.className)}>
+            {badge.label}
+          </span>
         </div>
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100/80 text-slate-400 transition-all group-hover:bg-slate-950 group-hover:text-white">
           <ArrowUpRight className="h-4 w-4" />
         </span>
       </div>
 
-      <div className="relative mt-6">
-        <h3 className="text-2xl font-black tracking-normal text-slate-950">{r.name}</h3>
-        <p className="mt-1 text-xs font-black uppercase tracking-[0.16em] text-slate-500">{r.category}</p>
+      <div className="relative mt-7">
+        <p className="mb-1 text-xs font-black tracking-[0.14em] text-slate-400">{r.category}</p>
+        <h3 className="text-[28px] font-black leading-none tracking-normal text-slate-950">{r.name}</h3>
+        <p className="mt-3 text-sm font-bold text-slate-500">查榜入口</p>
       </div>
     </button>
   );

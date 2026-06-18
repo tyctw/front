@@ -10,49 +10,61 @@ export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean,
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="非開放查詢時間提醒">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/30 backdrop-blur-md" onClick={onClose} />
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/45 backdrop-blur-xl" onClick={onClose} />
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="relative bg-white rounded-[32px] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.2)] p-8 max-w-[340px] w-full text-center overflow-hidden border border-slate-100"
+        className="relative w-full max-w-[430px] overflow-hidden rounded-[34px] border border-white/80 bg-white/95 p-5 text-left shadow-[0_34px_90px_-38px_rgba(15,23,42,0.55)] backdrop-blur-2xl sm:p-6"
       >
-        <button onClick={onClose} aria-label="關閉提醒" className="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
+        <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-amber-300 via-orange-400 to-sky-400" />
+        <button onClick={onClose} aria-label="關閉提醒" className="absolute right-4 top-4 rounded-full bg-slate-100/80 p-2 text-slate-500 transition-colors hover:bg-slate-200/80 hover:text-slate-800 focus:outline-none focus:ring-4 focus:ring-amber-100">
           <X className="w-5 h-5" />
         </button>
 
-        <div className="relative w-20 h-20 bg-orange-50 rounded-[24px] flex items-center justify-center mx-auto mb-8 shadow-sm border border-orange-100/50">
-          <AlertTriangle className="w-10 h-10 text-orange-500 relative z-10" />
-          <div className="absolute inset-0 bg-orange-400/20 blur-xl rounded-full"></div>
+        <div className="mb-5 flex items-center gap-4 pr-10">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[24px] border border-amber-100 bg-amber-50 text-amber-600 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]">
+            <AlertTriangle className="h-8 w-8" />
+          </div>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-amber-600">尚未開放</p>
+            <h3 className="mt-1 text-2xl font-black tracking-normal text-slate-950">非開放查詢時間</h3>
+          </div>
         </div>
 
-        <h3 className="text-2xl font-black text-slate-900 mb-3 tracking-tight">非開放查詢時間</h3>
-        <p className="text-slate-500 mb-8 text-[15px] font-medium leading-relaxed px-2">
-          目前並非系統開放時間，可能無法順利登入或僅顯示測試資料。
+        <p className="text-[15px] font-medium leading-7 text-slate-600">
+          目前尚未到各區免試入學查榜開放時間。為避免看見未更新或測試資料，請於正式開放後再進入查詢。
         </p>
         
-        <div className="bg-slate-50 rounded-[24px] py-6 px-6 mb-8 border border-slate-100 relative overflow-hidden">
-           <h4 className="text-sm font-bold text-slate-400 mb-2 uppercase tracking-widest">免試入學放榜</h4>
-           <div className="text-2xl font-black text-slate-800 tracking-tighter">
-             115年7月7日 上午11:00
-           </div>
+        <div className="my-6 rounded-[26px] border border-slate-100 bg-slate-50/90 p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-[18px] bg-white text-sky-600 shadow-sm">
+              <Clock3 className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">正式開放時間</p>
+              <p className="mt-1 text-xl font-black tracking-normal text-slate-950">115年7月7日 08:00</p>
+            </div>
+          </div>
         </div>
 
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col gap-3 sm:flex-row-reverse">
           <button 
             onClick={onClose} 
-            className="w-full py-4 rounded-[20px] bg-slate-900 text-white font-bold hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20 focus:outline-none focus:ring-4 focus:ring-slate-100"
+            className="w-full rounded-[20px] bg-slate-950 px-5 py-4 text-sm font-black text-white shadow-lg shadow-slate-950/20 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
           >
-            返回上一頁
+            我知道了
           </button>
-          <a 
-            href={pendingUrl || "#"} target="_blank" rel="noreferrer" onClick={onClose}
-            className="w-full py-4 rounded-[20px] bg-white border-2 border-slate-100 text-slate-500 font-bold hover:border-slate-200 hover:text-slate-600 transition-colors focus:outline-none flex items-center justify-center"
-          >
-            仍然前往
-            <ExternalLink className="w-4 h-4 ml-2" />
-          </a>
+          {pendingUrl && (
+            <a 
+              href={pendingUrl} target="_blank" rel="noreferrer" onClick={onClose}
+              className="flex w-full items-center justify-center rounded-[20px] border border-slate-200 bg-white px-5 py-4 text-sm font-black text-slate-600 transition-colors hover:border-slate-300 hover:text-slate-900 focus:outline-none focus:ring-4 focus:ring-slate-100"
+            >
+              仍然前往
+              <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
+          )}
         </div>
       </motion.div>
     </div>
