@@ -33,7 +33,7 @@ export function FAQ() {
           return (
             <div
               key={idx}
-              className={`overflow-hidden rounded-lg border bg-white shadow-sm transition-all ${
+              className={`overflow-hidden rounded-3xl border bg-white shadow-sm shadow-slate-200/60 transition-all ${
                 isOpen ? "border-teal-300" : "border-slate-200 hover:border-slate-300"
               }`}
             >
@@ -44,7 +44,7 @@ export function FAQ() {
                 <span className={`text-base font-black leading-6 ${isOpen ? "text-teal-700" : "text-slate-900"}`}>
                   {item.q}
                 </span>
-                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-2xl transition-colors ${
                   isOpen ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-500"
                 }`}>
                   <Plus className={`h-5 w-5 transition-transform ${isOpen ? "rotate-45" : ""}`} />

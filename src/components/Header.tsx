@@ -18,13 +18,13 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
         <motion.header
           initial={{ y: -16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="pointer-events-auto w-full max-w-6xl rounded-lg glass-header"
+          className="pointer-events-auto w-full max-w-6xl rounded-[24px] glass-header"
         >
           <div className="flex h-16 items-center justify-between px-4 sm:px-6">
             <div className="flex items-center">
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-lg bg-slate-950 text-white shadow-sm">
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-sm">
                 <Zap className="h-5 w-5 fill-white" />
-                <span className="absolute -bottom-1 -right-1 rounded bg-teal-500 px-1.5 py-0.5 font-outfit text-[9px] font-black leading-none text-white">
+                <span className="absolute -bottom-1 -right-1 rounded-lg bg-teal-500 px-1.5 py-0.5 font-outfit text-[9px] font-black leading-none text-white">
                   115
                 </span>
               </div>
@@ -41,7 +41,7 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
             <div className="hidden items-center gap-2 md:flex">
               {links.slice(0, 3).map((link) => {
                 const Icon = link.icon;
-                const className = "inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-200";
+                const className = "inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-200";
                 return link.href ? (
                   <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={className}>
                     <Icon className="h-4 w-4" />
@@ -59,7 +59,7 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
             <button
               onClick={() => setMobileMenuOpen(true)}
               aria-label="開啟導航選單"
-              className="rounded-lg p-2.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-200 md:hidden"
+              className="rounded-2xl p-2.5 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-200 md:hidden"
             >
               <Menu className="h-6 w-6" />
             </button>
@@ -86,14 +86,14 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
             >
               <div className="flex items-center justify-between border-b border-slate-200 p-5">
                 <span className="flex items-center text-lg font-black text-slate-950">
-                  <span className="mr-3 flex h-9 w-9 items-center justify-center rounded-lg bg-slate-950 text-white">
+                  <span className="mr-3 flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-950 text-white">
                     <Zap className="h-4 w-4 fill-white" />
                   </span>
                   導航選單
                 </span>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-200"
+                  className="rounded-2xl p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-teal-200"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -104,7 +104,7 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
                   const Icon = link.icon;
                   const content = (
                     <>
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
                         <Icon className="h-5 w-5" />
                       </span>
                       <span>
@@ -121,7 +121,7 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
                       target="_blank"
                       rel="noreferrer"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-slate-50"
+                      className="flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-colors hover:bg-slate-50"
                     >
                       {content}
                     </a>
@@ -132,7 +132,7 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
                         setMobileMenuOpen(false);
                         link.action?.();
                       }}
-                      className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-slate-50"
+                      className="flex w-full items-center gap-3 rounded-2xl p-3 text-left transition-colors hover:bg-slate-50"
                     >
                       {content}
                     </button>

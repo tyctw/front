@@ -100,10 +100,10 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       transition={{ duration: 0.5 }}
       className="mb-10"
     >
-      <div className="grid gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:grid-cols-[1.15fr_1fr] md:p-8">
+      <div className="grid gap-4 rounded-[28px] border border-slate-200 bg-white p-5 shadow-lg shadow-slate-200/60 md:grid-cols-[1.15fr_1fr] md:p-8">
         <div className="flex flex-col justify-between">
           <div>
-            <div className={`mb-5 inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm font-bold ${statusCopy.className}`}>
+            <div className={`mb-5 inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm font-bold ${statusCopy.className}`}>
               <StatusIcon className="h-4 w-4" />
               {statusCopy.label}
             </div>
@@ -118,7 +118,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
           <div className="mt-8 flex flex-wrap gap-3">
             <button
               onClick={onOpenSchedule}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-950 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
             >
               <CalendarDays className="h-5 w-5" />
               完整重要日程表
@@ -127,7 +127,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
               href="https://tyctw.github.io/volunteer/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
             >
               志願選填入口
             </a>
@@ -141,7 +141,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
             { label: "MINS", val: state.minutes },
             { label: "SECS", val: state.seconds },
           ].map((item) => (
-            <div key={item.label} className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-center">
+            <div key={item.label} className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center shadow-sm shadow-slate-200/60">
               <div className={`font-outfit text-4xl font-black leading-none md:text-5xl ${state.status === "active" ? "text-rose-600" : "text-slate-950"}`}>
                 {item.val.toString().padStart(2, "0")}
               </div>

@@ -64,13 +64,13 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="block h-12 w-full rounded-lg border border-slate-200 bg-white pl-10 pr-10 text-sm font-bold text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-100"
+            className="block h-12 w-full rounded-2xl border border-slate-200 bg-white pl-10 pr-10 text-sm font-bold text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-100"
             placeholder="搜尋區域..."
           />
           {search && (
             <button
               onClick={() => setSearch("")}
-              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-xl p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
               aria-label="清除搜尋"
             >
               <X className="h-4 w-4" />
@@ -89,7 +89,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
                 setSearch("");
               }}
               className={cn(
-                "inline-flex h-10 items-center gap-2 rounded-lg border px-4 text-sm font-black transition-colors focus:outline-none focus:ring-4 focus:ring-teal-100",
+                "inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-black transition-colors focus:outline-none focus:ring-4 focus:ring-teal-100",
                 category === cat
                   ? "border-slate-950 bg-slate-950 text-white"
                   : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-950"
@@ -104,8 +104,8 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
 
       <div className="min-h-[320px]">
         {filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 bg-white py-20 text-center">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-lg bg-slate-100">
+          <div className="flex flex-col items-center justify-center rounded-[28px] border border-dashed border-slate-300 bg-white py-20 text-center">
+            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100">
               <Compass className="h-7 w-7 text-slate-400" />
             </div>
             <p className="text-lg font-black text-slate-900">找不到符合的區域</p>
@@ -114,7 +114,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
                 setSearch("");
                 setCategory("ALL");
               }}
-              className="mt-4 rounded-lg bg-slate-950 px-5 py-2.5 text-sm font-black text-white transition-colors hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="mt-4 rounded-2xl bg-slate-950 px-5 py-2.5 text-sm font-black text-white transition-colors hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
             >
               重設篩選
             </button>
@@ -159,14 +159,14 @@ function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="group relative flex min-h-[132px] flex-col justify-between overflow-hidden rounded-lg border border-slate-200 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-teal-100"
+      className="group relative flex min-h-[132px] flex-col justify-between overflow-hidden rounded-3xl border border-slate-200 bg-white p-4 text-left shadow-sm shadow-slate-200/60 transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/80 focus:outline-none focus:ring-4 focus:ring-teal-100"
     >
       <div className={cn("absolute inset-x-0 top-0 h-1", accent.bar)} />
       <div className="flex items-start justify-between gap-4">
-        <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-lg", accent.bg, accent.icon)}>
+        <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl", accent.bg, accent.icon)}>
           <MapPin className="h-5 w-5" />
         </div>
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-400 transition-colors group-hover:bg-slate-950 group-hover:text-white">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-slate-400 transition-colors group-hover:bg-slate-950 group-hover:text-white">
           <ArrowUpRight className="h-4 w-4" />
         </span>
       </div>

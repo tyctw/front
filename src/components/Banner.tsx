@@ -9,10 +9,10 @@ export function Banner() {
       transition={{ duration: 0.5, delay: 0.1 }}
       className="mb-12"
     >
-      <div className="rounded-lg border border-slate-200 bg-slate-950 p-5 shadow-sm md:p-6">
+      <div className="rounded-[28px] border border-slate-200 bg-slate-950 p-5 shadow-lg shadow-slate-300/40 md:p-6">
         <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/10 text-teal-300">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-teal-300">
               <Database className="h-5 w-5" />
             </div>
             <div>
@@ -32,7 +32,7 @@ export function Banner() {
             href="https://tyctw.github.io/shared/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex shrink-0 items-center justify-center rounded-lg bg-white px-5 py-3 text-sm font-black text-slate-950 transition-colors hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-white/20"
+            className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-950 transition-colors hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-white/20"
           >
             前往回報系統
             <ArrowRight className="ml-2 h-4 w-4" />
