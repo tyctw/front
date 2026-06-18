@@ -196,28 +196,30 @@ function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
     <button
       onClick={onClick}
       aria-label={`前往${r.category}${r.name}查榜入口`}
-      className="group relative flex min-h-[158px] flex-col justify-between overflow-hidden rounded-[30px] border border-white/80 bg-white/82 p-4 text-left shadow-[0_18px_50px_-36px_rgba(15,23,42,0.48)] transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_26px_70px_-42px_rgba(15,23,42,0.62)] focus:outline-none focus:ring-4 focus:ring-sky-100"
+      className="group relative flex min-h-[172px] flex-col overflow-hidden rounded-[28px] border border-white/90 bg-white/88 text-left shadow-[0_18px_54px_-40px_rgba(15,23,42,0.6)] ring-1 ring-slate-950/[0.03] backdrop-blur-xl transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_26px_70px_-44px_rgba(15,23,42,0.72)] focus:outline-none focus:ring-4 focus:ring-sky-100"
     >
-      <div className={cn("absolute inset-x-0 top-0 h-20 bg-gradient-to-b to-transparent", accent.glow)} />
-      <div className={cn("absolute inset-x-5 top-0 h-1 rounded-b-full bg-gradient-to-r", badge.strip)} />
-      <div className="relative flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px]", accent.bg, accent.icon)}>
-            <MapPin className="h-5 w-5" />
-          </div>
-          <span className={cn("rounded-full px-3 py-1 text-xs font-black ring-1", badge.className)}>
+      <div className={cn("absolute inset-x-0 top-0 h-16 bg-gradient-to-r opacity-15", badge.strip)} />
+      <div className="relative flex items-start justify-between gap-4 p-4 pb-2">
+        <div className="flex min-w-0 items-center gap-2">
+          <span className={cn("inline-flex h-8 shrink-0 items-center rounded-full px-3 text-xs font-black ring-1", badge.className)}>
             {badge.label}
           </span>
+          <span className="truncate text-xs font-bold text-slate-400">{r.category}</span>
         </div>
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100/80 text-slate-400 transition-all group-hover:bg-slate-950 group-hover:text-white">
-          <ArrowUpRight className="h-4 w-4" />
-        </span>
+        <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/90 shadow-sm ring-1 ring-white", accent.icon)}>
+          <MapPin className="h-5 w-5" />
+        </div>
       </div>
 
-      <div className="relative mt-7">
-        <p className="mb-1 text-xs font-black tracking-[0.14em] text-slate-400">{r.category}</p>
-        <h3 className="text-[28px] font-black leading-none tracking-normal text-slate-950">{r.name}</h3>
-        <p className="mt-3 text-sm font-bold text-slate-500">查榜入口</p>
+      <div className="relative flex flex-1 flex-col justify-between px-4 pb-4 pt-2">
+        <div>
+          <h3 className="text-[30px] font-black leading-none tracking-normal text-slate-950">{r.name}</h3>
+          <p className="mt-2 text-sm font-semibold leading-6 text-slate-500">免試入學查榜官方入口</p>
+        </div>
+        <div className="mt-5 flex items-center justify-between rounded-[20px] border border-slate-100 bg-slate-50/80 px-3.5 py-3 text-sm font-black text-slate-700 transition-colors group-hover:border-slate-200 group-hover:bg-slate-950 group-hover:text-white">
+          <span>前往查詢</span>
+          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </div>
       </div>
     </button>
   );
