@@ -69,7 +69,7 @@ export default function App() {
       <Background />
       <Header onOpenSchedule={() => setScheduleOpen(true)} />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-10">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-12">
         <HeroCountdown onOpenSchedule={() => setScheduleOpen(true)} />
         <Banner />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400">Loading...</div>}>
@@ -83,7 +83,7 @@ export default function App() {
       {/* Floating Share Button */}
       <button 
         onClick={() => setShareOpen(true)}
-        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-lg shadow-slate-900/20 transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
+        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/75 bg-slate-950 text-white shadow-[0_18px_44px_-24px_rgba(15,23,42,0.9)] transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
         aria-label="分享平台"
       >
         <Share2 className="w-6 h-6" />

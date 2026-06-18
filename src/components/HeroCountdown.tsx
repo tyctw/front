@@ -86,9 +86,9 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
   }, []);
 
   const statusCopy = {
-    upcoming: { label: "即將到來", icon: Clock3, className: "border-teal-200 bg-teal-50 text-teal-700" },
-    active: { label: "現在進行中", icon: CheckCircle2, className: "border-rose-200 bg-rose-50 text-rose-700" },
-    ended: { label: "本階段已結束", icon: CheckCircle2, className: "border-slate-200 bg-slate-100 text-slate-600" },
+    upcoming: { label: "即將到來", icon: Clock3, className: "bg-sky-50 text-sky-700 ring-sky-100" },
+    active: { label: "現在進行中", icon: CheckCircle2, className: "bg-rose-50 text-rose-700 ring-rose-100" },
+    ended: { label: "本階段已結束", icon: CheckCircle2, className: "bg-slate-100 text-slate-600 ring-slate-200" },
   }[state.status];
 
   const StatusIcon = statusCopy.icon;
@@ -100,56 +100,57 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       transition={{ duration: 0.5 }}
       className="mb-10"
     >
-      <div className="grid gap-4 rounded-[28px] border border-slate-200 bg-white p-5 shadow-lg shadow-slate-200/60 md:grid-cols-[1.15fr_1fr] md:p-8">
-        <div className="flex flex-col justify-between">
+      <div className="relative overflow-hidden rounded-[38px] border border-white/80 bg-white/86 p-5 shadow-[0_28px_90px_-54px_rgba(15,23,42,0.55)] backdrop-blur-2xl md:p-8">
+        <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
+        <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
           <div>
-            <div className={`mb-5 inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-sm font-bold ${statusCopy.className}`}>
+            <div className={`mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ring-1 ${statusCopy.className}`}>
               <StatusIcon className="h-4 w-4" />
               {statusCopy.label}
             </div>
-            <h2 className="max-w-2xl text-3xl font-black leading-tight tracking-normal text-slate-950 md:text-5xl">
+            <h2 className="max-w-2xl text-[40px] font-black leading-[1.08] tracking-normal text-slate-950 md:text-6xl">
               {state.title}
             </h2>
-            <p className="mt-4 max-w-xl text-sm font-medium leading-7 text-slate-600 md:text-base">
+            <p className="mt-5 max-w-xl text-base font-medium leading-8 text-slate-600">
               整理各就學區查榜入口、志願選填與重要時程。請以各區官方系統公告為準，並於開放時間內完成查詢。
             </p>
-          </div>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <button
-              onClick={onOpenSchedule}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white shadow-sm transition-colors hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
-            >
-              <CalendarDays className="h-5 w-5" />
-              完整重要日程表
-            </button>
-            <a
-              href="https://tyctw.github.io/volunteer/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-black text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
-            >
-              志願選填入口
-            </a>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3 md:self-center">
-          {[
-            { label: "DAYS", val: state.days },
-            { label: "HOURS", val: state.hours },
-            { label: "MINS", val: state.minutes },
-            { label: "SECS", val: state.seconds },
-          ].map((item) => (
-            <div key={item.label} className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-center shadow-sm shadow-slate-200/60">
-              <div className={`font-outfit text-4xl font-black leading-none md:text-5xl ${state.status === "active" ? "text-rose-600" : "text-slate-950"}`}>
-                {item.val.toString().padStart(2, "0")}
-              </div>
-              <div className="mt-3 font-outfit text-[11px] font-black tracking-[0.16em] text-slate-500">
-                {item.label}
-              </div>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                onClick={onOpenSchedule}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white shadow-[0_12px_30px_-18px_rgba(15,23,42,0.9)] transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              >
+                <CalendarDays className="h-5 w-5" />
+                完整重要日程表
+              </button>
+              <a
+                href="https://tyctw.github.io/volunteer/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/70 px-6 py-3 text-sm font-black text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-white focus:outline-none focus:ring-4 focus:ring-slate-200"
+              >
+                志願選填入口
+              </a>
             </div>
-          ))}
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              { label: "DAYS", val: state.days },
+              { label: "HOURS", val: state.hours },
+              { label: "MINS", val: state.minutes },
+              { label: "SECS", val: state.seconds },
+            ].map((item) => (
+              <div key={item.label} className="rounded-[30px] border border-white/80 bg-slate-50/78 p-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_14px_40px_-30px_rgba(15,23,42,0.55)]">
+                <div className={`font-outfit text-5xl font-black leading-none md:text-6xl ${state.status === "active" ? "text-rose-600" : "text-slate-950"}`}>
+                  {item.val.toString().padStart(2, "0")}
+                </div>
+                <div className="mt-3 font-outfit text-[11px] font-black tracking-[0.18em] text-slate-500">
+                  {item.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </motion.section>
