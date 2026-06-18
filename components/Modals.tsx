@@ -243,7 +243,7 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
 
 export function ShareModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   const [copied, setCopied] = useState(false);
-  const shareUrl = "https://tyctw.github.io/";
+  const shareUrl = "https://tyctw.github.io/front/";
 
   if (!isOpen) return null;
 
