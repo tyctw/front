@@ -64,13 +64,16 @@ export default function App() {
 
   return (
     <>
+      <a href="#main-content" className="skip-link">
+        跳到主要內容
+      </a>
       <Background />
       <Header onOpenSchedule={() => setScheduleOpen(true)} />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-12">
+      <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-12" tabIndex={-1}>
         <HeroCountdown onOpenSchedule={() => setScheduleOpen(true)} />
         <Banner />
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400">Loading...</div>}>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400" role="status" aria-live="polite">Loading...</div>}>
           <Regions onWarnUrl={handleWarnUrl} />
           <FAQ />
         </Suspense>

@@ -11,14 +11,15 @@ export function FAQ() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="mb-16"
+      className="mb-16 content-auto"
+      aria-labelledby="faq-title"
     >
       <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <span className="font-outfit text-[11px] font-black uppercase tracking-[0.18em] text-sky-700">
             FAQ
           </span>
-          <h3 className="mt-2 text-3xl font-black tracking-normal text-slate-950">
+          <h3 id="faq-title" className="mt-2 text-3xl font-black tracking-normal text-slate-950">
             常見問題
           </h3>
         </div>
@@ -39,6 +40,9 @@ export function FAQ() {
             >
               <button
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
+                aria-expanded={isOpen}
+                aria-controls={`faq-panel-${idx}`}
+                id={`faq-button-${idx}`}
                 className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus:outline-none sm:px-6"
               >
                 <span className={`text-base font-black leading-6 ${isOpen ? "text-sky-700" : "text-slate-900"}`}>
@@ -53,6 +57,9 @@ export function FAQ() {
               <AnimatePresence>
                 {isOpen && (
                   <motion.div
+                    id={`faq-panel-${idx}`}
+                    role="region"
+                    aria-labelledby={`faq-button-${idx}`}
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}

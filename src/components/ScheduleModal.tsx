@@ -9,7 +9,7 @@ export function ScheduleModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
   const sortedEvents = [...EVENTS].sort((a, b) => new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime());
 
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="重要日程表">
       <motion.div 
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
         transition={{ duration: 0.2 }}
@@ -26,7 +26,8 @@ export function ScheduleModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
       >
         <div className="absolute top-6 right-6 z-50 bg-white/80 backdrop-blur rounded-full">
           <button 
-            onClick={onClose} 
+            onClick={onClose}
+            aria-label="關閉重要日程表"
             className="p-2 bg-white/50 hover:bg-slate-100 text-slate-400 hover:text-slate-600 rounded-full transition-colors focus:outline-none"
           >
             <X className="w-5 h-5" />

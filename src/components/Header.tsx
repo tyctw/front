@@ -59,6 +59,8 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
             <button
               onClick={() => setMobileMenuOpen(true)}
               aria-label="開啟導航選單"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
               className="rounded-full p-2.5 text-slate-600 transition-all hover:bg-white hover:text-slate-950 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-200 md:hidden"
             >
               <Menu className="h-6 w-6" />
@@ -78,6 +80,10 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
               onClick={() => setMobileMenuOpen(false)}
             />
             <motion.div
+              id="mobile-navigation"
+              role="dialog"
+              aria-modal="true"
+              aria-label="導航選單"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}

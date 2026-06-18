@@ -9,7 +9,7 @@ export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean,
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="非開放查詢時間提醒">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/30 backdrop-blur-md" onClick={onClose} />
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
@@ -18,7 +18,7 @@ export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean,
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
         className="relative bg-white rounded-[32px] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.2)] p-8 max-w-[340px] w-full text-center overflow-hidden border border-slate-100"
       >
-        <button onClick={onClose} className="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
+        <button onClick={onClose} aria-label="關閉提醒" className="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
           <X className="w-5 h-5" />
         </button>
 
@@ -63,7 +63,7 @@ export function AnnouncementModal({ isOpen, onClose }: { isOpen: boolean, onClos
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="最新公告">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/30 backdrop-blur-md" onClick={onClose} />
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
@@ -72,7 +72,7 @@ export function AnnouncementModal({ isOpen, onClose }: { isOpen: boolean, onClos
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
         className="relative bg-white rounded-[32px] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.2)] p-8 max-w-[340px] w-full text-center overflow-hidden border border-slate-100"
       >
-        <button onClick={onClose} className="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
+        <button onClick={onClose} aria-label="關閉公告" className="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
           <X className="w-5 h-5" />
         </button>
 
@@ -108,7 +108,7 @@ export function ScoreModal({ isOpen, onClose }: { isOpen: boolean, onClose: () =
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="會考成績查詢提醒">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/30 backdrop-blur-md" onClick={onClose} />
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
@@ -117,7 +117,7 @@ export function ScoreModal({ isOpen, onClose }: { isOpen: boolean, onClose: () =
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
         className="relative bg-white rounded-[32px] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.2)] p-8 max-w-[340px] w-full text-center overflow-hidden border border-slate-100"
       >
-        <button onClick={onClose} className="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
+        <button onClick={onClose} aria-label="關閉成績提醒" className="absolute top-5 right-5 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
           <X className="w-5 h-5" />
         </button>
         
@@ -152,7 +152,7 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="志願選填提醒">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/45 backdrop-blur-md" onClick={onClose} />
       <motion.div 
         initial={{ opacity: 0, scale: 0.96, y: 24 }} 
@@ -162,7 +162,7 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
         className="relative w-full max-w-[360px] max-h-[92vh] overflow-y-auto overflow-x-hidden rounded-[24px] border border-white/80 bg-white shadow-[0_24px_64px_-24px_rgba(15,23,42,0.5)]"
       >
         <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-[#4ECDC4] via-[#FFE66D] to-[#FF6B6B]" />
-        <button onClick={onClose} className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/80 text-slate-400 shadow-sm ring-1 ring-slate-200/70 backdrop-blur hover:bg-slate-50 hover:text-slate-700 transition-colors focus:outline-none focus:ring-4 focus:ring-teal-100">
+        <button onClick={onClose} aria-label="關閉志願選填提醒" className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/80 text-slate-400 shadow-sm ring-1 ring-slate-200/70 backdrop-blur hover:bg-slate-50 hover:text-slate-700 transition-colors focus:outline-none focus:ring-4 focus:ring-teal-100">
           <X className="w-4 h-4" />
         </button>
 
@@ -268,7 +268,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean, onClose: () =
   };
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="分享平台">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/30 backdrop-blur-md" onClick={onClose} />
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
@@ -277,7 +277,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean, onClose: () =
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
         className="relative bg-white rounded-[28px] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.2)] p-6 max-w-[320px] w-full text-center overflow-hidden border border-slate-100"
       >
-        <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
+        <button onClick={onClose} aria-label="關閉分享視窗" className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
           <X className="w-5 h-5" />
         </button>
         
@@ -299,28 +299,28 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean, onClose: () =
         </div>
         
         <div className="grid grid-cols-4 gap-2 mb-1">
-          <button onClick={() => handleShare('line')} className="flex flex-col items-center gap-1.5 group focus:outline-none">
+          <button onClick={() => handleShare('line')} aria-label="分享到 LINE" className="flex flex-col items-center gap-1.5 group focus:outline-none">
             <div className="w-10 h-10 bg-[#00B900] rounded-[14px] flex items-center justify-center text-white shadow-md shadow-[#00B900]/20 group-hover:-translate-y-1 transition-transform">
               <FaLine className="w-6 h-6" />
             </div>
             <span className="text-[10px] font-bold text-slate-500">LINE</span>
           </button>
           
-          <button onClick={() => handleShare('ig')} className="flex flex-col items-center gap-1.5 group focus:outline-none">
+          <button onClick={() => handleShare('ig')} aria-label="分享到 Instagram" className="flex flex-col items-center gap-1.5 group focus:outline-none">
             <div className="w-10 h-10 bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] rounded-[14px] flex items-center justify-center text-white shadow-md shadow-pink-500/20 group-hover:-translate-y-1 transition-transform">
               <FaInstagram className="w-6 h-6" />
             </div>
             <span className="text-[10px] font-bold text-slate-500">Instagram</span>
           </button>
           
-          <button onClick={() => handleShare('threads')} className="flex flex-col items-center gap-1.5 group focus:outline-none">
+          <button onClick={() => handleShare('threads')} aria-label="分享到 Threads" className="flex flex-col items-center gap-1.5 group focus:outline-none">
             <div className="w-10 h-10 bg-black rounded-[14px] flex items-center justify-center text-white shadow-md shadow-black/20 group-hover:-translate-y-1 transition-transform">
               <FaThreads className="w-6 h-6" />
             </div>
             <span className="text-[10px] font-bold text-slate-500">Threads</span>
           </button>
           
-          <button onClick={handleCopy} className="flex flex-col items-center gap-1.5 group focus:outline-none">
+          <button onClick={handleCopy} aria-label="複製分享連結" className="flex flex-col items-center gap-1.5 group focus:outline-none">
             <div className={`w-10 h-10 rounded-[14px] flex items-center justify-center text-white shadow-md group-hover:-translate-y-1 transition-all ${copied ? 'bg-emerald-500 shadow-emerald-500/20' : 'bg-slate-700 shadow-slate-700/20'}`}>
               <Link2 className="w-4 h-4" />
             </div>

@@ -43,7 +43,8 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="mb-16"
+      className="mb-16 content-auto"
+      aria-labelledby="regions-title"
     >
       <div className="rounded-[38px] border border-white/80 bg-white/72 p-5 shadow-[0_24px_80px_-54px_rgba(15,23,42,0.45)] backdrop-blur-2xl md:p-7">
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -51,7 +52,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
             <div className="mb-2 font-outfit text-[11px] font-black uppercase tracking-[0.18em] text-sky-700">
               Portal Select
             </div>
-            <h3 className="text-3xl font-black tracking-normal text-slate-950 md:text-4xl">
+            <h3 id="regions-title" className="text-3xl font-black tracking-normal text-slate-950 md:text-4xl">
               各就學區查榜入口
             </h3>
             <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
@@ -65,6 +66,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              aria-label="搜尋就學區"
               className="block h-13 w-full rounded-full border border-white/80 bg-white/82 pl-12 pr-11 text-sm font-bold text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_12px_36px_-30px_rgba(15,23,42,0.45)] placeholder:text-slate-400 focus:border-sky-300 focus:outline-none focus:ring-4 focus:ring-sky-100"
               placeholder="搜尋區域..."
             />
@@ -86,10 +88,11 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
               <button
                 key={cat}
                 onClick={() => {
-                  setCategory(cat);
-                  setSearch("");
-                }}
-                className={cn(
+                setCategory(cat);
+                setSearch("");
+              }}
+              aria-pressed={category === cat}
+              className={cn(
                   "inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-black transition-all focus:outline-none focus:ring-4 focus:ring-sky-100",
                   category === cat
                     ? "bg-white text-slate-950 shadow-sm"
@@ -163,6 +166,7 @@ function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
+      aria-label={`前往${r.name}查榜入口`}
       className="group relative flex min-h-[142px] flex-col justify-between overflow-hidden rounded-[30px] border border-white/80 bg-white/82 p-4 text-left shadow-[0_18px_50px_-36px_rgba(15,23,42,0.48)] transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_26px_70px_-42px_rgba(15,23,42,0.62)] focus:outline-none focus:ring-4 focus:ring-sky-100"
     >
       <div className={cn("absolute inset-x-0 top-0 h-20 bg-gradient-to-b to-transparent", accent.glow)} />

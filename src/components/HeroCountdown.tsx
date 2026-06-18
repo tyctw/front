@@ -80,9 +80,31 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       });
     };
 
-    const interval = setInterval(updateTimer, 1000);
-    updateTimer();
-    return () => clearInterval(interval);
+    let interval: ReturnType<typeof setInterval> | null = null;
+    const startTimer = () => {
+      if (interval) return;
+      updateTimer();
+      interval = setInterval(updateTimer, 1000);
+    };
+    const stopTimer = () => {
+      if (!interval) return;
+      clearInterval(interval);
+      interval = null;
+    };
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopTimer();
+      } else {
+        startTimer();
+      }
+    };
+
+    startTimer();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      stopTimer();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   const statusCopy = {
@@ -134,7 +156,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3" role="timer" aria-label={`倒數 ${state.days} 天 ${state.hours} 小時 ${state.minutes} 分 ${state.seconds} 秒`}>
             {[
               { label: "DAYS", val: state.days },
               { label: "HOURS", val: state.hours },
