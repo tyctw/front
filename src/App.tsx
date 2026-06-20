@@ -20,9 +20,12 @@ const WarningModal = lazy(() => import("./components/Modals").then(m => ({ defau
 const AnnouncementModal = lazy(() => import("./components/Modals").then(m => ({ default: m.AnnouncementModal })));
 const ScoreModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ScoreModal })));
 const VolunteerModal = lazy(() => import("./components/Modals").then(m => ({ default: m.VolunteerModal })));
+const ResultReminderModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ResultReminderModal })));
 const ShareModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ShareModal })));
 
 const RESULT_LIST_OPEN_DATE = "2026-07-05T11:00:00";
+const RESULT_REMINDER_START_DATE = "2026-07-06T00:00:00";
+const RESULT_REMINDER_END_DATE = "2026-07-06T23:59:59";
 
 export default function App() {
   const [scheduleOpen, setScheduleOpen] = useState(false);
@@ -32,6 +35,7 @@ export default function App() {
   const [announcementOpen, setAnnouncementOpen] = useState(false);
   const [scoreOpen, setScoreOpen] = useState(false);
   const [volunteerOpen, setVolunteerOpen] = useState(false);
+  const [resultReminderOpen, setResultReminderOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
 
   useEffect(() => {
@@ -40,11 +44,15 @@ export default function App() {
     const scoreStart = new Date("2026-06-04T00:00:00");
     const scoreEnd = new Date("2026-06-15T00:00:00"); // exclusive
     const volunteerEnd = new Date("2026-06-25T23:59:59");
+    const resultReminderStart = new Date(RESULT_REMINDER_START_DATE);
+    const resultReminderEnd = new Date(RESULT_REMINDER_END_DATE);
     
     if (now >= scoreStart && now < scoreEnd) {
       setScoreOpen(true);
     } else if (now >= scoreEnd && now <= volunteerEnd) {
       setVolunteerOpen(true);
+    } else if (now >= resultReminderStart && now <= resultReminderEnd) {
+      setResultReminderOpen(true);
     } else if (LATEST_ANNOUNCEMENT.active) {
       setAnnouncementOpen(true);
     }
@@ -97,6 +105,7 @@ export default function App() {
           {announcementOpen && <AnnouncementModal isOpen={announcementOpen} onClose={() => setAnnouncementOpen(false)} />}
           {scoreOpen && <ScoreModal isOpen={scoreOpen} onClose={() => setScoreOpen(false)} />}
           {volunteerOpen && <VolunteerModal isOpen={volunteerOpen} onClose={() => setVolunteerOpen(false)} />}
+          {resultReminderOpen && <ResultReminderModal isOpen={resultReminderOpen} onClose={() => setResultReminderOpen(false)} />}
           {shareOpen && <ShareModal isOpen={shareOpen} onClose={() => setShareOpen(false)} />}
         </AnimatePresence>
       </Suspense>
