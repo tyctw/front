@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { AlertTriangle, Award, Bell, CalendarClock, CheckCircle2, Clock3, ExternalLink, MapPinned, X, MapPin, Link2, Share2, QrCode } from "lucide-react";
+import { AlertTriangle, Award, Bell, CalendarClock, CheckCircle2, Clock3, ExternalLink, MapPinned, X, MapPin, Link2, Share2, QrCode, ClipboardCheck, FileText, GraduationCap, RotateCcw } from "lucide-react";
 import { LATEST_ANNOUNCEMENT } from "../data";
 import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
@@ -235,6 +235,96 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
               </button>
             </div>
           </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+export function ResultReminderModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
+  if (!isOpen) return null;
+
+  const reminders = [
+    {
+      icon: ClipboardCheck,
+      title: "查詢分發結果",
+      text: "請至各區免試入學委員會或所屬考區的免試入學報名分發系統查詢結果，並留意正式公告日期。",
+    },
+    {
+      icon: GraduationCap,
+      title: "115/7/9（四）完成報到",
+      text: "免試入學及特色招生考試分發入學報到日為 115/7/9（四），請到錄取學校官網查看報到時間、地點與流程，並依規定完成報到。",
+    },
+    {
+      icon: FileText,
+      title: "備妥報到文件",
+      text: "先準備錄取通知單、國中畢業證書、身分證或戶口名簿等文件，實際文件與份數請以錄取學校官網公告為準。",
+    },
+    {
+      icon: RotateCcw,
+      title: "115/7/13（一）前掌握放棄與續招",
+      text: "若要放棄錄取，須於 115/7/13（一）前依簡章規定送達放棄錄取資格聲明書；未錄取或未報到者請關注續招資訊網與各縣市教育局公告。",
+    },
+  ];
+
+  return (
+    <div className="fixed inset-0 z-[125] flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="放榜前提醒">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/45 backdrop-blur-xl" onClick={onClose} />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 24 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 24 }}
+        transition={{ type: "spring", stiffness: 280, damping: 26 }}
+        className="relative max-h-[92vh] w-full max-w-[520px] overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/80 bg-white shadow-[0_30px_80px_-34px_rgba(15,23,42,0.55)]"
+      >
+        <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-sky-400 via-emerald-400 to-amber-300" />
+        <button onClick={onClose} aria-label="關閉放榜前提醒" className="absolute right-4 top-4 z-20 rounded-full bg-white/85 p-2 text-slate-500 shadow-sm ring-1 ring-slate-200/70 backdrop-blur transition-colors hover:bg-slate-50 hover:text-slate-800 focus:outline-none focus:ring-4 focus:ring-sky-100">
+          <X className="h-5 w-5" />
+        </button>
+
+        <div className="px-5 pb-5 pt-7 sm:px-7 sm:pb-7">
+          <div className="mb-5 flex items-start gap-4 pr-10">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[20px] bg-sky-50 text-sky-600 ring-1 ring-sky-100">
+              <Bell className="h-7 w-7" />
+            </div>
+            <div className="text-left">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-sky-600">放榜前一天提醒</p>
+              <h3 className="mt-1 text-[26px] font-black leading-tight tracking-normal text-slate-950">
+                查榜後先確認報到與續招
+              </h3>
+              <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
+                放榜後時程通常很緊，請先把查詢、報到文件、放棄期限與續招資訊整理好。
+              </p>
+            </div>
+          </div>
+
+          <div className="mb-5 rounded-[22px] border border-amber-100 bg-amber-50/70 p-4 text-left">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-amber-700">最重要</p>
+            <p className="mt-1 text-sm font-bold leading-6 text-slate-800">
+              錄取者請於 115/7/9（四）依校方規定完成報到，並先到錄取學校官網查看最新報到公告；未錄取、未報到，或放棄錄取者，請立刻追蹤續招資訊。
+            </p>
+          </div>
+
+          <div className="grid gap-3">
+            {reminders.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="grid grid-cols-[auto_1fr] gap-3 rounded-[20px] border border-slate-100 bg-slate-50/80 p-4 text-left">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[15px] bg-white text-slate-700 shadow-sm">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-black text-slate-950">{item.title}</h4>
+                    <p className="mt-1 text-sm font-medium leading-6 text-slate-600">{item.text}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <button onClick={onClose} className="mt-5 w-full rounded-[18px] bg-slate-950 px-4 py-3.5 text-sm font-black text-white shadow-lg shadow-slate-950/20 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200">
+            我知道了
+          </button>
         </div>
       </motion.div>
     </div>

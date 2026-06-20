@@ -24,8 +24,8 @@ const ResultReminderModal = lazy(() => import("./components/Modals").then(m => (
 const ShareModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ShareModal })));
 
 const RESULT_LIST_OPEN_DATE = "2026-07-05T11:00:00";
-const RESULT_REMINDER_START_DATE = "2026-07-06T00:00:00";
-const RESULT_REMINDER_END_DATE = "2026-07-06T23:59:59";
+const RESULT_REMINDER_START_DATE = "2026-06-21T00:00:00";
+const RESULT_REMINDER_END_DATE = "2026-07-15T23:59:59";
 
 export default function App() {
   const [scheduleOpen, setScheduleOpen] = useState(false);
@@ -47,12 +47,12 @@ export default function App() {
     const resultReminderStart = new Date(RESULT_REMINDER_START_DATE);
     const resultReminderEnd = new Date(RESULT_REMINDER_END_DATE);
     
-    if (now >= scoreStart && now < scoreEnd) {
+    if (now >= resultReminderStart && now <= resultReminderEnd) {
+      setResultReminderOpen(true);
+    } else if (now >= scoreStart && now < scoreEnd) {
       setScoreOpen(true);
     } else if (now >= scoreEnd && now <= volunteerEnd) {
       setVolunteerOpen(true);
-    } else if (now >= resultReminderStart && now <= resultReminderEnd) {
-      setResultReminderOpen(true);
     } else if (LATEST_ANNOUNCEMENT.active) {
       setAnnouncementOpen(true);
     }
