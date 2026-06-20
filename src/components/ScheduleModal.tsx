@@ -85,6 +85,13 @@ export function ScheduleModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                     <span className="font-outfit text-sm font-bold text-slate-400">
                       {formatDate(event.dateStart)} {event.isRange && event.dateEnd ? ` - ${formatDate(event.dateEnd)}` : ''}
                     </span>
+                    {event.details && (
+                      <ol className="mt-3 list-decimal space-y-1 pl-5 text-sm font-medium leading-6 text-slate-500">
+                        {event.details.map((detail) => (
+                          <li key={detail}>{detail}</li>
+                        ))}
+                      </ol>
+                    )}
                   </div>
                   
                 </div>

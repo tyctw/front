@@ -36,6 +36,39 @@ export const EVENTS = [
   { id: 'rank', title: '個人序位區間公告/查詢', dateStart: ADMISSION_LIST_OPEN_DATE, isRange: false },
   { id: 'vol', title: '就學區免試入學志願選填', dateStart: ADMISSION_LIST_OPEN_DATE, dateEnd: ADMISSION_LIST_CLOSE_DATE, isRange: true },
   { id: 'final', title: '就學區免試入學放榜', dateStart: `${YEAR}-07-07T11:00:00`, isRange: false },
+  {
+    id: 'joint-registration',
+    title: '五專聯合免試入學與藝才班分發報到',
+    details: [
+      '五專聯合免試入學現場登記分發報到',
+      '藝才班（獨招學校、戲劇班、舞蹈班、音樂班、美術班）各區分發報到',
+    ],
+    dateStart: `${YEAR}-07-08T08:00:00`,
+    isRange: false,
+  },
+  {
+    id: 'admission-registration',
+    title: '免試入學、特色招生與各類班別報到',
+    details: [
+      '免試入學及特色招生考試分發入學報到',
+      '藝才班（獨招學校、戲劇班、舞蹈班、音樂班、美術班）報到後聲明放棄錄取資格截止日',
+      '建教合作班入學報到截止日',
+      '體育班、運動績優生（甄審、甄試及獨招學校）報到',
+    ],
+    dateStart: `${YEAR}-07-09T08:00:00`,
+    isRange: false,
+  },
+  {
+    id: 'admission-waiver-deadline',
+    title: '報到後聲明放棄錄取資格截止日',
+    details: [
+      '免試入學及特色招生考試分發入學報到後聲明放棄錄取資格截止日',
+      '體育班、運動績優生（甄審、甄試及獨招學校）報到後聲明放棄錄取資格截止日',
+      '五專聯合免試入學報到後聲明放棄錄取資格截止日',
+    ],
+    dateStart: `${YEAR}-07-13T08:00:00`,
+    isRange: false,
+  },
 ];
 
 export const FAQ_DATA = [

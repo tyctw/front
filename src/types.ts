@@ -9,6 +9,7 @@ export interface Region {
 export interface AppEvent {
   id: string;
   title: string;
+  details?: string[];
   dateStart: string;
   dateEnd?: string;
   isRange: boolean;
