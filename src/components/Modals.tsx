@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
 import { AlertTriangle, Award, Bell, CalendarClock, CheckCircle2, Clock3, ExternalLink, MapPinned, X, MapPin, Link2, Share2, QrCode, ClipboardCheck, FileText, GraduationCap, RotateCcw } from "lucide-react";
-import { LATEST_ANNOUNCEMENT } from "../data";
+import { ADMISSION_LIST_CLOSE_DATE, LATEST_ANNOUNCEMENT, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
 import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
 import { FaLine, FaInstagram, FaThreads } from "react-icons/fa6";
@@ -163,6 +163,10 @@ export function ScoreModal({ isOpen, onClose }: { isOpen: boolean, onClose: () =
 export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
   if (!isOpen) return null;
 
+  const volunteerClosed = new Date() >= new Date(ADMISSION_LIST_CLOSE_DATE);
+  const volunteerEntryUrl = volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
+  const volunteerEntryLabel = volunteerClosed ? "前往查榜網址" : "前往各區選填網址";
+
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="志願選填提醒">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/45 backdrop-blur-md" onClick={onClose} />
@@ -224,10 +228,10 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
 
             <div className="flex flex-col gap-3">
               <a
-                href="https://tyctw.github.io/volunteer/" target="_blank" rel="noreferrer" onClick={onClose}
+                href={volunteerEntryUrl} target="_blank" rel="noreferrer" onClick={onClose}
                 className="group flex w-full items-center justify-center rounded-[18px] bg-slate-950 px-4 py-3.5 text-sm font-black text-white shadow-lg shadow-slate-950/20 transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
               >
-                前往各區選填網址
+                {volunteerEntryLabel}
                 <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
               <button onClick={onClose} className="w-full rounded-[18px] border-2 border-slate-100 bg-white px-4 py-3.5 text-sm font-black text-slate-500 transition-colors hover:border-slate-200 hover:bg-slate-50 hover:text-slate-700 focus:outline-none focus:ring-4 focus:ring-slate-100">

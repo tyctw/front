@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS } from "../data";
+import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
 import { CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
 
 type CountdownStatus = "upcoming" | "active" | "ended";
@@ -114,6 +114,9 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
   }[state.status];
 
   const StatusIcon = statusCopy.icon;
+  const volunteerClosed = new Date() >= new Date(ADMISSION_LIST_CLOSE_DATE);
+  const volunteerEntryUrl = volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
+  const volunteerEntryLabel = volunteerClosed ? "查榜網址" : "志願選填入口";
 
   return (
     <motion.section
@@ -146,12 +149,12 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
                 完整重要日程表
               </button>
               <a
-                href="https://tyctw.github.io/volunteer/"
+                href={volunteerEntryUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/70 px-6 py-3 text-sm font-black text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-white focus:outline-none focus:ring-4 focus:ring-slate-200"
               >
-                志願選填入口
+                {volunteerEntryLabel}
               </a>
             </div>
           </div>
