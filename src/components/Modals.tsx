@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { AlertTriangle, Award, Bell, CalendarClock, CheckCircle2, Clock3, ExternalLink, MapPinned, X, MapPin, Link2, Share2, QrCode, ClipboardCheck, FileText, GraduationCap, RotateCcw } from "lucide-react";
+import { AlertTriangle, Award, Bell, CalendarClock, CheckCircle2, Clock3, ExternalLink, MapPinned, X, MapPin, Link2, Share2, QrCode, FileText, GraduationCap, RotateCcw } from "lucide-react";
 import { ADMISSION_LIST_CLOSE_DATE, LATEST_ANNOUNCEMENT, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
 import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
@@ -228,7 +228,7 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
 
             <div className="flex flex-col gap-3">
               <a
-                href={volunteerEntryUrl} target="_blank" rel="noreferrer" onClick={onClose}
+                href={volunteerEntryUrl} target={volunteerClosed ? undefined : "_blank"} rel={volunteerClosed ? undefined : "noreferrer"} onClick={onClose}
                 className="group flex w-full items-center justify-center rounded-[18px] bg-slate-950 px-4 py-3.5 text-sm font-black text-white shadow-lg shadow-slate-950/20 transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
               >
                 {volunteerEntryLabel}
@@ -249,11 +249,6 @@ export function ResultReminderModal({ isOpen, onClose }: { isOpen: boolean, onCl
   if (!isOpen) return null;
 
   const reminders = [
-    {
-      icon: ClipboardCheck,
-      title: "查詢分發結果",
-      text: "請至各區免試入學委員會或所屬考區的免試入學報名分發系統查詢結果，並留意正式公告日期。",
-    },
     {
       icon: GraduationCap,
       title: "115/7/9（四）完成報到",

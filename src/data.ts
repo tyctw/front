@@ -4,7 +4,7 @@ export const SCORE_CLOSE_DATE = `${YEAR}-06-18T12:00:00`;
 export const ADMISSION_LIST_OPEN_DATE = `${YEAR}-06-18T12:00:00`;
 export const ADMISSION_LIST_CLOSE_DATE = `${YEAR}-06-25T12:00:00`;
 export const VOLUNTEER_URL = "https://tyctw.github.io/volunteer/";
-export const RESULT_LOOKUP_URL = "https://tyctw.github.io/front/#regions-title";
+export const RESULT_LOOKUP_URL = "#regions-title";
 
 export const LATEST_ANNOUNCEMENT = {
   active: true,
