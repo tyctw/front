@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
 import { CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
@@ -119,12 +118,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
   const volunteerEntryLabel = volunteerClosed ? "查榜網址" : "志願選填入口";
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="mb-10"
-    >
+    <section className="mb-10">
       <div className="relative overflow-hidden rounded-[38px] border border-white/80 bg-white/86 p-5 shadow-[0_28px_90px_-54px_rgba(15,23,42,0.55)] backdrop-blur-2xl md:p-8">
         <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
         <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
@@ -166,7 +160,10 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
               { label: "MINS", val: state.minutes },
               { label: "SECS", val: state.seconds },
             ].map((item) => (
-              <div key={item.label} className="rounded-[30px] border border-white/80 bg-slate-50/78 p-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_14px_40px_-30px_rgba(15,23,42,0.55)]">
+              <div
+                key={item.label}
+                className="rounded-[30px] border border-white/80 bg-slate-50/78 p-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_14px_40px_-30px_rgba(15,23,42,0.55)]"
+              >
                 <div className={`font-outfit text-5xl font-black leading-none md:text-6xl ${state.status === "active" ? "text-rose-600" : "text-slate-950"}`}>
                   {item.val.toString().padStart(2, "0")}
                 </div>
@@ -178,6 +175,6 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

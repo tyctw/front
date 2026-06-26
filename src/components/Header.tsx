@@ -1,4 +1,3 @@
-import { motion, AnimatePresence } from "motion/react";
 import { BarChart3, CalendarDays, Mail, MapPin, Menu, Share2, Sparkles, X } from "lucide-react";
 import { useState } from "react";
 
@@ -15,11 +14,7 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
   return (
     <>
       <div className="fixed top-4 z-50 flex w-full justify-center px-4 pointer-events-none">
-        <motion.header
-          initial={{ y: -16, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="pointer-events-auto w-full max-w-6xl rounded-[28px] glass-header"
-        >
+        <header className="pointer-events-auto w-full max-w-6xl rounded-[28px] glass-header">
           <div className="flex h-16 items-center justify-between px-4 sm:px-6">
             <div className="flex min-w-0 items-center">
               <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] bg-slate-950 text-white shadow-[0_12px_28px_-18px_rgba(15,23,42,0.9)]">
@@ -66,28 +61,20 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
               <Menu className="h-6 w-6" />
             </button>
           </div>
-        </motion.header>
+        </header>
       </div>
 
-      <AnimatePresence>
-        {mobileMenuOpen && (
+      {mobileMenuOpen && (
           <div className="fixed inset-0 z-[100] flex justify-end">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+            <div
               className="absolute inset-0 bg-slate-950/30 backdrop-blur-md"
               onClick={() => setMobileMenuOpen(false)}
             />
-            <motion.div
+            <div
               id="mobile-navigation"
               role="dialog"
               aria-modal="true"
               aria-label="導航選單"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="relative flex h-full w-full max-w-[330px] flex-col bg-white/92 shadow-2xl backdrop-blur-2xl"
             >
               <div className="flex items-center justify-between border-b border-slate-200/70 p-5">
@@ -155,10 +142,9 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
                   Contact Team
                 </a>
               </div>
-            </motion.div>
+            </div>
           </div>
         )}
-      </AnimatePresence>
     </>
   );
 }

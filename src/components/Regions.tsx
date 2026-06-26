@@ -25,6 +25,7 @@ import {
   Search,
 } from "lucide-react";
 import { cn } from "../lib/utils";
+import { cardReveal, sectionReveal, springPop, staggerContainer } from "../lib/animations";
 
 const CATEGORIES = ["ALL", "北部區域", "中部區域", "南部區域", "東部區域", "離島區域"];
 
@@ -108,9 +109,9 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
+      variants={sectionReveal}
+      initial="hidden"
+      animate="show"
       className="mb-16 content-auto"
       aria-labelledby="regions-title"
     >
@@ -150,8 +151,8 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
           </div>
         </div>
 
-        <div className="mb-7 overflow-x-auto pb-2">
-          <div className="flex min-w-max gap-2 rounded-full bg-slate-100/70 p-1">
+        <div className="mb-7 w-full overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch]">
+          <div className="grid w-full min-w-max auto-cols-[minmax(7.5rem,1fr)] grid-flow-col gap-1.5 rounded-[26px] border border-white/80 bg-white/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_18px_50px_-36px_rgba(15,23,42,0.55)] ring-1 ring-slate-950/[0.03] backdrop-blur-2xl sm:min-w-0 sm:grid-flow-row sm:grid-cols-6">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
@@ -161,10 +162,10 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
               }}
               aria-pressed={category === cat}
               className={cn(
-                  "inline-flex h-10 items-center gap-2 rounded-full px-4 text-sm font-black transition-all focus:outline-none focus:ring-4 focus:ring-sky-100",
+                  "inline-flex h-11 min-w-0 items-center justify-center gap-2 whitespace-nowrap rounded-[21px] px-4 text-sm font-black transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-sky-100",
                   category === cat
-                    ? "bg-white text-slate-950 shadow-sm"
-                    : "text-slate-500 hover:bg-white/70 hover:text-slate-950"
+                    ? "bg-white/88 text-slate-950 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.9),inset_0_1px_0_rgba(255,255,255,0.95)] ring-1 ring-white/90"
+                    : "text-slate-500 hover:bg-white/52 hover:text-slate-950"
                 )}
               >
                 {cat === "ALL" ? <LayoutGrid className="h-4 w-4" /> : <MapIcon className="h-4 w-4" />}
@@ -206,21 +207,33 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
                         {subList.length} 個入口
                       </span>
                     </div>
-                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+                    <motion.div
+                      key={`group-${cat}-${category}-${search}`}
+                      variants={staggerContainer}
+                      initial="hidden"
+                      animate="show"
+                      className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6"
+                    >
                       {subList.map((r) => (
                         <RegionCard key={r.id} r={r} onClick={() => onWarnUrl(r.url)} />
                       ))}
-                    </div>
+                    </motion.div>
                   </div>
                 );
               })}
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+            <motion.div
+              key={`filtered-${category}-${search}`}
+              variants={staggerContainer}
+              initial="hidden"
+              animate="show"
+              className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6"
+            >
               {filtered.map((r) => (
                 <RegionCard key={r.id} r={r} onClick={() => onWarnUrl(r.url)} />
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
@@ -234,10 +247,14 @@ function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
   const RegionIcon = regionIcons[r.id] || MapPin;
 
   return (
-    <button
+    <motion.button
+      variants={cardReveal}
+      whileHover={{ y: -6, scale: 1.012 }}
+      whileTap={{ scale: 0.985 }}
+      transition={springPop}
       onClick={onClick}
       aria-label={`前往${r.category}${r.name}查榜入口`}
-      className="group relative flex min-h-[172px] flex-col overflow-hidden rounded-[28px] border border-white/90 bg-white/88 text-left shadow-[0_18px_54px_-40px_rgba(15,23,42,0.6)] ring-1 ring-slate-950/[0.03] backdrop-blur-xl transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_26px_70px_-44px_rgba(15,23,42,0.72)] focus:outline-none focus:ring-4 focus:ring-sky-100"
+      className="group relative flex min-h-[172px] flex-col overflow-hidden rounded-[28px] border border-white/90 bg-white/88 text-left opacity-100 shadow-[0_18px_54px_-40px_rgba(15,23,42,0.6)] ring-1 ring-slate-950/[0.03] backdrop-blur-xl transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_26px_70px_-44px_rgba(15,23,42,0.72)] focus:outline-none focus:ring-4 focus:ring-sky-100"
     >
       <div className={cn("absolute inset-x-0 top-0 h-16 bg-gradient-to-r opacity-15", badge.strip)} />
       <div className="relative flex items-start justify-between gap-4 p-4 pb-2">
@@ -262,6 +279,6 @@ function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </div>
       </div>
-    </button>
+    </motion.button>
   );
 }

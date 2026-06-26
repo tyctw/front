@@ -1,13 +1,6 @@
 <!doctype html>
 <html lang="zh-TW">
   <head>
-    <!-- Google AdSense -->
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6966991656561179"
-      crossorigin="anonymous"
-    ></script>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -59,14 +52,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@500;700;900&display=swap"
-      as="style"
-    />
-    <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@500;700;900&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@500;700;900&display=swap"
+      />
+    </noscript>
 
     <!-- WebSite Schema -->
     <script type="application/ld+json">
@@ -214,8 +210,8 @@
         ]
       }
     </script>
-    <script type="module" crossorigin src="/front/assets/index-BcXZ7y9Q.js"></script>
-    <link rel="stylesheet" crossorigin href="/front/assets/index-BuceZpNp.css">
+    <script type="module" crossorigin src="/front/assets/index-EEP6YkKW.js"></script>
+    <link rel="stylesheet" crossorigin href="/front/assets/index-CurNbu7U.css">
   </head>
 
   <body>
@@ -258,15 +254,35 @@
     <div id="root"></div>
 
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9X7EC127P"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-H9X7EC127P");
+      window.addEventListener("load", function () {
+        var runWhenIdle =
+          window.requestIdleCallback ||
+          function (callback) {
+            return window.setTimeout(callback, 2500);
+          };
+
+        runWhenIdle(function () {
+          var ads = document.createElement("script");
+          ads.async = true;
+          ads.crossOrigin = "anonymous";
+          ads.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6966991656561179";
+          document.head.appendChild(ads);
+
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () {
+            dataLayer.push(arguments);
+          };
+          var ga = document.createElement("script");
+          ga.async = true;
+          ga.src = "https://www.googletagmanager.com/gtag/js?id=G-H9X7EC127P";
+          ga.onload = function () {
+            gtag("js", new Date());
+            gtag("config", "G-H9X7EC127P");
+          };
+          document.head.appendChild(ga);
+        });
+      });
     </script>
   </body>
 </html>

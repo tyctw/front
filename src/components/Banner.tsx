@@ -1,14 +1,8 @@
-import { motion } from "motion/react";
 import { ArrowRight, Database } from "lucide-react";
 
 export function Banner() {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.1 }}
-      className="mb-12"
-    >
+    <section className="mb-12">
       <div className="overflow-hidden rounded-[34px] border border-white/80 bg-white/82 p-5 shadow-[0_24px_70px_-48px_rgba(15,23,42,0.5)] backdrop-blur-xl md:p-6">
         <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
           <div className="flex items-start gap-4">
@@ -39,6 +33,6 @@ export function Banner() {
           </a>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

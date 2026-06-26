@@ -9,7 +9,6 @@ import { Header } from "./components/Header";
 import { HeroCountdown } from "./components/HeroCountdown";
 import { Banner } from "./components/Banner";
 import { LATEST_ANNOUNCEMENT } from "./data";
-import { AnimatePresence } from "motion/react";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
 
@@ -21,7 +20,7 @@ const AnnouncementModal = lazy(() => import("./components/Modals").then(m => ({ 
 const ScoreModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ScoreModal })));
 const VolunteerModal = lazy(() => import("./components/Modals").then(m => ({ default: m.VolunteerModal })));
 const ResultReminderModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ResultReminderModal })));
-const ShareModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ShareModal })));
+const ShareModal = lazy(() => import("./components/ShareModal").then(m => ({ default: m.ShareModal })));
 
 const RESULT_LIST_OPEN_DATE = "2026-07-05T11:00:00";
 const RESULT_REMINDER_START_DATE = "2026-06-27T00:00:00";
@@ -37,25 +36,43 @@ export default function App() {
   const [volunteerOpen, setVolunteerOpen] = useState(false);
   const [resultReminderOpen, setResultReminderOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+  const [secondaryReady, setSecondaryReady] = useState(false);
 
   useEffect(() => {
-    // Popups Logic
-    const now = new Date();
-    const scoreStart = new Date("2026-06-04T00:00:00");
-    const scoreEnd = new Date("2026-06-15T00:00:00"); // exclusive
-    const volunteerEnd = new Date("2026-06-25T23:59:59");
-    const resultReminderStart = new Date(RESULT_REMINDER_START_DATE);
-    const resultReminderEnd = new Date(RESULT_REMINDER_END_DATE);
-    
-    if (now >= resultReminderStart && now <= resultReminderEnd) {
-      setResultReminderOpen(true);
-    } else if (now >= scoreStart && now < scoreEnd) {
-      setScoreOpen(true);
-    } else if (now >= scoreEnd && now <= volunteerEnd) {
-      setVolunteerOpen(true);
-    } else if (LATEST_ANNOUNCEMENT.active) {
-      setAnnouncementOpen(true);
-    }
+    const runAfterPaint =
+      window.requestIdleCallback ||
+      ((callback: IdleRequestCallback) => window.setTimeout(() => callback({ didTimeout: false, timeRemaining: () => 0 }), 1200));
+
+    const secondaryId = runAfterPaint(() => setSecondaryReady(true));
+    const popupId = runAfterPaint(() => {
+      // Popups Logic
+      const now = new Date();
+      const scoreStart = new Date("2026-06-04T00:00:00");
+      const scoreEnd = new Date("2026-06-15T00:00:00"); // exclusive
+      const volunteerEnd = new Date("2026-06-25T23:59:59");
+      const resultReminderStart = new Date(RESULT_REMINDER_START_DATE);
+      const resultReminderEnd = new Date(RESULT_REMINDER_END_DATE);
+
+      if (now >= resultReminderStart && now <= resultReminderEnd) {
+        setResultReminderOpen(true);
+      } else if (now >= scoreStart && now < scoreEnd) {
+        setScoreOpen(true);
+      } else if (now >= scoreEnd && now <= volunteerEnd) {
+        setVolunteerOpen(true);
+      } else if (LATEST_ANNOUNCEMENT.active) {
+        setAnnouncementOpen(true);
+      }
+    });
+
+    return () => {
+      if (window.cancelIdleCallback) {
+        window.cancelIdleCallback(secondaryId as number);
+        window.cancelIdleCallback(popupId as number);
+      } else {
+        clearTimeout(secondaryId as number);
+        clearTimeout(popupId as number);
+      }
+    };
   }, []);
 
   const handleWarnUrl = (url: string) => {
@@ -82,8 +99,12 @@ export default function App() {
         <HeroCountdown onOpenSchedule={() => setScheduleOpen(true)} />
         <Banner />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400" role="status" aria-live="polite">Loading...</div>}>
-          <Regions onWarnUrl={handleWarnUrl} />
-          <FAQ />
+          {secondaryReady && (
+            <>
+              <Regions onWarnUrl={handleWarnUrl} />
+              <FAQ />
+            </>
+          )}
         </Suspense>
       </main>
 
@@ -99,15 +120,13 @@ export default function App() {
       </button>
 
       <Suspense fallback={null}>
-        <AnimatePresence>
-          {scheduleOpen && <ScheduleModal isOpen={scheduleOpen} onClose={() => setScheduleOpen(false)} />}
-          {warningOpen && <WarningModal isOpen={warningOpen} onClose={() => setWarningOpen(false)} pendingUrl={pendingUrl} />}
-          {announcementOpen && <AnnouncementModal isOpen={announcementOpen} onClose={() => setAnnouncementOpen(false)} />}
-          {scoreOpen && <ScoreModal isOpen={scoreOpen} onClose={() => setScoreOpen(false)} />}
-          {volunteerOpen && <VolunteerModal isOpen={volunteerOpen} onClose={() => setVolunteerOpen(false)} />}
-          {resultReminderOpen && <ResultReminderModal isOpen={resultReminderOpen} onClose={() => setResultReminderOpen(false)} />}
-          {shareOpen && <ShareModal isOpen={shareOpen} onClose={() => setShareOpen(false)} />}
-        </AnimatePresence>
+        {scheduleOpen && <ScheduleModal isOpen={scheduleOpen} onClose={() => setScheduleOpen(false)} />}
+        {warningOpen && <WarningModal isOpen={warningOpen} onClose={() => setWarningOpen(false)} pendingUrl={pendingUrl} />}
+        {announcementOpen && <AnnouncementModal isOpen={announcementOpen} onClose={() => setAnnouncementOpen(false)} />}
+        {scoreOpen && <ScoreModal isOpen={scoreOpen} onClose={() => setScoreOpen(false)} />}
+        {volunteerOpen && <VolunteerModal isOpen={volunteerOpen} onClose={() => setVolunteerOpen(false)} />}
+        {resultReminderOpen && <ResultReminderModal isOpen={resultReminderOpen} onClose={() => setResultReminderOpen(false)} />}
+        {shareOpen && <ShareModal isOpen={shareOpen} onClose={() => setShareOpen(false)} />}
       </Suspense>
     </>
   );

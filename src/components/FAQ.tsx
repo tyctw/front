@@ -2,15 +2,16 @@ import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { FAQ_DATA } from "../data";
+import { cardReveal, sectionReveal, staggerContainer } from "../lib/animations";
 
 export function FAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
+      variants={sectionReveal}
+      initial="hidden"
+      animate="show"
       className="mb-16 content-auto"
       aria-labelledby="faq-title"
     >
@@ -28,12 +29,13 @@ export function FAQ() {
         </p>
       </div>
 
-      <div className="grid gap-3">
+      <motion.div variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="grid gap-3">
         {FAQ_DATA.map((item, idx) => {
           const isOpen = openIdx === idx;
           return (
-            <div
+            <motion.div
               key={idx}
+              variants={cardReveal}
               className={`overflow-hidden rounded-[28px] border bg-white/82 shadow-[0_16px_44px_-36px_rgba(15,23,42,0.48)] backdrop-blur-xl transition-all ${
                 isOpen ? "border-sky-200" : "border-white/80 hover:bg-white"
               }`}
@@ -63,6 +65,7 @@ export function FAQ() {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                     className="overflow-hidden"
                   >
                     <div className="border-t border-slate-100 px-5 pb-5 pt-4 sm:px-6">
@@ -73,10 +76,10 @@ export function FAQ() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
     </motion.section>
   );
 }
