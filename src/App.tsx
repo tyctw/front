@@ -24,8 +24,8 @@ const ResultReminderModal = lazy(() => import("./components/Modals").then(m => (
 const ShareModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ShareModal })));
 
 const RESULT_LIST_OPEN_DATE = "2026-07-05T11:00:00";
-const RESULT_REMINDER_START_DATE = "2026-07-01T00:00:00";
-const RESULT_REMINDER_END_DATE = "2026-07-15T23:59:59";
+const RESULT_REMINDER_START_DATE = "2026-06-27T00:00:00";
+const RESULT_REMINDER_END_DATE = "2026-07-30T23:59:59";
 
 export default function App() {
   const [scheduleOpen, setScheduleOpen] = useState(false);
