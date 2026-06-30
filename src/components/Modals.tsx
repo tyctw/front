@@ -264,84 +264,86 @@ export function ResultReminderModal({ isOpen, onClose }: { isOpen: boolean, onCl
   ];
 
   return (
-    <div className="fixed inset-0 z-[125] flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="放榜前提醒">
+    <div className="fixed inset-0 z-[125] flex items-end justify-center p-0 sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-label="查榜後報到與續招提醒">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/50 backdrop-blur-xl" onClick={onClose} />
       <motion.div
-        initial={{ opacity: 0, scale: 0.96, y: 24 }}
+        initial={{ opacity: 0, scale: 0.98, y: 36 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.96, y: 24 }}
+        exit={{ opacity: 0, scale: 0.98, y: 36 }}
         transition={{ type: "spring", stiffness: 280, damping: 26 }}
-        className="relative max-h-[calc(100svh-1.5rem)] w-full max-w-[740px] overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-[0_34px_90px_-36px_rgba(15,23,42,0.7)]"
+        className="relative max-h-[96svh] w-full max-w-[760px] overflow-hidden rounded-t-[26px] border border-white/80 bg-white shadow-[0_34px_90px_-36px_rgba(15,23,42,0.7)] sm:max-h-[calc(100svh-2rem)] sm:rounded-[30px]"
       >
         <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-sky-400 via-emerald-400 to-amber-300" />
         <div className="pointer-events-none absolute right-0 top-0 h-28 w-28 rounded-full bg-sky-200/35 blur-3xl sm:h-40 sm:w-40" />
         <div className="pointer-events-none absolute bottom-0 left-0 h-28 w-28 rounded-full bg-emerald-200/35 blur-3xl sm:h-40 sm:w-40" />
 
-        <button onClick={onClose} aria-label="關閉放榜前提醒" className="absolute right-4 top-4 z-20 rounded-full bg-white/88 p-2 text-slate-500 shadow-sm ring-1 ring-slate-200/70 backdrop-blur transition-colors hover:bg-white hover:text-slate-800 focus:outline-none focus:ring-4 focus:ring-sky-100">
-          <X className="h-5 w-5" />
+        <button onClick={onClose} aria-label="關閉查榜後報到與續招提醒" className="absolute right-3 top-3 z-20 rounded-full bg-white/88 p-2 text-slate-500 shadow-sm ring-1 ring-slate-200/70 backdrop-blur transition-colors hover:bg-white hover:text-slate-800 focus:outline-none focus:ring-4 focus:ring-sky-100 sm:right-4 sm:top-4">
+          <X className="h-4 w-4 sm:h-5 sm:w-5" />
         </button>
 
-        <div className="relative px-3 pb-3 pt-5 sm:px-5 sm:pb-5 sm:pt-6">
-          <div className="grid grid-cols-[1.08fr_0.92fr] items-stretch gap-2.5 sm:gap-3">
-            <div className="rounded-[22px] border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-emerald-50/70 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:rounded-[24px] sm:p-4">
-              <div className="mb-2 flex items-start gap-2 pr-8 sm:mb-3 sm:gap-3 sm:pr-9">
+        <div className="relative max-h-[96svh] overflow-y-auto px-3.5 pb-3 pt-5 sm:max-h-[calc(100svh-2rem)] sm:px-5 sm:pb-5 sm:pt-6">
+          <div className="grid grid-cols-1 items-stretch gap-2.5 md:grid-cols-[1.08fr_0.92fr] md:gap-3">
+            <div className="rounded-[22px] border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-emerald-50/70 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:rounded-[24px] sm:p-5">
+              <div className="mb-2.5 flex items-start gap-2.5 pr-9 sm:mb-4 sm:gap-3 sm:pr-10">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[16px] bg-white text-sky-600 shadow-sm ring-1 ring-sky-100 sm:h-12 sm:w-12 sm:rounded-[18px]">
                   <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.12em] text-sky-600 sm:text-[11px] sm:tracking-[0.16em]">放榜前一天提醒</p>
-                  <h3 className="mt-0.5 text-[18px] font-black leading-tight tracking-normal text-slate-950 sm:mt-1 sm:text-[28px]">
+                  <p className="text-[10px] font-black uppercase tracking-[0.12em] text-sky-600 sm:text-[11px] sm:tracking-[0.14em]">查榜後提醒</p>
+                  <h3 className="mt-0.5 text-[22px] font-black leading-tight tracking-normal text-slate-950 sm:mt-1 sm:text-[28px]">
                     查榜後先確認報到與續招
                   </h3>
                 </div>
               </div>
 
-              <p className="text-xs font-semibold leading-5 text-slate-600 sm:text-sm sm:leading-6">
+              <p className="text-[13px] font-semibold leading-5 text-slate-700 sm:text-sm sm:leading-6">
                 先看錄取學校公告，確認報到文件、放棄期限與續招資訊。
               </p>
 
-              <div className="mt-2 grid grid-cols-2 gap-1.5 sm:mt-3 sm:gap-2">
-                <div className="rounded-[16px] bg-white/82 px-2.5 py-1.5 shadow-sm ring-1 ring-white/80 sm:rounded-[18px] sm:px-3 sm:py-2">
-                  <p className="text-[9px] font-black uppercase tracking-[0.12em] text-slate-400 sm:text-[10px]">報到日</p>
-                  <p className="mt-0.5 font-outfit text-base font-black text-slate-950 sm:text-lg">7/9</p>
+              <div className="mt-2.5 grid grid-cols-2 gap-2 sm:mt-4">
+                <div className="rounded-[16px] bg-white/86 px-3 py-2 shadow-sm ring-1 ring-white/80 sm:rounded-[18px] sm:py-3">
+                  <p className="text-[10px] font-black uppercase tracking-[0.12em] text-slate-400">報到日</p>
+                  <p className="mt-0.5 font-outfit text-xl font-black text-slate-950 sm:mt-1 sm:text-lg">7/9</p>
                 </div>
-                <div className="rounded-[16px] bg-white/82 px-2.5 py-1.5 shadow-sm ring-1 ring-white/80 sm:rounded-[18px] sm:px-3 sm:py-2">
-                  <p className="text-[9px] font-black uppercase tracking-[0.12em] text-slate-400 sm:text-[10px]">放棄期限</p>
-                  <p className="mt-0.5 font-outfit text-base font-black text-slate-950 sm:text-lg">7/13 前</p>
+                <div className="rounded-[16px] bg-white/86 px-3 py-2 shadow-sm ring-1 ring-white/80 sm:rounded-[18px] sm:py-3">
+                  <p className="text-[10px] font-black uppercase tracking-[0.12em] text-slate-400">放棄期限</p>
+                  <p className="mt-0.5 font-outfit text-xl font-black text-slate-950 sm:mt-1 sm:text-lg">7/13 前</p>
                 </div>
               </div>
             </div>
 
-            <div className="rounded-[22px] border border-amber-100 bg-amber-50/80 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.78)] sm:rounded-[24px] sm:p-4">
-              <p className="text-[10px] font-black uppercase tracking-[0.12em] text-amber-700 sm:text-[11px] sm:tracking-[0.16em]">最重要</p>
-              <p className="mt-1 text-sm font-black leading-5 text-slate-900 sm:text-[15px] sm:leading-6">
+            <div className="rounded-[22px] border border-amber-100 bg-amber-50/80 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.78)] sm:rounded-[24px] sm:p-5">
+              <p className="text-[10px] font-black uppercase tracking-[0.12em] text-amber-700 sm:text-[11px] sm:tracking-[0.14em]">最重要</p>
+              <p className="mt-1 text-[15px] font-black leading-6 text-slate-900 sm:mt-2 sm:text-[15px] sm:leading-6">
                 錄取者 115/7/9（四）完成報到。
               </p>
-              <p className="mt-1 text-xs font-semibold leading-5 text-slate-700 sm:text-sm sm:leading-6">
+              <p className="mt-1 text-[13px] font-semibold leading-5 text-slate-700 sm:mt-2 sm:text-sm sm:leading-6">
                 未錄取、未報到或放棄錄取者，立刻追蹤續招公告。
               </p>
             </div>
           </div>
 
-          <div className="mt-2.5 grid grid-cols-3 gap-2 sm:mt-3 sm:gap-2.5">
+          <div className="mt-2.5 grid grid-cols-1 gap-1.5 md:mt-3 md:grid-cols-3 md:gap-2.5">
             {reminders.map((item, index) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="relative overflow-hidden rounded-[18px] border border-slate-100 bg-white/88 p-2.5 text-left shadow-[0_16px_38px_-30px_rgba(15,23,42,0.55)] sm:rounded-[20px] sm:p-3.5">
-                  <div className="mb-1.5 flex items-center justify-between gap-1.5 sm:mb-2 sm:gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-[13px] bg-slate-950 text-white shadow-sm sm:h-10 sm:w-10 sm:rounded-[15px]">
-                      <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                    </div>
-                    <span className="font-outfit text-[10px] font-black text-slate-300 sm:text-xs">0{index + 1}</span>
+                <div key={item.title} className="relative flex items-start gap-2.5 overflow-hidden rounded-[16px] border border-slate-100 bg-white/90 p-2.5 text-left shadow-[0_16px_38px_-30px_rgba(15,23,42,0.55)] md:block md:rounded-[20px] md:p-3.5">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] bg-slate-950 text-white shadow-sm md:mb-2 md:h-10 md:w-10 md:rounded-[15px]">
+                    <Icon className="h-4 w-4" />
                   </div>
-                  <h4 className="text-[11px] font-black leading-4 text-slate-950 sm:text-sm sm:leading-5">{item.title}</h4>
-                  <p className="mt-0.5 text-[10px] font-semibold leading-4 text-slate-600 sm:mt-1 sm:text-xs sm:leading-5">{item.text}</p>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <h4 className="text-[13px] font-black leading-5 text-slate-950 md:text-sm">{item.title}</h4>
+                      <span className="font-outfit text-[10px] font-black text-slate-300 md:absolute md:right-3.5 md:top-3.5 md:text-xs">0{index + 1}</span>
+                    </div>
+                    <p className="mt-0.5 text-[12px] font-semibold leading-5 text-slate-600 md:mt-1 md:text-xs md:leading-5">{item.text}</p>
+                  </div>
                 </div>
               );
             })}
           </div>
 
-          <button onClick={onClose} className="mt-2.5 w-full rounded-[17px] bg-slate-950 px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-slate-950/20 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200 sm:mt-3 sm:rounded-[18px] sm:py-3">
+          <button onClick={onClose} className="mt-2.5 w-full rounded-[16px] bg-slate-950 px-4 py-3 text-sm font-black text-white shadow-lg shadow-slate-950/20 transition-colors hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200 sm:mt-3 sm:rounded-[18px] sm:text-sm">
             我知道了
           </button>
         </div>
