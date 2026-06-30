@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
-import { CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
+import { ArrowDownCircle, BellRing, CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
 
 type CountdownStatus = "upcoming" | "active" | "ended";
 
@@ -11,6 +11,7 @@ interface CountdownState {
   seconds: number;
   status: CountdownStatus;
   title: string;
+  isResultDay: boolean;
 }
 
 export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }) {
@@ -21,6 +22,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
     seconds: 0,
     status: "upcoming",
     title: "載入重要時程",
+    isResultDay: false,
   });
 
   useEffect(() => {
@@ -28,6 +30,12 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       const now = new Date();
       const rankOpenDate = new Date(ADMISSION_LIST_OPEN_DATE);
       const rankCloseDate = new Date(ADMISSION_LIST_CLOSE_DATE);
+      const resultEvent = EVENTS.find((event) => event.id === "final");
+      const resultOpenDate = resultEvent ? new Date(resultEvent.dateStart) : null;
+      const resultDayEnd = resultOpenDate
+        ? new Date(resultOpenDate.getFullYear(), resultOpenDate.getMonth(), resultOpenDate.getDate() + 1)
+        : null;
+      const isResultDay = !!resultOpenDate && !!resultDayEnd && now >= new Date(resultOpenDate.getFullYear(), resultOpenDate.getMonth(), resultOpenDate.getDate()) && now < resultDayEnd;
 
       let targetDateInfo: { title: string; dateStart: string; dateEnd?: string; ended?: boolean } | null = null;
       const daysToRank = (rankOpenDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
@@ -76,6 +84,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
         seconds: Math.floor((diff % (1000 * 60)) / 1000),
         status,
         title: targetDateInfo.title,
+        isResultDay,
       });
     };
 
@@ -115,7 +124,10 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
   const StatusIcon = statusCopy.icon;
   const volunteerClosed = new Date() >= new Date(ADMISSION_LIST_CLOSE_DATE);
   const volunteerEntryUrl = volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
-  const volunteerEntryLabel = volunteerClosed ? "查榜網址" : "志願選填入口";
+  const volunteerEntryLabel = state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "志願選填入口";
+  const heroCopy = state.isResultDay
+    ? "今天是就學區免試入學放榜日。請先選擇所屬就學區，再依各區官方系統輸入資料查詢錄取結果。"
+    : "整理各就學區查榜入口、志願選填與重要時程。請以各區官方系統公告為準，並於開放時間內完成查詢。";
 
   return (
     <section className="mb-10">
@@ -131,8 +143,22 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
               {state.title}
             </h2>
             <p className="mt-5 max-w-xl text-base font-medium leading-8 text-slate-600">
-              整理各就學區查榜入口、志願選填與重要時程。請以各區官方系統公告為準，並於開放時間內完成查詢。
+              {heroCopy}
             </p>
+
+            {state.isResultDay && (
+              <div className="mt-5 flex items-start gap-3 rounded-[24px] border border-rose-100 bg-rose-50/90 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-white text-rose-600 shadow-sm">
+                  <BellRing className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-black leading-6 text-rose-700">放榜當天提醒</p>
+                  <p className="mt-0.5 text-sm font-semibold leading-6 text-slate-700">
+                    查榜後請截圖或記下錄取學校，並確認報到時間、文件與後續續招公告。
+                  </p>
+                </div>
+              </div>
+            )}
 
             <div className="mt-8 flex flex-wrap gap-3">
               <button
@@ -146,8 +172,13 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
                 href={volunteerEntryUrl}
                 target={volunteerClosed ? undefined : "_blank"}
                 rel={volunteerClosed ? undefined : "noreferrer"}
-                className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/70 px-6 py-3 text-sm font-black text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:bg-white focus:outline-none focus:ring-4 focus:ring-slate-200"
+                className={`inline-flex items-center justify-center transition-all hover:-translate-y-0.5 focus:outline-none ${
+                  state.isResultDay
+                    ? "min-h-[56px] rounded-[22px] bg-rose-600 px-8 py-4 text-base font-black text-white shadow-[0_18px_38px_-20px_rgba(225,29,72,0.72)] hover:bg-rose-700 focus:ring-4 focus:ring-rose-100"
+                    : "rounded-full border border-slate-200 bg-white/70 px-6 py-3 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200"
+                }`}
               >
+                {state.isResultDay && <ArrowDownCircle className="mr-2 h-5 w-5" />}
                 {volunteerEntryLabel}
               </a>
             </div>
