@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
-import { ArrowDownCircle, BellRing, CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
+import { ArrowDownCircle, CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
+import { getNow } from "../lib/now";
 
 type CountdownStatus = "upcoming" | "active" | "ended";
 
@@ -12,6 +13,9 @@ interface CountdownState {
   status: CountdownStatus;
   title: string;
   isResultDay: boolean;
+  isResultOpen: boolean;
+  isResultPending: boolean;
+  isResultCountdown: boolean;
 }
 
 export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }) {
@@ -23,11 +27,14 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
     status: "upcoming",
     title: "載入重要時程",
     isResultDay: false,
+    isResultOpen: false,
+    isResultPending: false,
+    isResultCountdown: false,
   });
 
   useEffect(() => {
     const updateTimer = () => {
-      const now = new Date();
+      const now = getNow();
       const rankOpenDate = new Date(ADMISSION_LIST_OPEN_DATE);
       const rankCloseDate = new Date(ADMISSION_LIST_CLOSE_DATE);
       const resultEvent = EVENTS.find((event) => event.id === "final");
@@ -35,12 +42,25 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       const resultDayEnd = resultOpenDate
         ? new Date(resultOpenDate.getFullYear(), resultOpenDate.getMonth(), resultOpenDate.getDate() + 1)
         : null;
-      const isResultDay = !!resultOpenDate && !!resultDayEnd && now >= new Date(resultOpenDate.getFullYear(), resultOpenDate.getMonth(), resultOpenDate.getDate()) && now < resultDayEnd;
+      const resultDayStart = resultOpenDate
+        ? new Date(resultOpenDate.getFullYear(), resultOpenDate.getMonth(), resultOpenDate.getDate())
+        : null;
+      const isResultDay = !!resultDayStart && !!resultDayEnd && now >= resultDayStart && now < resultDayEnd;
+      const isResultOpen = !!resultOpenDate && !!resultDayEnd && now >= resultOpenDate && now < resultDayEnd;
+      const isResultPending = isResultDay && !!resultOpenDate && now < resultOpenDate;
+      const resultCountdownStart = new Date("2026-07-01T00:00:00");
+      const isResultCountdown = !!resultOpenDate && now >= resultCountdownStart && now < resultOpenDate;
 
       let targetDateInfo: { title: string; dateStart: string; dateEnd?: string; ended?: boolean } | null = null;
       const daysToRank = (rankOpenDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
 
-      if (now >= rankOpenDate && now <= rankCloseDate) {
+      if (isResultOpen && resultOpenDate) {
+        targetDateInfo = { title: "今天放榜，先查錄取結果", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
+      } else if (isResultDay && isResultPending && resultOpenDate) {
+        targetDateInfo = { title: "今天 11:00 開放查榜", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
+      } else if (isResultCountdown && resultOpenDate) {
+        targetDateInfo = { title: "距離放榜開放查詢", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
+      } else if (now >= rankOpenDate && now <= rankCloseDate) {
         targetDateInfo = { title: "個人序位查詢與志願選填進行中", dateStart: ADMISSION_LIST_OPEN_DATE, dateEnd: ADMISSION_LIST_CLOSE_DATE };
       } else if (daysToRank <= 20 && daysToRank > 0) {
         targetDateInfo = { title: "距離個人序位查詢開放", dateStart: ADMISSION_LIST_OPEN_DATE, dateEnd: ADMISSION_LIST_CLOSE_DATE };
@@ -85,6 +105,9 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
         status,
         title: targetDateInfo.title,
         isResultDay,
+        isResultOpen,
+        isResultPending,
+        isResultCountdown,
       });
     };
 
@@ -120,90 +143,161 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
     active: { label: "現在進行中", icon: CheckCircle2, className: "bg-rose-50 text-rose-700 ring-rose-100" },
     ended: { label: "本階段已結束", icon: CheckCircle2, className: "bg-slate-100 text-slate-600 ring-slate-200" },
   }[state.status];
+  const statusLabel = state.isResultPending ? "今日 11:00 開放" : state.isResultCountdown ? "7/7 11:00 開放" : statusCopy.label;
 
   const StatusIcon = statusCopy.icon;
-  const volunteerClosed = new Date() >= new Date(ADMISSION_LIST_CLOSE_DATE);
+  const volunteerClosed = getNow() >= new Date(ADMISSION_LIST_CLOSE_DATE);
   const volunteerEntryUrl = volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
-  const volunteerEntryLabel = state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "志願選填入口";
+  const volunteerEntryLabel = state.isResultCountdown || state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "志願選填入口";
+  const heroTitle = state.title;
   const heroCopy = state.isResultDay
-    ? "今天是就學區免試入學放榜日。請先選擇所屬就學區，再依各區官方系統輸入資料查詢錄取結果。"
+    ? state.isResultOpen
+      ? "請選擇所屬就學區查詢錄取學校。"
+      : ""
     : "整理各就學區查榜入口、志願選填與重要時程。請以各區官方系統公告為準，並於開放時間內完成查詢。";
-
+  const resultOpenDate = new Date(EVENTS.find((event) => event.id === "final")?.dateStart || "");
+  const resultOpenDateLabel = Number.isNaN(resultOpenDate.getTime())
+    ? ""
+    : `${resultOpenDate.getFullYear() - 1911}/${resultOpenDate.getMonth() + 1}/${resultOpenDate.getDate()}（${resultOpenDate.toLocaleDateString("zh-TW", { weekday: "short" })}）`;
+  const resultOpenClockLabel = Number.isNaN(resultOpenDate.getTime())
+    ? ""
+    : `${resultOpenDate.getHours().toString().padStart(2, "0")}:${resultOpenDate.getMinutes().toString().padStart(2, "0")}`;
+  const countdownItems = [
+    { label: "DAYS", val: state.days },
+    { label: "HOURS", val: state.hours },
+    { label: "MINS", val: state.minutes },
+    { label: "SECS", val: state.seconds },
+  ];
   return (
     <section className="mb-10">
       <div className="relative overflow-hidden rounded-[38px] border border-white/80 bg-white/86 p-5 shadow-[0_28px_90px_-54px_rgba(15,23,42,0.55)] backdrop-blur-2xl md:p-8">
         <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
-        <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr] md:items-center">
+        <div className={`grid gap-8 ${
+          state.isResultCountdown
+            ? "md:grid-cols-[0.92fr_1.08fr] md:items-center"
+            : state.isResultDay
+              ? ""
+              : "md:grid-cols-[1.1fr_0.9fr] md:items-center"
+        }`}>
           <div>
             <div className={`mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ring-1 ${statusCopy.className}`}>
               <StatusIcon className="h-4 w-4" />
-              {statusCopy.label}
+              {statusLabel}
             </div>
             <h2 className="max-w-2xl text-[40px] font-black leading-[1.08] tracking-normal text-slate-950 md:text-6xl">
-              {state.title}
+              {heroTitle}
             </h2>
-            <p className="mt-5 max-w-xl text-base font-medium leading-8 text-slate-600">
-              {heroCopy}
-            </p>
-
-            {state.isResultDay && (
-              <div className="mt-5 flex items-start gap-3 rounded-[24px] border border-rose-100 bg-rose-50/90 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-white text-rose-600 shadow-sm">
-                  <BellRing className="h-5 w-5" />
+            {heroCopy && (
+              <p className="mt-5 max-w-xl text-base font-medium leading-8 text-slate-600">
+                {heroCopy}
+              </p>
+            )}
+            {state.isResultCountdown && (
+              <div className="mt-5 max-w-2xl md:hidden">
+                <div className="rounded-[24px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_16px_38px_-34px_rgba(225,29,72,0.55)]">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-white text-rose-600 shadow-sm ring-1 ring-rose-100">
+                      <Clock3 className="h-5 w-5" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[11px] font-black uppercase tracking-[0.14em] text-rose-600">放榜時間</p>
+                      <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                        <span className="text-base font-black leading-6 text-slate-950">{resultOpenDateLabel}</span>
+                        <span className="font-outfit text-3xl font-black leading-none text-rose-600">{resultOpenClockLabel}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm font-black leading-6 text-rose-700">放榜當天提醒</p>
-                  <p className="mt-0.5 text-sm font-semibold leading-6 text-slate-700">
-                    查榜後請截圖或記下錄取學校，並確認報到時間、文件與後續續招公告。
-                  </p>
+                <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4" role="timer" aria-label={`倒數 ${state.days} 天 ${state.hours} 小時 ${state.minutes} 分 ${state.seconds} 秒`}>
+                  {countdownItems.map((item) => (
+                    <div key={item.label} className="rounded-[20px] border border-white/80 bg-slate-50/78 px-3 py-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_14px_40px_-30px_rgba(15,23,42,0.55)]">
+                      <div className="font-outfit text-3xl font-black leading-none text-rose-600 sm:text-4xl">
+                        {item.val.toString().padStart(2, "0")}
+                      </div>
+                      <div className="mt-2 font-outfit text-[10px] font-black tracking-[0.16em] text-slate-500">
+                        {item.label}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <button
-                onClick={onOpenSchedule}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white shadow-[0_12px_30px_-18px_rgba(15,23,42,0.9)] transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
-              >
-                <CalendarDays className="h-5 w-5" />
-                完整重要日程表
-              </button>
+            <div className={`flex gap-3 ${state.isResultCountdown || state.isResultDay ? "mt-5 max-w-2xl flex-col sm:flex-row sm:items-center" : "mt-8 flex-wrap"}`}>
               <a
                 href={volunteerEntryUrl}
                 target={volunteerClosed ? undefined : "_blank"}
                 rel={volunteerClosed ? undefined : "noreferrer"}
                 className={`inline-flex items-center justify-center transition-all hover:-translate-y-0.5 focus:outline-none ${
-                  state.isResultDay
-                    ? "min-h-[56px] rounded-[22px] bg-rose-600 px-8 py-4 text-base font-black text-white shadow-[0_18px_38px_-20px_rgba(225,29,72,0.72)] hover:bg-rose-700 focus:ring-4 focus:ring-rose-100"
+                  state.isResultCountdown || state.isResultDay
+                    ? "min-h-[56px] w-full rounded-[22px] bg-rose-600 px-8 py-4 text-base font-black text-white shadow-[0_18px_38px_-20px_rgba(225,29,72,0.72)] hover:bg-rose-700 focus:ring-4 focus:ring-rose-100 sm:w-auto"
                     : "rounded-full border border-slate-200 bg-white/70 px-6 py-3 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200"
                 }`}
               >
-                {state.isResultDay && <ArrowDownCircle className="mr-2 h-5 w-5" />}
+                {(state.isResultCountdown || state.isResultDay) && <ArrowDownCircle className="mr-2 h-5 w-5" />}
                 {volunteerEntryLabel}
               </a>
+              <button
+                onClick={onOpenSchedule}
+                className={`inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 focus:outline-none ${
+                  state.isResultOpen
+                    ? "min-h-[52px] w-full rounded-[20px] border border-slate-200 bg-white/78 px-6 py-3.5 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200 sm:w-auto"
+                    : state.isResultCountdown || state.isResultDay
+                      ? "min-h-[52px] w-full rounded-[20px] border border-slate-200 bg-white/78 px-6 py-3.5 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200 sm:w-auto"
+                    : "rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white shadow-[0_12px_30px_-18px_rgba(15,23,42,0.9)] hover:bg-slate-800 focus:ring-4 focus:ring-slate-200"
+                }`}
+              >
+                <CalendarDays className="h-5 w-5" />
+                完整重要日程表
+              </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3" role="timer" aria-label={`倒數 ${state.days} 天 ${state.hours} 小時 ${state.minutes} 分 ${state.seconds} 秒`}>
-            {[
-              { label: "DAYS", val: state.days },
-              { label: "HOURS", val: state.hours },
-              { label: "MINS", val: state.minutes },
-              { label: "SECS", val: state.seconds },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="rounded-[30px] border border-white/80 bg-slate-50/78 p-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_14px_40px_-30px_rgba(15,23,42,0.55)]"
-              >
-                <div className={`font-outfit text-5xl font-black leading-none md:text-6xl ${state.status === "active" ? "text-rose-600" : "text-slate-950"}`}>
-                  {item.val.toString().padStart(2, "0")}
+          {state.isResultCountdown && (
+            <div className="hidden rounded-[32px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_24px_70px_-50px_rgba(225,29,72,0.65)] md:block">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[11px] font-black uppercase tracking-[0.16em] text-rose-600">放榜時間</p>
+                  <p className="mt-2 text-xl font-black leading-tight text-slate-950">{resultOpenDateLabel}</p>
                 </div>
-                <div className="mt-3 font-outfit text-[11px] font-black tracking-[0.18em] text-slate-500">
-                  {item.label}
+                <div className="rounded-[24px] bg-white px-5 py-4 text-right shadow-sm ring-1 ring-rose-100">
+                  <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">Open</p>
+                  <p className="font-outfit text-5xl font-black leading-none text-rose-600">{resultOpenClockLabel}</p>
                 </div>
               </div>
-            ))}
-          </div>
+
+              <div className="mt-5 grid grid-cols-4 gap-2.5" role="timer" aria-label={`倒數 ${state.days} 天 ${state.hours} 小時 ${state.minutes} 分 ${state.seconds} 秒`}>
+                {countdownItems.map((item) => (
+                  <div key={item.label} className="rounded-[22px] border border-white/80 bg-white/72 px-3 py-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_14px_34px_-30px_rgba(15,23,42,0.45)]">
+                    <div className="font-outfit text-4xl font-black leading-none text-slate-950">
+                      {item.val.toString().padStart(2, "0")}
+                    </div>
+                    <div className="mt-2 font-outfit text-[10px] font-black tracking-[0.16em] text-slate-500">
+                      {item.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {!state.isResultDay && !state.isResultCountdown && (
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4" role="timer" aria-label={`倒數 ${state.days} 天 ${state.hours} 小時 ${state.minutes} 分 ${state.seconds} 秒`}>
+              {countdownItems.map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-[30px] border border-white/80 bg-slate-50/78 p-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_14px_40px_-30px_rgba(15,23,42,0.55)]"
+                >
+                  <div className={`font-outfit text-5xl font-black leading-none md:text-6xl ${state.status === "active" ? "text-rose-600" : "text-slate-950"}`}>
+                    {item.val.toString().padStart(2, "0")}
+                  </div>
+                  <div className="mt-3 font-outfit text-[11px] font-black tracking-[0.18em] text-slate-500">
+                    {item.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

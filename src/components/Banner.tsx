@@ -37,7 +37,7 @@ export function Banner() {
               href="https://tyctw.github.io/shared/"
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex w-full items-center justify-center rounded-[18px] bg-slate-950 px-5 py-4 text-sm font-black text-white shadow-[0_16px_34px_-20px_rgba(15,23,42,0.9)] transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
+              className="group inline-flex w-full items-center justify-center rounded-[18px] bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 px-5 py-4 text-sm font-black text-white shadow-[0_18px_38px_-18px_rgba(249,115,22,0.75)] ring-1 ring-orange-300/40 transition-all hover:-translate-y-0.5 hover:shadow-[0_22px_44px_-18px_rgba(244,63,94,0.78)] focus:outline-none focus:ring-4 focus:ring-orange-100"
             >
               前往回報系統
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />

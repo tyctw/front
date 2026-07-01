@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { Link2, QrCode, Share2, X } from "lucide-react";
+import { Check, Link2, Share2, X } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { FaInstagram, FaLine, FaThreads } from "react-icons/fa6";
 
 export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [copied, setCopied] = useState(false);
-  const shareUrl = "https://tyctw.github.io/";
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const shareUrl = "https://tyctw.github.io/front/";
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    window.setTimeout(() => dialogRef.current?.focus(), 80);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -43,65 +56,87 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
   };
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="分享平台">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/30 backdrop-blur-md" onClick={onClose} />
+    <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="分享平台">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/45 backdrop-blur-xl" onClick={onClose} />
       <motion.div
+        ref={dialogRef}
+        tabIndex={-1}
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="relative w-full max-w-[320px] overflow-hidden rounded-[28px] border border-slate-100 bg-white p-6 text-center shadow-[0_32px_64px_-15px_rgba(0,0,0,0.2)]"
+        className="relative w-full max-w-[560px] overflow-hidden rounded-[28px] border border-white/80 bg-white text-left shadow-[0_34px_90px_-36px_rgba(15,23,42,0.7)] sm:rounded-[32px]"
       >
-        <button onClick={onClose} aria-label="關閉分享視窗" className="absolute right-4 top-4 rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 focus:outline-none">
+        <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-teal-400 via-sky-400 to-indigo-400" />
+        <button onClick={onClose} aria-label="關閉分享視窗" className="absolute right-4 top-4 z-20 rounded-full bg-white/88 p-2 text-slate-500 shadow-sm ring-1 ring-slate-200/70 backdrop-blur transition-colors hover:bg-white hover:text-slate-800 focus:outline-none focus:ring-4 focus:ring-sky-100">
           <X className="h-5 w-5" />
         </button>
 
-        <div className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] border border-teal-100/50 bg-teal-50 shadow-sm">
-          <Share2 className="relative z-10 h-8 w-8 text-teal-500" />
-          <div className="absolute inset-0 rounded-full bg-teal-400/20 blur-xl" />
-        </div>
-
-        <h3 className="mb-2 text-[24px] font-black leading-[1.2] tracking-tight text-slate-900">分享給朋友</h3>
-        <p className="mb-6 text-[14px] font-medium leading-relaxed text-slate-500">
-          一起查榜、一起分享喜悅與緊張，陪你走過會考放榜的重要時刻！
-        </p>
-
-        <div className="mb-6 flex flex-col items-center rounded-[20px] border border-slate-100 bg-slate-50 p-5">
-          <div className="mb-3 inline-block rounded-[12px] border border-slate-100 bg-white p-2 shadow-sm">
-            <QRCodeSVG value={shareUrl} size={100} level="H" includeMargin={false} />
+        <div className="px-5 pb-5 pt-7 sm:px-6 sm:pb-6 sm:pt-8">
+          <div className="mb-5 flex items-start gap-3 pr-10">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] border border-teal-100 bg-teal-50 text-teal-600 shadow-sm sm:h-14 sm:w-14 sm:rounded-[20px]">
+              <Share2 className="h-6 w-6 sm:h-7 sm:w-7" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-teal-600">Share</p>
+              <h3 className="mt-1 text-3xl font-black leading-tight tracking-normal text-slate-950">分享給朋友</h3>
+              <p className="mt-2 text-sm font-semibold leading-6 text-slate-600">
+                把查榜入口傳給同學，大家一起快速找到正確的就學區系統。
+              </p>
+            </div>
           </div>
-          <p className="mt-1 flex items-center justify-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
-            <QrCode className="mr-1 h-3 w-3" /> Scan QR Code
-          </p>
-        </div>
 
-        <div className="mb-1 grid grid-cols-4 gap-2">
-          <button onClick={() => handleShare("line")} aria-label="分享到 LINE" className="group flex flex-col items-center gap-1.5 focus:outline-none">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-[#00B900] text-white shadow-md shadow-[#00B900]/20 transition-transform group-hover:-translate-y-1">
-              <FaLine className="h-6 w-6" />
+          <div className="grid gap-4 sm:grid-cols-[170px_1fr] sm:items-stretch">
+            <div className="rounded-[24px] border border-slate-100 bg-slate-50/90 p-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.82)]">
+              <div className="mx-auto inline-block rounded-[18px] border border-slate-100 bg-white p-3 shadow-sm">
+                <QRCodeSVG value={shareUrl} size={124} level="H" includeMargin={false} />
+              </div>
             </div>
-            <span className="text-[10px] font-bold text-slate-500">LINE</span>
-          </button>
 
-          <button onClick={() => handleShare("ig")} aria-label="分享到 Instagram" className="group flex flex-col items-center gap-1.5 focus:outline-none">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white shadow-md shadow-pink-500/20 transition-transform group-hover:-translate-y-1">
-              <FaInstagram className="h-6 w-6" />
-            </div>
-            <span className="text-[10px] font-bold text-slate-500">Instagram</span>
-          </button>
+            <div className="grid gap-2.5">
+              <button onClick={() => handleShare("line")} aria-label="分享到 LINE" className="group flex items-center gap-3 rounded-[20px] border border-slate-100 bg-white p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#00B900]/30 hover:bg-[#00B900]/5 focus:outline-none focus:ring-4 focus:ring-emerald-100">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-[#00B900] text-white shadow-md shadow-[#00B900]/20">
+                  <FaLine className="h-6 w-6" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-black text-slate-950">LINE</span>
+                  <span className="block text-xs font-bold text-slate-500">傳到群組或聊天室</span>
+                </span>
+              </button>
 
-          <button onClick={() => handleShare("threads")} aria-label="分享到 Threads" className="group flex flex-col items-center gap-1.5 focus:outline-none">
-            <div className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-black text-white shadow-md shadow-black/20 transition-transform group-hover:-translate-y-1">
-              <FaThreads className="h-6 w-6" />
-            </div>
-            <span className="text-[10px] font-bold text-slate-500">Threads</span>
-          </button>
+              <button onClick={() => handleShare("ig")} aria-label="分享到 Instagram" className="group flex items-center gap-3 rounded-[20px] border border-slate-100 bg-white p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-pink-200 hover:bg-pink-50/70 focus:outline-none focus:ring-4 focus:ring-pink-100">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white shadow-md shadow-pink-500/20">
+                  <FaInstagram className="h-6 w-6" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-black text-slate-950">Instagram</span>
+                  <span className="block text-xs font-bold text-slate-500">複製後貼到限動或訊息</span>
+                </span>
+              </button>
 
-          <button onClick={handleCopy} aria-label="複製分享連結" className="group flex flex-col items-center gap-1.5 focus:outline-none">
-            <div className={`flex h-10 w-10 items-center justify-center rounded-[14px] text-white shadow-md transition-all group-hover:-translate-y-1 ${copied ? "bg-emerald-500 shadow-emerald-500/20" : "bg-slate-700 shadow-slate-700/20"}`}>
-              <Link2 className="h-4 w-4" />
+              <button onClick={() => handleShare("threads")} aria-label="分享到 Threads" className="group flex items-center gap-3 rounded-[20px] border border-slate-100 bg-white p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-black text-white shadow-md shadow-black/20">
+                  <FaThreads className="h-6 w-6" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-black text-slate-950">Threads</span>
+                  <span className="block text-xs font-bold text-slate-500">直接發文分享入口</span>
+                </span>
+              </button>
             </div>
-            <span className="text-[10px] font-bold text-slate-500">{copied ? "已複製" : "複製連結"}</span>
+          </div>
+
+          <button
+            onClick={handleCopy}
+            aria-label="複製分享連結"
+            className={`mt-4 flex w-full items-center justify-center gap-2 rounded-[20px] px-5 py-4 text-sm font-black shadow-lg transition-all focus:outline-none focus:ring-4 ${
+              copied
+                ? "bg-emerald-500 text-white shadow-emerald-500/20 focus:ring-emerald-100"
+                : "bg-slate-950 text-white shadow-slate-950/20 hover:bg-slate-800 focus:ring-slate-200"
+            }`}
+          >
+            {copied ? <Check className="h-5 w-5" /> : <Link2 className="h-5 w-5" />}
+            {copied ? "連結已複製" : "複製分享連結"}
           </button>
         </div>
       </motion.div>

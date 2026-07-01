@@ -11,6 +11,7 @@ import { Banner } from "./components/Banner";
 import { LATEST_ANNOUNCEMENT } from "./data";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
+import { getNow } from "./lib/now";
 
 const Regions = lazy(() => import("./components/Regions").then(m => ({ default: m.Regions })));
 const FAQ = lazy(() => import("./components/FAQ").then(m => ({ default: m.FAQ })));
@@ -22,8 +23,8 @@ const VolunteerModal = lazy(() => import("./components/Modals").then(m => ({ def
 const ResultReminderModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ResultReminderModal })));
 const ShareModal = lazy(() => import("./components/ShareModal").then(m => ({ default: m.ShareModal })));
 
-const RESULT_LIST_OPEN_DATE = "2026-07-05T11:00:00";
-const RESULT_REMINDER_START_DATE = "2026-06-27T00:00:00";
+const RESULT_LIST_OPEN_DATE = "2026-07-07T11:00:00";
+const RESULT_REMINDER_START_DATE = "2026-07-01T00:00:00";
 const RESULT_REMINDER_END_DATE = "2026-07-30T23:59:59";
 
 export default function App() {
@@ -46,7 +47,7 @@ export default function App() {
     const secondaryId = runAfterPaint(() => setSecondaryReady(true));
     const popupId = runAfterPaint(() => {
       // Popups Logic
-      const now = new Date();
+      const now = getNow();
       const scoreStart = new Date("2026-06-04T00:00:00");
       const scoreEnd = new Date("2026-06-15T00:00:00"); // exclusive
       const volunteerEnd = new Date("2026-06-25T23:59:59");
@@ -76,7 +77,7 @@ export default function App() {
   }, []);
 
   const handleWarnUrl = (url: string) => {
-    const now = new Date();
+    const now = getNow();
     const resultOpen = new Date(RESULT_LIST_OPEN_DATE);
 
     if (now >= resultOpen) {
@@ -115,6 +116,8 @@ export default function App() {
         onClick={() => setShareOpen(true)}
         className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/75 bg-slate-950 text-white shadow-[0_18px_44px_-24px_rgba(15,23,42,0.9)] transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
         aria-label="分享平台"
+        aria-haspopup="dialog"
+        aria-expanded={shareOpen}
       >
         <Share2 className="w-6 h-6" />
       </button>

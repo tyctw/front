@@ -175,6 +175,10 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
           </div>
         </div>
 
+        <p className="sr-only" role="status" aria-live="polite">
+          目前顯示 {filtered.length} 個就學區入口
+        </p>
+
         <div className="min-h-[320px]">
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-[32px] border border-dashed border-slate-300 bg-white/72 py-20 text-center">

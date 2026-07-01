@@ -1,14 +1,37 @@
 import { motion, AnimatePresence } from "motion/react";
 import { AlertTriangle, Award, Bell, CalendarClock, CheckCircle2, Clock3, ExternalLink, MapPinned, X, FileText, GraduationCap, RotateCcw } from "lucide-react";
 import { ADMISSION_LIST_CLOSE_DATE, LATEST_ANNOUNCEMENT, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
+import { getNow } from "../lib/now";
+import { useEffect, useRef } from "react";
+
+function useDialogAccessibility(isOpen: boolean, onClose: () => void) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    window.setTimeout(() => dialogRef.current?.focus(), 80);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  return dialogRef;
+}
 
 export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean, onClose: () => void, pendingUrl: string | null }) {
+  const dialogRef = useDialogAccessibility(isOpen, onClose);
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="非開放查詢時間提醒">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/45 backdrop-blur-xl" onClick={onClose} />
       <motion.div 
+        ref={dialogRef}
+        tabIndex={-1}
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -69,12 +92,15 @@ export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean,
 }
 
 export function AnnouncementModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
+  const dialogRef = useDialogAccessibility(isOpen, onClose);
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="最新公告">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/30 backdrop-blur-md" onClick={onClose} />
       <motion.div 
+        ref={dialogRef}
+        tabIndex={-1}
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -114,12 +140,15 @@ export function AnnouncementModal({ isOpen, onClose }: { isOpen: boolean, onClos
 }
 
 export function ScoreModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
+  const dialogRef = useDialogAccessibility(isOpen, onClose);
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="會考成績查詢提醒">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-900/30 backdrop-blur-md" onClick={onClose} />
       <motion.div 
+        ref={dialogRef}
+        tabIndex={-1}
         initial={{ opacity: 0, scale: 0.95, y: 20 }} 
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -158,9 +187,10 @@ export function ScoreModal({ isOpen, onClose }: { isOpen: boolean, onClose: () =
 }
 
 export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
+  const dialogRef = useDialogAccessibility(isOpen, onClose);
   if (!isOpen) return null;
 
-  const volunteerClosed = new Date() >= new Date(ADMISSION_LIST_CLOSE_DATE);
+  const volunteerClosed = getNow() >= new Date(ADMISSION_LIST_CLOSE_DATE);
   const volunteerEntryUrl = volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
   const volunteerEntryLabel = volunteerClosed ? "前往查榜網址" : "前往各區選填網址";
 
@@ -168,6 +198,8 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="志願選填提醒">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/45 backdrop-blur-md" onClick={onClose} />
       <motion.div 
+        ref={dialogRef}
+        tabIndex={-1}
         initial={{ opacity: 0, scale: 0.96, y: 24 }} 
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.96, y: 24 }}
@@ -243,35 +275,42 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
 }
 
 export function ResultReminderModal({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
+  const dialogRef = useDialogAccessibility(isOpen, onClose);
   if (!isOpen) return null;
 
-  const reminders = [
-    {
-      icon: GraduationCap,
-      title: "115/7/9（四）完成報到",
-      text: "到錄取學校官網確認時間、地點與流程，依規定完成報到。",
-    },
+  const checklistSections = [
     {
       icon: FileText,
-      title: "備妥報到文件",
-      text: "先備妥通知單、畢業證書、身分證或戶口名簿；份數以學校公告為準。",
+      title: "應攜帶物品",
+      items: [
+        "畢業證書正本，註冊查驗完畢後學校會發還。",
+        "身分證明文件：學生證、身分證、健保卡或戶口名簿擇一。",
+        "建議多準備一份戶口名簿影本，留存學校備用。",
+        "錄取通知單若有收到可攜帶，可加速報到流程。",
+      ],
     },
     {
       icon: RotateCcw,
-      title: "115/7/13（一）前掌握放棄與續招",
-      text: "放棄錄取須依簡章送達聲明書；未錄取、未報到者請追蹤續招公告。",
+      title: "放棄錄取資格",
+      items: [
+        "若要參加後續其他招生管道，請勿前往報到。",
+        "若已完成報到，須在規定期限內向錄取學校聲明放棄。",
+        "未依期限放棄者，可能無法報名其他入學管道。",
+      ],
     },
   ];
 
   return (
-    <div className="fixed inset-0 z-[125] flex items-end justify-center p-0 sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-label="查榜後報到與續招提醒">
+    <div className="fixed inset-0 z-[125] flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-label="查榜後報到與續招提醒">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-slate-950/50 backdrop-blur-xl" onClick={onClose} />
       <motion.div
+        ref={dialogRef}
+        tabIndex={-1}
         initial={{ opacity: 0, scale: 0.98, y: 36 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.98, y: 36 }}
         transition={{ type: "spring", stiffness: 280, damping: 26 }}
-        className="relative max-h-[96svh] w-full max-w-[760px] overflow-hidden rounded-t-[26px] border border-white/80 bg-white shadow-[0_34px_90px_-36px_rgba(15,23,42,0.7)] sm:max-h-[calc(100svh-2rem)] sm:rounded-[30px]"
+        className="relative max-h-[calc(100svh-1.5rem)] w-full max-w-[760px] overflow-hidden rounded-[26px] border border-white/80 bg-white shadow-[0_34px_90px_-36px_rgba(15,23,42,0.7)] sm:max-h-[calc(100svh-2rem)] sm:rounded-[30px]"
       >
         <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-sky-400 via-emerald-400 to-amber-300" />
         <div className="pointer-events-none absolute right-0 top-0 h-28 w-28 rounded-full bg-sky-200/35 blur-3xl sm:h-40 sm:w-40" />
@@ -281,7 +320,7 @@ export function ResultReminderModal({ isOpen, onClose }: { isOpen: boolean, onCl
           <X className="h-4 w-4 sm:h-5 sm:w-5" />
         </button>
 
-        <div className="relative max-h-[96svh] overflow-y-auto px-3.5 pb-3 pt-5 sm:max-h-[calc(100svh-2rem)] sm:px-5 sm:pb-5 sm:pt-6">
+        <div className="relative max-h-[calc(100svh-1.5rem)] overflow-y-auto px-3.5 pb-3 pt-5 sm:max-h-[calc(100svh-2rem)] sm:px-5 sm:pb-5 sm:pt-6">
           <div className="grid grid-cols-1 items-stretch gap-2.5 md:grid-cols-[1.08fr_0.92fr] md:gap-3">
             <div className="rounded-[22px] border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-emerald-50/70 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:rounded-[24px] sm:p-5">
               <div className="mb-2.5 flex items-start gap-2.5 pr-9 sm:mb-4 sm:gap-3 sm:pr-10">
@@ -297,19 +336,9 @@ export function ResultReminderModal({ isOpen, onClose }: { isOpen: boolean, onCl
               </div>
 
               <p className="text-[13px] font-semibold leading-5 text-slate-700 sm:text-sm sm:leading-6">
-                先看錄取學校公告，確認報到文件、放棄期限與續招資訊。
+                先看錄取學校公告，確認報到時間、應帶文件與後續流程。
               </p>
 
-              <div className="mt-2.5 grid grid-cols-2 gap-2 sm:mt-4">
-                <div className="rounded-[16px] bg-white/86 px-3 py-2 shadow-sm ring-1 ring-white/80 sm:rounded-[18px] sm:py-3">
-                  <p className="text-[10px] font-black uppercase tracking-[0.12em] text-slate-400">報到日</p>
-                  <p className="mt-0.5 font-outfit text-xl font-black text-slate-950 sm:mt-1 sm:text-lg">7/9</p>
-                </div>
-                <div className="rounded-[16px] bg-white/86 px-3 py-2 shadow-sm ring-1 ring-white/80 sm:rounded-[18px] sm:py-3">
-                  <p className="text-[10px] font-black uppercase tracking-[0.12em] text-slate-400">放棄期限</p>
-                  <p className="mt-0.5 font-outfit text-xl font-black text-slate-950 sm:mt-1 sm:text-lg">7/13 前</p>
-                </div>
-              </div>
             </div>
 
             <div className="rounded-[22px] border border-amber-100 bg-amber-50/80 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.78)] sm:rounded-[24px] sm:p-5">
@@ -323,21 +352,28 @@ export function ResultReminderModal({ isOpen, onClose }: { isOpen: boolean, onCl
             </div>
           </div>
 
-          <div className="mt-2.5 grid grid-cols-1 gap-1.5 md:mt-3 md:grid-cols-3 md:gap-2.5">
-            {reminders.map((item, index) => {
+          <div className="mt-2.5 grid grid-cols-1 gap-2 md:mt-3 md:grid-cols-2 md:gap-2.5">
+            {checklistSections.map((item, index) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="relative flex items-start gap-2.5 overflow-hidden rounded-[16px] border border-slate-100 bg-white/90 p-2.5 text-left shadow-[0_16px_38px_-30px_rgba(15,23,42,0.55)] md:block md:rounded-[20px] md:p-3.5">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] bg-slate-950 text-white shadow-sm md:mb-2 md:h-10 md:w-10 md:rounded-[15px]">
-                    <Icon className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="text-[13px] font-black leading-5 text-slate-950 md:text-sm">{item.title}</h4>
-                      <span className="font-outfit text-[10px] font-black text-slate-300 md:absolute md:right-3.5 md:top-3.5 md:text-xs">0{index + 1}</span>
+                <div key={item.title} className="relative overflow-hidden rounded-[18px] border border-slate-100 bg-white/92 p-3 text-left shadow-[0_16px_38px_-30px_rgba(15,23,42,0.55)] md:rounded-[20px] md:p-3.5">
+                  <div className="mb-2.5 flex items-start gap-2.5 pr-7">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] bg-slate-950 text-white shadow-sm md:h-10 md:w-10 md:rounded-[15px]">
+                      <Icon className="h-4 w-4" />
                     </div>
-                    <p className="mt-0.5 text-[12px] font-semibold leading-5 text-slate-600 md:mt-1 md:text-xs md:leading-5">{item.text}</p>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="text-[13px] font-black leading-5 text-slate-950 md:text-sm">{item.title}</h4>
+                      <span className="absolute right-3 top-3 font-outfit text-[10px] font-black text-slate-300 md:right-3.5 md:top-3.5 md:text-xs">0{index + 1}</span>
+                    </div>
                   </div>
+                  <ul className="space-y-1.5">
+                    {item.items.map((detail) => (
+                      <li key={detail} className="flex gap-2 text-[12px] font-semibold leading-5 text-slate-600 md:text-xs md:leading-5">
+                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               );
             })}
