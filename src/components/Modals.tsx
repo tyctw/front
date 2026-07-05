@@ -57,14 +57,17 @@ export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean,
           目前尚未到各區免試入學查榜開放時間。為避免看見未更新或測試資料，請於正式開放後再進入查詢。
         </p>
         
-        <div className="my-6 rounded-[26px] border border-slate-100 bg-slate-50/90 p-4">
+        <div className="my-6 rounded-[26px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-5 text-left">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-[18px] bg-white text-sky-600 shadow-sm">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] bg-white text-rose-600 shadow-sm ring-1 ring-rose-100">
               <Clock3 className="h-5 w-5" />
             </div>
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-400">正式開放時間</p>
-              <p className="mt-1 text-xl font-black tracking-normal text-slate-950">115年7月7日 11:00</p>
+            <div className="min-w-0">
+              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-rose-600">放榜時間</p>
+              <div className="mt-2 grid gap-1 sm:flex sm:flex-wrap sm:items-end sm:gap-x-3 sm:gap-y-1">
+                <span className="text-xl font-black leading-tight text-slate-950">115/7/7（週二）</span>
+                <span className="font-outfit text-5xl font-black leading-none text-rose-600 sm:text-4xl">11:00</span>
+              </div>
             </div>
           </div>
         </div>

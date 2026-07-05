@@ -194,16 +194,16 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
             )}
             {state.isResultCountdown && (
               <div className="mt-5 max-w-2xl md:hidden">
-                <div className="rounded-[24px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_16px_38px_-34px_rgba(225,29,72,0.55)]">
+                <div className="rounded-[24px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_16px_38px_-34px_rgba(225,29,72,0.55)]">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-white text-rose-600 shadow-sm ring-1 ring-rose-100">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] bg-white text-rose-600 shadow-sm ring-1 ring-rose-100">
                       <Clock3 className="h-5 w-5" />
                     </div>
                     <div className="min-w-0">
                       <p className="text-[11px] font-black uppercase tracking-[0.14em] text-rose-600">放榜時間</p>
-                      <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                        <span className="text-base font-black leading-6 text-slate-950">{resultOpenDateLabel}</span>
-                        <span className="font-outfit text-3xl font-black leading-none text-rose-600">{resultOpenClockLabel}</span>
+                      <div className="mt-2 grid gap-1 sm:flex sm:flex-wrap sm:items-end sm:gap-x-3 sm:gap-y-1">
+                        <span className="text-xl font-black leading-tight text-slate-950">{resultOpenDateLabel}</span>
+                        <span className="font-outfit text-5xl font-black leading-none text-rose-600 sm:text-4xl">{resultOpenClockLabel}</span>
                       </div>
                     </div>
                   </div>
@@ -255,14 +255,15 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
 
           {state.isResultCountdown && (
             <div className="hidden rounded-[32px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_24px_70px_-50px_rgba(225,29,72,0.65)] md:block">
-              <div className="flex items-start justify-between gap-4">
-                <div>
+              <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-stretch">
+                <div className="rounded-[24px] bg-white/78 px-5 py-4 shadow-sm ring-1 ring-rose-100/80">
                   <p className="text-[11px] font-black uppercase tracking-[0.16em] text-rose-600">放榜時間</p>
-                  <p className="mt-2 text-xl font-black leading-tight text-slate-950">{resultOpenDateLabel}</p>
+                  <p className="mt-2 text-3xl font-black leading-none text-slate-950">{resultOpenDateLabel}</p>
+                  <p className="mt-2 text-sm font-bold leading-6 text-slate-500">各就學區免試入學分發結果開放查詢</p>
                 </div>
-                <div className="rounded-[24px] bg-white px-5 py-4 text-right shadow-sm ring-1 ring-rose-100">
-                  <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">Open</p>
-                  <p className="font-outfit text-5xl font-black leading-none text-rose-600">{resultOpenClockLabel}</p>
+                <div className="flex min-w-[180px] flex-col items-center justify-center rounded-[24px] bg-rose-600 px-6 py-5 text-white shadow-[0_18px_42px_-26px_rgba(225,29,72,0.85)]">
+                  <p className="text-[10px] font-black uppercase tracking-[0.16em] text-rose-100">Open</p>
+                  <p className="mt-1 font-outfit text-6xl font-black leading-none">{resultOpenClockLabel}</p>
                 </div>
               </div>
 

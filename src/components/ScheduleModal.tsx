@@ -71,9 +71,6 @@ export function ScheduleModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
                 115 學年度
               </div>
               <h3 className="text-3xl font-black leading-tight tracking-normal text-slate-950 sm:text-4xl">重要日程表</h3>
-              <p className="mt-2 max-w-xl text-sm font-semibold leading-6 text-slate-600">
-                依時間整理會考、志願選填、放榜與報到節點，狀態會隨目前日期自動更新。
-              </p>
             </div>
             {heroEvent && (
               <div className="rounded-[22px] border border-white/80 bg-white/88 p-4 text-left shadow-sm sm:min-w-[230px]">
