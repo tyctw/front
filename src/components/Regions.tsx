@@ -301,7 +301,6 @@ function RegionCard({ r, status, onClick }: { r: any; status: PortalStatus; onCl
           <span className={cn("inline-flex h-8 shrink-0 items-center rounded-full px-3 text-xs font-black ring-1", badge.className)}>
             {badge.label}
           </span>
-          <span className="hidden truncate text-xs font-bold text-slate-400 sm:inline">{r.category}</span>
           <span className={cn("inline-flex h-8 shrink-0 items-center rounded-full px-3 text-xs font-black ring-1", statusMeta.className)}>
             {statusMeta.label}
           </span>
