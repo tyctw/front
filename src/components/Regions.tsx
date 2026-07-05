@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import { useState } from "react";
-import { REGIONS } from "../data";
+import { useEffect, useState } from "react";
+import { REGIONS, RESULT_LIST_CLOSE_DATE, RESULT_LIST_OPEN_DATE } from "../data";
 import {
   ArrowUpRight,
   Building2,
@@ -25,6 +25,7 @@ import {
   Search,
 } from "lucide-react";
 import { cn } from "../lib/utils";
+import { getNow } from "../lib/now";
 import { cardReveal, sectionReveal, springPop, staggerContainer } from "../lib/animations";
 
 const CATEGORIES = ["ALL", "北部區域", "中部區域", "南部區域", "東部區域", "離島區域"];
@@ -97,9 +98,42 @@ const regionIcons: Record<string, typeof MapPin> = {
   km: Landmark,
 };
 
+type PortalStatus = "locked" | "open" | "closed";
+
+const portalStatusMeta: Record<PortalStatus, { label: string; className: string }> = {
+  locked: {
+    label: "尚未開放",
+    className: "bg-slate-100 text-slate-600 ring-slate-200",
+  },
+  open: {
+    label: "正式開放",
+    className: "bg-emerald-50 text-emerald-700 ring-emerald-100",
+  },
+  closed: {
+    label: "已截止",
+    className: "bg-rose-50 text-rose-700 ring-rose-100",
+  },
+};
+
+function getPortalStatus(now: Date): PortalStatus {
+  const openDate = new Date(RESULT_LIST_OPEN_DATE);
+  const closeDate = new Date(RESULT_LIST_CLOSE_DATE);
+
+  if (now > closeDate) return "closed";
+  if (now >= openDate) return "open";
+  return "locked";
+}
+
 export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("ALL");
+  const [now, setNow] = useState(() => getNow());
+  const portalStatus = getPortalStatus(now);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(getNow()), 30000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   const filtered = REGIONS.filter((r) => {
     const matchSearch = r.name.includes(search) || r.category.includes(search);
@@ -219,7 +253,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
                       className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6"
                     >
                       {subList.map((r) => (
-                        <RegionCard key={r.id} r={r} onClick={() => onWarnUrl(r.url)} />
+                        <RegionCard key={r.id} r={r} status={portalStatus} onClick={() => onWarnUrl(r.url)} />
                       ))}
                     </motion.div>
                   </div>
@@ -235,7 +269,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
               className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6"
             >
               {filtered.map((r) => (
-                <RegionCard key={r.id} r={r} onClick={() => onWarnUrl(r.url)} />
+                <RegionCard key={r.id} r={r} status={portalStatus} onClick={() => onWarnUrl(r.url)} />
               ))}
             </motion.div>
           )}
@@ -245,10 +279,11 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
   );
 }
 
-function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
+function RegionCard({ r, status, onClick }: { r: any; status: PortalStatus; onClick: () => void }) {
   const accent = accents[r.colorClass] || accents.teal;
   const badge = regionBadges[r.category] || regionBadges["北部區域"];
   const RegionIcon = regionIcons[r.id] || MapPin;
+  const statusMeta = portalStatusMeta[status];
 
   return (
     <motion.button
@@ -262,11 +297,14 @@ function RegionCard({ r, onClick }: { r: any; onClick: () => void }) {
     >
       <div className={cn("absolute inset-x-0 top-0 h-16 bg-gradient-to-r opacity-15", badge.strip)} />
       <div className="relative flex items-start justify-between gap-4 p-4 pb-2">
-        <div className="flex min-w-0 items-center gap-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-2 pr-2">
           <span className={cn("inline-flex h-8 shrink-0 items-center rounded-full px-3 text-xs font-black ring-1", badge.className)}>
             {badge.label}
           </span>
-          <span className="truncate text-xs font-bold text-slate-400">{r.category}</span>
+          <span className="hidden truncate text-xs font-bold text-slate-400 sm:inline">{r.category}</span>
+          <span className={cn("inline-flex h-8 shrink-0 items-center rounded-full px-3 text-xs font-black ring-1", statusMeta.className)}>
+            {statusMeta.label}
+          </span>
         </div>
         <div className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] bg-white/90 shadow-sm ring-1 ring-white transition-transform group-hover:scale-105", accent.icon)}>
           <RegionIcon className="h-5 w-5" aria-hidden="true" />

@@ -8,7 +8,7 @@ import { Background } from "./components/Background";
 import { Header } from "./components/Header";
 import { HeroCountdown } from "./components/HeroCountdown";
 import { Banner } from "./components/Banner";
-import { LATEST_ANNOUNCEMENT } from "./data";
+import { LATEST_ANNOUNCEMENT, RESULT_WARNING_UNLOCK_DATE } from "./data";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
 import { getNow } from "./lib/now";
@@ -23,7 +23,6 @@ const VolunteerModal = lazy(() => import("./components/Modals").then(m => ({ def
 const ResultReminderModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ResultReminderModal })));
 const ShareModal = lazy(() => import("./components/ShareModal").then(m => ({ default: m.ShareModal })));
 
-const RESULT_WARNING_UNLOCK_DATE = "2026-07-07T09:00:00";
 const RESULT_REMINDER_START_DATE = "2026-07-01T00:00:00";
 const RESULT_REMINDER_END_DATE = "2026-07-30T23:59:59";
 

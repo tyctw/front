@@ -25,7 +25,7 @@ export function FAQ() {
           </h3>
         </div>
         <p className="max-w-xl text-sm font-medium leading-6 text-slate-600">
-          整理查榜、志願選填與成績相關問題，實際流程仍以官方簡章與各區系統公告為準。
+          整理放榜查詢、報到文件、分發結果複查與放棄錄取資訊，實際流程仍以官方簡章與各區系統公告為準。
         </p>
       </div>
 

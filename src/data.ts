@@ -3,6 +3,9 @@ export const SCORE_OPEN_DATE = `${YEAR}-06-05T08:00:00`;
 export const SCORE_CLOSE_DATE = `${YEAR}-06-18T12:00:00`;
 export const ADMISSION_LIST_OPEN_DATE = `${YEAR}-06-18T12:00:00`;
 export const ADMISSION_LIST_CLOSE_DATE = `${YEAR}-06-25T12:00:00`;
+export const RESULT_WARNING_UNLOCK_DATE = `${YEAR}-07-07T09:00:00`;
+export const RESULT_LIST_OPEN_DATE = `${YEAR}-07-07T11:00:00`;
+export const RESULT_LIST_CLOSE_DATE = `${YEAR}-07-30T23:59:59`;
 export const VOLUNTEER_URL = "https://tyctw.github.io/volunteer/";
 export const RESULT_LOOKUP_URL = "#regions-title";
 
@@ -37,7 +40,7 @@ export const EVENTS = [
   { id: 'score', title: '國中教育會考成績公布', dateStart: SCORE_OPEN_DATE, isRange: false },
   { id: 'rank', title: '個人序位區間公告/查詢', dateStart: ADMISSION_LIST_OPEN_DATE, isRange: false },
   { id: 'vol', title: '就學區免試入學志願選填', dateStart: ADMISSION_LIST_OPEN_DATE, dateEnd: ADMISSION_LIST_CLOSE_DATE, isRange: true },
-  { id: 'final', title: '就學區免試入學放榜', dateStart: `${YEAR}-07-07T11:00:00`, isRange: false },
+  { id: 'final', title: '就學區免試入學放榜', dateStart: RESULT_LIST_OPEN_DATE, isRange: false },
   {
     id: 'joint-registration',
     title: '五專聯合免試入學與藝才班分發報到',
@@ -74,9 +77,9 @@ export const EVENTS = [
 ];
 
 export const FAQ_DATA = [
-  { q: "忘記登入密碼怎麼辦？", a: "如果您忘記了志願選填或查榜系統的密碼，請立即聯繫您就讀國中的註冊組老師協助重置，或依各就學區系統首頁之「忘記密碼」功能進行操作。請勿嘗試多次錯誤輸入以免帳號被鎖定。" },
-  { q: "什麼時候可以查詢個人序位區間？", a: "115學年度個人序位區間查詢時間預計於 115年06月18日(四) 中午12:00 開放，至 115年06月25日(四) 中午12:00 截止。請務必在期限內完成查詢並進行志願選填。" },
-  { q: "免試入學分發結果如何查詢？", a: "各就學區免試入學放榜時間為 115年07月07日(二)。屆時請點選本平台上方之「各就學區查榜入口」，選擇您的就學區並輸入相關資料即可查詢錄取學校。" },
-  { q: "如果對成績有疑義可以複查嗎？", a: "可以。若對國中教育會考成績有疑義，請在成績公布後（依簡章規定日期）向試務會提出複查申請。需注意複查僅確認分數計算無誤，不重新閱卷。" },
-  { q: "超額比序是什麼？", a: "當報名人數超過學校招生名額時，會依據各就學區訂定之「超額比序項目」積分高低進行錄取。常見項目包含：多元學習表現、志願序、教育會考成績等。詳細比序規則請參閱各區簡章。" },
+  { q: "免試入學分發結果什麼時候查？", a: "115學年度各就學區免試入學分發結果於115年7月7日（二）上午11:00起開放查詢。請在本頁「各就學區查榜入口」選擇自己的就學區，再依各區系統指示輸入資料查詢錄取學校。" },
+  { q: "查到錄取後，報到時間是什麼時候？", a: "錄取學生原則上應於115年7月9日（四）上午9:00至11:00到錄取學校辦理報到。部分學校可能另有分流、線上表單或校內指定流程，請務必查看錄取學校網站公告。" },
+  { q: "報到要準備哪些文件？", a: "通常需攜帶國中畢業證書正本或同等學歷證件，以及身分證明文件，例如身分證、健保卡、學生證或戶口名簿。建議同時查看錄取學校公告，確認是否需要錄取通知單、照片、影本或其他表件。" },
+  { q: "對分發結果有疑問，可以複查嗎？", a: "可以。115學年度免試入學分發結果複查多安排於115年7月8日（三）辦理，部分區域作業時間為上午8:00至中午12:00。複查通常須依各就學區簡章填表、繳費並到指定地點辦理，不是重新分發或重新比序。" },
+  { q: "沒有報到或想參加其他管道怎麼辦？", a: "錄取後未依期限完成報到，通常視同放棄錄取資格。若已完成報到但要參加後續其他招生管道，須依規定向錄取學校聲明放棄錄取資格，115學年度多數區域期限為115年7月13日（一）下午2:00前。續招與其他管道請以各校及各就學區公告為準。" },
 ];
