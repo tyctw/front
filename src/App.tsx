@@ -23,7 +23,7 @@ const VolunteerModal = lazy(() => import("./components/Modals").then(m => ({ def
 const ResultReminderModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ResultReminderModal })));
 const ShareModal = lazy(() => import("./components/ShareModal").then(m => ({ default: m.ShareModal })));
 
-const RESULT_LIST_OPEN_DATE = "2026-07-07T11:00:00";
+const RESULT_WARNING_UNLOCK_DATE = "2026-07-07T09:00:00";
 const RESULT_REMINDER_START_DATE = "2026-07-01T00:00:00";
 const RESULT_REMINDER_END_DATE = "2026-07-30T23:59:59";
 
@@ -78,7 +78,7 @@ export default function App() {
 
   const handleWarnUrl = (url: string) => {
     const now = getNow();
-    const resultOpen = new Date(RESULT_LIST_OPEN_DATE);
+    const resultOpen = new Date(RESULT_WARNING_UNLOCK_DATE);
 
     if (now >= resultOpen) {
       window.open(url, '_blank', 'noopener,noreferrer');
