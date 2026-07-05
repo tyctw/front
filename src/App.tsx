@@ -13,15 +13,19 @@ import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
 import { getNow } from "./lib/now";
 
+const loadScheduleModal = () => import("./components/ScheduleModal");
+const loadModals = () => import("./components/Modals");
+const loadShareModal = () => import("./components/ShareModal");
+
 const Regions = lazy(() => import("./components/Regions").then(m => ({ default: m.Regions })));
 const FAQ = lazy(() => import("./components/FAQ").then(m => ({ default: m.FAQ })));
-const ScheduleModal = lazy(() => import("./components/ScheduleModal").then(m => ({ default: m.ScheduleModal })));
-const WarningModal = lazy(() => import("./components/Modals").then(m => ({ default: m.WarningModal })));
-const AnnouncementModal = lazy(() => import("./components/Modals").then(m => ({ default: m.AnnouncementModal })));
-const ScoreModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ScoreModal })));
-const VolunteerModal = lazy(() => import("./components/Modals").then(m => ({ default: m.VolunteerModal })));
-const ResultReminderModal = lazy(() => import("./components/Modals").then(m => ({ default: m.ResultReminderModal })));
-const ShareModal = lazy(() => import("./components/ShareModal").then(m => ({ default: m.ShareModal })));
+const ScheduleModal = lazy(() => loadScheduleModal().then(m => ({ default: m.ScheduleModal })));
+const WarningModal = lazy(() => loadModals().then(m => ({ default: m.WarningModal })));
+const AnnouncementModal = lazy(() => loadModals().then(m => ({ default: m.AnnouncementModal })));
+const ScoreModal = lazy(() => loadModals().then(m => ({ default: m.ScoreModal })));
+const VolunteerModal = lazy(() => loadModals().then(m => ({ default: m.VolunteerModal })));
+const ResultReminderModal = lazy(() => loadModals().then(m => ({ default: m.ResultReminderModal })));
+const ShareModal = lazy(() => loadShareModal().then(m => ({ default: m.ShareModal })));
 
 const RESULT_REMINDER_START_DATE = "2026-07-01T00:00:00";
 const RESULT_REMINDER_END_DATE = "2026-07-30T23:59:59";
@@ -87,16 +91,26 @@ export default function App() {
     }
   };
 
+  const openSchedule = () => {
+    void loadScheduleModal();
+    setScheduleOpen(true);
+  };
+
+  const openShare = () => {
+    void loadShareModal();
+    setShareOpen(true);
+  };
+
   return (
     <>
       <a href="#main-content" className="skip-link">
         跳到主要內容
       </a>
       <Background />
-      <Header onOpenSchedule={() => setScheduleOpen(true)} />
+      <Header onOpenSchedule={openSchedule} />
 
       <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-12" tabIndex={-1}>
-        <HeroCountdown onOpenSchedule={() => setScheduleOpen(true)} />
+        <HeroCountdown onOpenSchedule={openSchedule} />
         <Banner />
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400" role="status" aria-live="polite">Loading...</div>}>
           {secondaryReady && (
@@ -112,7 +126,9 @@ export default function App() {
       
       {/* Floating Share Button */}
       <button 
-        onClick={() => setShareOpen(true)}
+        onClick={openShare}
+        onFocus={() => void loadShareModal()}
+        onPointerEnter={() => void loadShareModal()}
         className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-white/75 bg-slate-950 text-white shadow-[0_18px_44px_-24px_rgba(15,23,42,0.9)] transition-all hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-200"
         aria-label="分享平台"
         aria-haspopup="dialog"
