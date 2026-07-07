@@ -25,7 +25,7 @@ import {
   Search,
 } from "lucide-react";
 import { cn } from "../lib/utils";
-import { getNow } from "../lib/now";
+import { getNow, parseTaipeiDate } from "../lib/now";
 import { cardReveal, sectionReveal, springPop, staggerContainer } from "../lib/animations";
 
 const CATEGORIES = ["ALL", "北部區域", "中部區域", "南部區域", "東部區域", "離島區域"];
@@ -116,8 +116,8 @@ const portalStatusMeta: Record<PortalStatus, { label: string; className: string 
 };
 
 function getPortalStatus(now: Date): PortalStatus {
-  const openDate = new Date(RESULT_LIST_OPEN_DATE);
-  const closeDate = new Date(RESULT_LIST_CLOSE_DATE);
+  const openDate = parseTaipeiDate(RESULT_LIST_OPEN_DATE);
+  const closeDate = parseTaipeiDate(RESULT_LIST_CLOSE_DATE);
 
   if (now > closeDate) return "closed";
   if (now >= openDate) return "open";

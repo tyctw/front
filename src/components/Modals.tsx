@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { AlertTriangle, Award, Bell, CalendarClock, CheckCircle2, Clock3, ExternalLink, MapPinned, X, FileText, GraduationCap, RotateCcw } from "lucide-react";
 import { ADMISSION_LIST_CLOSE_DATE, LATEST_ANNOUNCEMENT, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
-import { getNow } from "../lib/now";
+import { getNow, parseTaipeiDate } from "../lib/now";
 import { useEffect, useRef } from "react";
 
 function useDialogAccessibility(isOpen: boolean, onClose: () => void) {
@@ -193,7 +193,7 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
   const dialogRef = useDialogAccessibility(isOpen, onClose);
   if (!isOpen) return null;
 
-  const volunteerClosed = getNow() >= new Date(ADMISSION_LIST_CLOSE_DATE);
+  const volunteerClosed = getNow() >= parseTaipeiDate(ADMISSION_LIST_CLOSE_DATE);
   const volunteerEntryUrl = volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
   const volunteerEntryLabel = volunteerClosed ? "前往查榜網址" : "前往各區選填網址";
 

@@ -1,5 +1,5 @@
 import { EVENTS } from "../data";
-import { getNow } from "../lib/now";
+import { getNow, parseTaipeiDate } from "../lib/now";
 import { formatDate } from "../lib/utils";
 import { CalendarDays, Check, Clock3, Sparkles, X } from "lucide-react";
 import { motion } from "motion/react";
@@ -22,11 +22,11 @@ export function ScheduleModal({ isOpen, onClose }: { isOpen: boolean, onClose: (
 
   if (!isOpen) return null;
 
-  const sortedEvents = [...EVENTS].sort((a, b) => new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime());
+  const sortedEvents = [...EVENTS].sort((a, b) => parseTaipeiDate(a.dateStart).getTime() - parseTaipeiDate(b.dateStart).getTime());
   const now = getNow();
   const eventRows = sortedEvents.map((event) => {
-    const start = new Date(event.dateStart);
-    const end = event.dateEnd ? new Date(event.dateEnd) : new Date(start.getTime() + 86400000);
+    const start = parseTaipeiDate(event.dateStart);
+    const end = event.dateEnd ? parseTaipeiDate(event.dateEnd) : new Date(start.getTime() + 86400000);
     const status = now > end ? "past" : now >= start && now <= end ? "current" : "future";
 
     return { ...event, start, end, status };

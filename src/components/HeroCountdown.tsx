@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
 import { ArrowDownCircle, CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
-import { getNow } from "../lib/now";
+import { getNow, getTaipeiDayBounds, parseTaipeiDate } from "../lib/now";
 
 type CountdownStatus = "upcoming" | "active" | "ended";
 
@@ -35,20 +35,17 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
   useEffect(() => {
     const updateTimer = () => {
       const now = getNow();
-      const rankOpenDate = new Date(ADMISSION_LIST_OPEN_DATE);
-      const rankCloseDate = new Date(ADMISSION_LIST_CLOSE_DATE);
+      const rankOpenDate = parseTaipeiDate(ADMISSION_LIST_OPEN_DATE);
+      const rankCloseDate = parseTaipeiDate(ADMISSION_LIST_CLOSE_DATE);
       const resultEvent = EVENTS.find((event) => event.id === "final");
-      const resultOpenDate = resultEvent ? new Date(resultEvent.dateStart) : null;
-      const resultDayEnd = resultOpenDate
-        ? new Date(resultOpenDate.getFullYear(), resultOpenDate.getMonth(), resultOpenDate.getDate() + 1)
-        : null;
-      const resultDayStart = resultOpenDate
-        ? new Date(resultOpenDate.getFullYear(), resultOpenDate.getMonth(), resultOpenDate.getDate())
-        : null;
+      const resultOpenDate = resultEvent ? parseTaipeiDate(resultEvent.dateStart) : null;
+      const resultDayBounds = resultOpenDate ? getTaipeiDayBounds(resultOpenDate) : null;
+      const resultDayEnd = resultDayBounds?.end || null;
+      const resultDayStart = resultDayBounds?.start || null;
       const isResultDay = !!resultDayStart && !!resultDayEnd && now >= resultDayStart && now < resultDayEnd;
       const isResultOpen = !!resultOpenDate && !!resultDayEnd && now >= resultOpenDate && now < resultDayEnd;
       const isResultPending = isResultDay && !!resultOpenDate && now < resultOpenDate;
-      const resultCountdownStart = new Date("2026-07-01T00:00:00");
+      const resultCountdownStart = parseTaipeiDate("2026-07-01T00:00:00");
       const isResultCountdown = !!resultOpenDate && now >= resultCountdownStart && now < resultOpenDate;
 
       let targetDateInfo: { title: string; dateStart: string; dateEnd?: string; ended?: boolean } | null = null;
@@ -66,8 +63,8 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
         targetDateInfo = { title: "距離個人序位查詢開放", dateStart: ADMISSION_LIST_OPEN_DATE, dateEnd: ADMISSION_LIST_CLOSE_DATE };
       } else {
         const sortedEvents = [...EVENTS]
-          .filter((e) => new Date(e.dateStart).getTime() > now.getTime())
-          .sort((a, b) => new Date(a.dateStart).getTime() - new Date(b.dateStart).getTime());
+          .filter((e) => parseTaipeiDate(e.dateStart).getTime() > now.getTime())
+          .sort((a, b) => parseTaipeiDate(a.dateStart).getTime() - parseTaipeiDate(b.dateStart).getTime());
 
         if (sortedEvents.length > 0) {
           targetDateInfo = { title: `距離 ${sortedEvents[0].title}`, dateStart: sortedEvents[0].dateStart, dateEnd: sortedEvents[0].dateEnd };
@@ -77,8 +74,8 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       }
 
       const currentNow = now.getTime();
-      const start = new Date(targetDateInfo.dateStart).getTime();
-      const end = targetDateInfo.dateEnd ? new Date(targetDateInfo.dateEnd).getTime() : start + 86400000;
+      const start = parseTaipeiDate(targetDateInfo.dateStart).getTime();
+      const end = targetDateInfo.dateEnd ? parseTaipeiDate(targetDateInfo.dateEnd).getTime() : start + 86400000;
 
       let diff = 0;
       let status: CountdownStatus = "upcoming";
@@ -97,11 +94,13 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
 
       if (status === "ended") diff = 0;
 
+      const totalSeconds = Math.max(0, Math.ceil(diff / 1000));
+
       setState({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+        days: Math.floor(totalSeconds / 86400),
+        hours: Math.floor((totalSeconds % 86400) / 3600),
+        minutes: Math.floor((totalSeconds % 3600) / 60),
+        seconds: totalSeconds % 60,
         status,
         title: targetDateInfo.title,
         isResultDay,
@@ -111,16 +110,21 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       });
     };
 
-    let interval: ReturnType<typeof setInterval> | null = null;
-    const startTimer = () => {
-      if (interval) return;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    const scheduleNextTick = () => {
       updateTimer();
-      interval = setInterval(updateTimer, 1000);
+      const nowMs = getNow().getTime();
+      const delay = Math.max(250, 1000 - (nowMs % 1000) + 20);
+      timeoutId = setTimeout(scheduleNextTick, delay);
+    };
+    const startTimer = () => {
+      if (timeoutId) return;
+      scheduleNextTick();
     };
     const stopTimer = () => {
-      if (!interval) return;
-      clearInterval(interval);
-      interval = null;
+      if (!timeoutId) return;
+      clearTimeout(timeoutId);
+      timeoutId = null;
     };
     const handleVisibilityChange = () => {
       if (document.hidden) {
@@ -146,7 +150,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
   const statusLabel = state.isResultPending ? "今日 11:00 開放" : state.isResultCountdown ? "7/7 11:00 開放" : statusCopy.label;
 
   const StatusIcon = statusCopy.icon;
-  const volunteerClosed = getNow() >= new Date(ADMISSION_LIST_CLOSE_DATE);
+  const volunteerClosed = getNow() >= parseTaipeiDate(ADMISSION_LIST_CLOSE_DATE);
   const volunteerEntryUrl = volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
   const volunteerEntryLabel = state.isResultCountdown || state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "志願選填入口";
   const heroTitle = state.title;
@@ -155,7 +159,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       ? "請選擇所屬就學區查詢錄取學校。"
       : ""
     : "整理各就學區查榜入口、志願選填與重要時程。請以各區官方系統公告為準，並於開放時間內完成查詢。";
-  const resultOpenDate = new Date(EVENTS.find((event) => event.id === "final")?.dateStart || "");
+  const resultOpenDate = parseTaipeiDate(EVENTS.find((event) => event.id === "final")?.dateStart || "");
   const resultOpenDateLabel = Number.isNaN(resultOpenDate.getTime())
     ? ""
     : `${resultOpenDate.getFullYear() - 1911}/${resultOpenDate.getMonth() + 1}/${resultOpenDate.getDate()}（${resultOpenDate.toLocaleDateString("zh-TW", { weekday: "short" })}）`;

@@ -11,7 +11,7 @@ import { Banner } from "./components/Banner";
 import { LATEST_ANNOUNCEMENT, RESULT_WARNING_UNLOCK_DATE } from "./data";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
-import { getNow } from "./lib/now";
+import { getNow, parseTaipeiDate } from "./lib/now";
 
 const loadScheduleModal = () => import("./components/ScheduleModal");
 const loadModals = () => import("./components/Modals");
@@ -51,11 +51,11 @@ export default function App() {
     const popupId = runAfterPaint(() => {
       // Popups Logic
       const now = getNow();
-      const scoreStart = new Date("2026-06-04T00:00:00");
-      const scoreEnd = new Date("2026-06-15T00:00:00"); // exclusive
-      const volunteerEnd = new Date("2026-06-25T23:59:59");
-      const resultReminderStart = new Date(RESULT_REMINDER_START_DATE);
-      const resultReminderEnd = new Date(RESULT_REMINDER_END_DATE);
+      const scoreStart = parseTaipeiDate("2026-06-04T00:00:00");
+      const scoreEnd = parseTaipeiDate("2026-06-15T00:00:00"); // exclusive
+      const volunteerEnd = parseTaipeiDate("2026-06-25T23:59:59");
+      const resultReminderStart = parseTaipeiDate(RESULT_REMINDER_START_DATE);
+      const resultReminderEnd = parseTaipeiDate(RESULT_REMINDER_END_DATE);
 
       if (now >= resultReminderStart && now <= resultReminderEnd) {
         setResultReminderOpen(true);
@@ -81,7 +81,7 @@ export default function App() {
 
   const handleWarnUrl = (url: string) => {
     const now = getNow();
-    const resultOpen = new Date(RESULT_WARNING_UNLOCK_DATE);
+    const resultOpen = parseTaipeiDate(RESULT_WARNING_UNLOCK_DATE);
 
     if (now >= resultOpen) {
       window.open(url, '_blank', 'noopener,noreferrer');
