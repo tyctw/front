@@ -8,6 +8,7 @@ import { Background } from "./components/Background";
 import { Header } from "./components/Header";
 import { HeroCountdown } from "./components/HeroCountdown";
 import { Banner } from "./components/Banner";
+import { GuidePage } from "./components/GuidePage";
 import { LATEST_ANNOUNCEMENT, RESULT_WARNING_UNLOCK_DATE } from "./data";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
@@ -31,6 +32,7 @@ const RESULT_REMINDER_START_DATE = "2026-07-01T00:00:00";
 const RESULT_REMINDER_END_DATE = "2026-07-30T23:59:59";
 
 export default function App() {
+  const isGuidePage = window.location.pathname.replace(/\/$/, "") === "/front/guide";
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [warningOpen, setWarningOpen] = useState(false);
   const [pendingUrl, setPendingUrl] = useState<string | null>(null);
@@ -43,6 +45,11 @@ export default function App() {
   const [secondaryReady, setSecondaryReady] = useState(false);
 
   useEffect(() => {
+    if (isGuidePage) {
+      setSecondaryReady(true);
+      return;
+    }
+
     const runAfterPaint =
       window.requestIdleCallback ||
       ((callback: IdleRequestCallback) => window.setTimeout(() => callback({ didTimeout: false, timeRemaining: () => 0 }), 1200));
@@ -77,7 +84,13 @@ export default function App() {
         clearTimeout(popupId as number);
       }
     };
-  }, []);
+  }, [isGuidePage]);
+
+  useEffect(() => {
+    document.title = isGuidePage
+      ? "115會考查榜與免試入學報到重點｜完整指南｜TW會考落點分析"
+      : "115會考查榜入口｜免試入學錄取結果與報到資訊｜TW會考落點分析";
+  }, [isGuidePage]);
 
   const handleWarnUrl = (url: string) => {
     const now = getNow();
@@ -109,18 +122,22 @@ export default function App() {
       <Background />
       <Header onOpenSchedule={openSchedule} />
 
-      <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-12" tabIndex={-1}>
-        <HeroCountdown onOpenSchedule={openSchedule} />
-        <Banner />
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400" role="status" aria-live="polite">Loading...</div>}>
-          {secondaryReady && (
-            <>
-              <Regions onWarnUrl={handleWarnUrl} />
-              <FAQ />
-            </>
-          )}
-        </Suspense>
-      </main>
+      {isGuidePage ? (
+        <GuidePage />
+      ) : (
+        <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-12" tabIndex={-1}>
+          <HeroCountdown onOpenSchedule={openSchedule} />
+          <Banner />
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400" role="status" aria-live="polite">Loading...</div>}>
+            {secondaryReady && (
+              <>
+                <Regions onWarnUrl={handleWarnUrl} />
+                <FAQ />
+              </>
+            )}
+          </Suspense>
+        </main>
+      )}
 
       <Footer />
       

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
-import { ArrowDownCircle, CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
+import { ArrowDownCircle, ArrowRight, BookOpenCheck, CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
 import { getNow, getTaipeiDayBounds, parseTaipeiDate } from "../lib/now";
 
 type CountdownStatus = "upcoming" | "active" | "ended";
@@ -16,6 +16,7 @@ interface CountdownState {
   isResultOpen: boolean;
   isResultPending: boolean;
   isResultCountdown: boolean;
+  isPostResultGuide: boolean;
 }
 
 export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }) {
@@ -30,6 +31,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
     isResultOpen: false,
     isResultPending: false,
     isResultCountdown: false,
+    isPostResultGuide: false,
   });
 
   useEffect(() => {
@@ -47,6 +49,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       const isResultPending = isResultDay && !!resultOpenDate && now < resultOpenDate;
       const resultCountdownStart = parseTaipeiDate("2026-07-01T00:00:00");
       const isResultCountdown = !!resultOpenDate && now >= resultCountdownStart && now < resultOpenDate;
+      const isPostResultGuide = !!resultDayEnd && now >= resultDayEnd;
 
       let targetDateInfo: { title: string; dateStart: string; dateEnd?: string; ended?: boolean } | null = null;
       const daysToRank = (rankOpenDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
@@ -62,12 +65,23 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       } else if (daysToRank <= 20 && daysToRank > 0) {
         targetDateInfo = { title: "距離個人序位查詢開放", dateStart: ADMISSION_LIST_OPEN_DATE, dateEnd: ADMISSION_LIST_CLOSE_DATE };
       } else {
-        const sortedEvents = [...EVENTS]
-          .filter((e) => parseTaipeiDate(e.dateStart).getTime() > now.getTime())
-          .sort((a, b) => parseTaipeiDate(a.dateStart).getTime() - parseTaipeiDate(b.dateStart).getTime());
+        const currentOrUpcomingEvents = [...EVENTS]
+          .map((event) => {
+            const start = parseTaipeiDate(event.dateStart);
+            const end = event.dateEnd ? parseTaipeiDate(event.dateEnd) : new Date(start.getTime() + 86400000);
+            return { event, start, end };
+          })
+          .filter(({ end }) => end.getTime() > now.getTime())
+          .sort((a, b) => a.start.getTime() - b.start.getTime());
 
-        if (sortedEvents.length > 0) {
-          targetDateInfo = { title: `距離 ${sortedEvents[0].title}`, dateStart: sortedEvents[0].dateStart, dateEnd: sortedEvents[0].dateEnd };
+        if (currentOrUpcomingEvents.length > 0) {
+          const next = currentOrUpcomingEvents[0];
+          const isActiveEvent = now >= next.start && now < next.end;
+          targetDateInfo = {
+            title: isActiveEvent ? `${next.event.title}進行中` : `距離 ${next.event.title}`,
+            dateStart: next.event.dateStart,
+            dateEnd: next.event.dateEnd,
+          };
         } else {
           targetDateInfo = { title: "本年度重要日程已結束", dateStart: now.toISOString(), ended: true };
         }
@@ -107,6 +121,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
         isResultOpen,
         isResultPending,
         isResultCountdown,
+        isPostResultGuide,
       });
     };
 
@@ -147,17 +162,19 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
     active: { label: "現在進行中", icon: CheckCircle2, className: "bg-rose-50 text-rose-700 ring-rose-100" },
     ended: { label: "本階段已結束", icon: CheckCircle2, className: "bg-slate-100 text-slate-600 ring-slate-200" },
   }[state.status];
-  const statusLabel = state.isResultPending ? "今日 11:00 開放" : state.isResultCountdown ? "7/7 11:00 開放" : statusCopy.label;
+  const statusLabel = state.isPostResultGuide ? "最近日程" : state.isResultPending ? "今日 11:00 開放" : state.isResultCountdown ? "7/7 11:00 開放" : statusCopy.label;
 
   const StatusIcon = statusCopy.icon;
   const volunteerClosed = getNow() >= parseTaipeiDate(ADMISSION_LIST_CLOSE_DATE);
-  const volunteerEntryUrl = volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
-  const volunteerEntryLabel = state.isResultCountdown || state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "志願選填入口";
+  const volunteerEntryUrl = state.isPostResultGuide ? "/front/guide/" : volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
+  const volunteerEntryLabel = state.isPostResultGuide ? "查榜後報到指南" : state.isResultCountdown || state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "志願選填入口";
   const heroTitle = state.title;
   const heroCopy = state.isResultDay
     ? state.isResultOpen
       ? "請選擇所屬就學區查詢錄取學校。"
       : ""
+    : state.isPostResultGuide
+      ? "放榜後請先確認錄取學校公告，留意報到方式、複查、續招與放棄錄取資格期限。"
     : "整理各就學區查榜入口、志願選填與重要時程。請以各區官方系統公告為準，並於開放時間內完成查詢。";
   const resultOpenDate = parseTaipeiDate(EVENTS.find((event) => event.id === "final")?.dateStart || "");
   const resultOpenDateLabel = Number.isNaN(resultOpenDate.getTime())
@@ -188,9 +205,9 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
               <StatusIcon className="h-4 w-4" />
               {statusLabel}
             </div>
-            <h2 className="max-w-2xl text-[40px] font-black leading-[1.08] tracking-normal text-slate-950 md:text-6xl">
+            <h1 className="max-w-2xl text-[40px] font-black leading-[1.08] tracking-normal text-slate-950 md:text-6xl">
               {heroTitle}
-            </h2>
+            </h1>
             {heroCopy && (
               <p className="mt-5 max-w-xl text-base font-medium leading-8 text-slate-600">
                 {heroCopy}
@@ -227,26 +244,31 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
               </div>
             )}
 
-            <div className={`flex gap-3 ${state.isResultCountdown || state.isResultDay ? "mt-5 max-w-2xl flex-col sm:flex-row sm:items-center" : "mt-8 flex-wrap"}`}>
+            <div className={`flex gap-3 ${state.isResultCountdown || state.isResultDay || state.isPostResultGuide ? "mt-5 max-w-2xl flex-col sm:flex-row sm:items-center" : "mt-8 flex-wrap"}`}>
               <a
                 href={volunteerEntryUrl}
-                target={volunteerClosed ? undefined : "_blank"}
-                rel={volunteerClosed ? undefined : "noreferrer"}
+                target={state.isPostResultGuide || volunteerClosed ? undefined : "_blank"}
+                rel={state.isPostResultGuide || volunteerClosed ? undefined : "noreferrer"}
                 className={`inline-flex items-center justify-center transition-all hover:-translate-y-0.5 focus:outline-none ${
-                  state.isResultCountdown || state.isResultDay
+                  state.isResultCountdown || state.isResultDay || state.isPostResultGuide
                     ? "min-h-[56px] w-full rounded-[22px] bg-rose-600 px-8 py-4 text-base font-black text-white shadow-[0_18px_38px_-20px_rgba(225,29,72,0.72)] hover:bg-rose-700 focus:ring-4 focus:ring-rose-100 sm:w-auto"
                     : "rounded-full border border-slate-200 bg-white/70 px-6 py-3 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200"
                 }`}
               >
-                {(state.isResultCountdown || state.isResultDay) && <ArrowDownCircle className="mr-2 h-5 w-5" />}
+                {state.isPostResultGuide ? (
+                  <BookOpenCheck className="mr-2 h-5 w-5" />
+                ) : (
+                  (state.isResultCountdown || state.isResultDay) && <ArrowDownCircle className="mr-2 h-5 w-5" />
+                )}
                 {volunteerEntryLabel}
+                {state.isPostResultGuide && <ArrowRight className="ml-2 h-5 w-5" />}
               </a>
               <button
                 onClick={onOpenSchedule}
                 className={`inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 focus:outline-none ${
                   state.isResultOpen
                     ? "min-h-[52px] w-full rounded-[20px] border border-slate-200 bg-white/78 px-6 py-3.5 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200 sm:w-auto"
-                    : state.isResultCountdown || state.isResultDay
+                    : state.isResultCountdown || state.isResultDay || state.isPostResultGuide
                       ? "min-h-[52px] w-full rounded-[20px] border border-slate-200 bg-white/78 px-6 py-3.5 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200 sm:w-auto"
                     : "rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white shadow-[0_12px_30px_-18px_rgba(15,23,42,0.9)] hover:bg-slate-800 focus:ring-4 focus:ring-slate-200"
                 }`}

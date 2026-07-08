@@ -1,4 +1,4 @@
-import { BarChart3, CalendarDays, MapPin, Menu, Share2, Sparkles } from "lucide-react";
+import { BarChart3, BookOpenCheck, CalendarDays, MapPin, Menu, Share2, Sparkles } from "lucide-react";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
 const loadMobileNavigation = () => import("./MobileNavigation");
@@ -11,6 +11,7 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
 
   const links = [
     { label: "重要日程", detail: "115 會考時程", icon: CalendarDays, action: onOpenSchedule },
+    { label: "報到指南", detail: "查榜後流程", icon: BookOpenCheck, href: "/front/guide/", internal: true },
     { label: "錄取分享", detail: "分享錄取分數", icon: BarChart3, href: "https://tyctw.github.io/shared/" },
     { label: "序位分享", detail: "對照各區排名", icon: MapPin, href: "https://tyctw.github.io/score/" },
     { label: "成績回報", detail: "回報分數資料", icon: Share2, href: "https://tyctw.github.io/shared/" },
@@ -48,22 +49,22 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
                   115
                 </span>
               </div>
-              <div className="ml-3 min-w-0">
-                <h1 className="truncate text-base font-black leading-none tracking-normal text-slate-950 sm:text-lg">
+              <a href="/front/" className="ml-3 min-w-0 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-200">
+                <span className="block truncate text-base font-black leading-none tracking-normal text-slate-950 sm:text-lg">
                   全國會考查榜入口
-                </h1>
-                <p className="mt-1 hidden text-xs font-bold text-slate-500 sm:block">
+                </span>
+                <span className="mt-1 hidden text-xs font-bold text-slate-500 sm:block">
                   免試入學放榜與志願資訊整理
-                </p>
-              </div>
+                </span>
+              </a>
             </div>
 
             <div className="hidden items-center gap-1 rounded-full bg-slate-100/70 p-1 md:flex">
-              {links.slice(0, 3).map((link) => {
+              {links.slice(0, 4).map((link) => {
                 const Icon = link.icon;
                 const className = "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold text-slate-600 transition-all hover:bg-white hover:text-slate-950 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-200";
                 return link.href ? (
-                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer" className={className}>
+                  <a key={link.label} href={link.href} target={link.internal ? undefined : "_blank"} rel={link.internal ? undefined : "noreferrer"} className={className}>
                     <Icon className="h-4 w-4" />
                     {link.label}
                   </a>

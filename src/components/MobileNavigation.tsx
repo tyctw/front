@@ -7,6 +7,7 @@ interface MobileNavigationLink {
   detail: string;
   icon: LucideIcon;
   href?: string;
+  internal?: boolean;
   action?: () => void;
 }
 
@@ -137,8 +138,8 @@ export function MobileNavigation({
                   <motion.a
                     key={link.label}
                     href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
+                    target={link.internal ? undefined : "_blank"}
+                    rel={link.internal ? undefined : "noreferrer"}
                     onClick={startClose}
                     className={itemClassName}
                     variants={{
