@@ -13,7 +13,7 @@ const FIREWORK_ACTS = [
   { at: 15400, title: "終幕｜下一站齊放", copy: "最後以多點齊發收束，歡迎抵達高中生活。" },
 ] as const;
 
-type FireworkKind = "peony" | "ring" | "willow" | "palm" | "comet";
+type FireworkKind = "brocade" | "comet" | "crackle" | "palm" | "peony" | "ring" | "willow";
 
 type Profile = {
   dpr: number;
@@ -31,10 +31,24 @@ type FireworkCue = {
   optional?: boolean;
 };
 
+type MineCue = {
+  at: number;
+  positions: number[];
+  hue: number;
+  optional?: boolean;
+};
+
+type StarRainCue = {
+  at: number;
+  count: number;
+  hue: number;
+  optional?: boolean;
+};
+
 const FIREWORK_CUES: FireworkCue[] = [
   { at: 700, positions: [0.5], kind: "comet", hue: 44, heightBand: [0.34, 0.4] },
   { at: 1700, positions: [0.36, 0.64], kind: "comet", hue: 42, heightBand: [0.38, 0.46] },
-  { at: 2900, positions: [0.5], kind: "peony", hue: 38, heightBand: [0.2, 0.27] },
+  { at: 2900, positions: [0.5], kind: "brocade", hue: 42, heightBand: [0.18, 0.26] },
   { at: 4200, positions: [0.28, 0.72], kind: "peony", hue: 355, heightBand: [0.25, 0.34], optional: true },
 
   { at: 5400, positions: [0.5], kind: "ring", hue: 198, heightBand: [0.18, 0.26] },
@@ -43,15 +57,33 @@ const FIREWORK_CUES: FireworkCue[] = [
   { at: 9200, positions: [0.25, 0.75], kind: "ring", hue: 190, heightBand: [0.22, 0.32], optional: true },
 
   { at: 10600, positions: [0.32, 0.68], kind: "willow", hue: 45, heightBand: [0.18, 0.28] },
-  { at: 11900, positions: [0.5], kind: "willow", hue: 46, heightBand: [0.14, 0.24] },
+  { at: 11900, positions: [0.5], kind: "brocade", hue: 46, heightBand: [0.13, 0.23] },
   { at: 13200, positions: [0.24, 0.76], kind: "peony", hue: 355, heightBand: [0.26, 0.36], optional: true },
   { at: 14500, positions: [0.4, 0.6], kind: "willow", hue: 42, heightBand: [0.2, 0.32] },
 
-  { at: 15600, positions: [0.24, 0.5, 0.76], kind: "peony", hue: 38, heightBand: [0.19, 0.32] },
+  { at: 15400, positions: [0.5], kind: "crackle", hue: 48, heightBand: [0.16, 0.25] },
+  { at: 16000, positions: [0.24, 0.5, 0.76], kind: "brocade", hue: 40, heightBand: [0.17, 0.3] },
   { at: 16600, positions: [0.32, 0.68], kind: "ring", hue: 200, heightBand: [0.17, 0.28] },
-  { at: 17400, positions: [0.22, 0.42, 0.58, 0.78], kind: "willow", hue: 45, heightBand: [0.16, 0.34] },
-  { at: 18400, positions: [0.28, 0.5, 0.72], kind: "palm", hue: 36, heightBand: [0.26, 0.42] },
-  { at: 19300, positions: [0.18, 0.34, 0.5, 0.66, 0.82], kind: "peony", hue: 350, heightBand: [0.16, 0.38] },
+  { at: 17300, positions: [0.22, 0.42, 0.58, 0.78], kind: "willow", hue: 45, heightBand: [0.16, 0.34] },
+  { at: 18100, positions: [0.18, 0.34, 0.5, 0.66, 0.82], kind: "peony", hue: 350, heightBand: [0.18, 0.38] },
+  { at: 18900, positions: [0.25, 0.5, 0.75], kind: "crackle", hue: 48, heightBand: [0.13, 0.28] },
+  { at: 19600, positions: [0.14, 0.28, 0.42, 0.58, 0.72, 0.86], kind: "brocade", hue: 42, heightBand: [0.15, 0.4] },
+];
+
+const MINE_CUES: MineCue[] = [
+  { at: 0, positions: [0.5], hue: 42 },
+  { at: 1250, positions: [0.36, 0.64], hue: 42 },
+  { at: 5000, positions: [0.18, 0.82], hue: 198, optional: true },
+  { at: 10000, positions: [0.24, 0.5, 0.76], hue: 46 },
+  { at: 15200, positions: [0.12, 0.28, 0.44, 0.56, 0.72, 0.88], hue: 42 },
+  { at: 17800, positions: [0.16, 0.32, 0.48, 0.52, 0.68, 0.84], hue: 350 },
+  { at: 19400, positions: [0.1, 0.24, 0.38, 0.5, 0.62, 0.76, 0.9], hue: 42 },
+];
+
+const STAR_RAIN_CUES: StarRainCue[] = [
+  { at: 11200, count: 12, hue: 46, optional: true },
+  { at: 16900, count: 18, hue: 44 },
+  { at: 18800, count: 24, hue: 48 },
 ];
 
 type Shell = {
@@ -64,6 +96,14 @@ type Shell = {
   targetY: number;
   hue: number;
   kind: FireworkKind;
+};
+
+type Flash = {
+  x: number;
+  y: number;
+  life: number;
+  ttl: number;
+  hue: number;
 };
 
 type Spark = {
@@ -82,6 +122,18 @@ type Spark = {
   strobe: boolean;
 };
 
+type FallingStar = {
+  x: number;
+  y: number;
+  px: number;
+  py: number;
+  vx: number;
+  vy: number;
+  life: number;
+  ttl: number;
+  hue: number;
+};
+
 type Star = {
   x: number;
   y: number;
@@ -94,14 +146,14 @@ function randomBetween(min: number, max: number) {
 
 function getProfile(width: number): Profile {
   if (width < 640) {
-    return { dpr: 1, shellLimit: 4, sparkLimit: 180, burstScale: 0.34 };
+    return { dpr: 1, shellLimit: 4, sparkLimit: 240, burstScale: 0.42 };
   }
 
   if (width < 1024) {
-    return { dpr: 1, shellLimit: 5, sparkLimit: 280, burstScale: 0.5 };
+    return { dpr: 1, shellLimit: 5, sparkLimit: 360, burstScale: 0.58 };
   }
 
-  return { dpr: 1, shellLimit: 7, sparkLimit: 420, burstScale: 0.68 };
+  return { dpr: 1, shellLimit: 8, sparkLimit: 620, burstScale: 0.82 };
 }
 
 function getActIndex(elapsed: number) {
@@ -140,7 +192,9 @@ function addSpark(sparks: Spark[], spark: Spark, profile: Profile) {
 
 function burst(shell: Shell, sparks: Spark[], profile: Profile) {
   const baseCounts: Record<FireworkKind, number> = {
+    brocade: 104,
     comet: 36,
+    crackle: 90,
     palm: 48,
     peony: 76,
     ring: 64,
@@ -148,7 +202,9 @@ function burst(shell: Shell, sparks: Spark[], profile: Profile) {
   };
   const count = Math.max(18, Math.round(baseCounts[shell.kind] * profile.burstScale));
   const baseSpeed: Record<FireworkKind, number> = {
+    brocade: 3.8,
     comet: 2.5,
+    crackle: 4.7,
     palm: 3.8,
     peony: 4.2,
     ring: 3.6,
@@ -165,8 +221,8 @@ function burst(shell: Shell, sparks: Spark[], profile: Profile) {
     const speed = shell.kind === "ring"
       ? randomBetween(baseSpeed.ring * 0.92, baseSpeed.ring * 1.08)
       : randomBetween(baseSpeed[shell.kind] * 0.42, baseSpeed[shell.kind]);
-    const ttl = shell.kind === "willow" ? randomBetween(92, 132) : randomBetween(52, 88);
-    const gold = shell.kind === "willow" || shell.kind === "comet" || shell.kind === "palm";
+    const ttl = shell.kind === "willow" || shell.kind === "brocade" ? randomBetween(96, 142) : randomBetween(52, 88);
+    const gold = shell.kind === "willow" || shell.kind === "comet" || shell.kind === "palm" || shell.kind === "brocade" || shell.kind === "crackle";
     const hue = gold ? randomBetween(34, 54) : shell.hue + randomBetween(-16, 16);
 
     addSpark(sparks, {
@@ -175,14 +231,39 @@ function burst(shell: Shell, sparks: Spark[], profile: Profile) {
       px: shell.x,
       py: shell.y,
       vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed + (shell.kind === "willow" ? randomBetween(0.35, 1.0) : 0),
+      vy: Math.sin(angle) * speed + (shell.kind === "willow" || shell.kind === "brocade" ? randomBetween(0.35, 1.05) : 0),
       life: ttl,
       ttl,
       hue,
-      size: randomBetween(0.75, shell.kind === "willow" ? 1.25 : 1.65),
-      gravity: shell.kind === "willow" ? 0.038 : 0.028,
-      drag: shell.kind === "willow" ? 0.992 : 0.982,
-      strobe: shell.kind === "ring" && i % 4 === 0,
+      size: randomBetween(0.75, shell.kind === "willow" || shell.kind === "brocade" ? 1.35 : 1.75),
+      gravity: shell.kind === "willow" || shell.kind === "brocade" ? 0.04 : 0.028,
+      drag: shell.kind === "willow" || shell.kind === "brocade" ? 0.992 : 0.982,
+      strobe: shell.kind === "ring" && i % 4 === 0 || shell.kind === "crackle" && i % 3 === 0,
+    }, profile);
+  }
+}
+
+function addMine(width: number, height: number, cue: MineCue, position: number, sparks: Spark[], profile: Profile) {
+  const x = width * position;
+  const baseY = height + 4;
+  const count = Math.max(10, Math.round(28 * profile.burstScale));
+  for (let i = 0; i < count; i += 1) {
+    const spread = randomBetween(-0.32, 0.32);
+    const speed = randomBetween(4.2, 7.3);
+    addSpark(sparks, {
+      x,
+      y: baseY,
+      px: x,
+      py: baseY,
+      vx: Math.sin(spread) * speed,
+      vy: -Math.cos(spread) * speed,
+      life: randomBetween(42, 72),
+      ttl: 72,
+      hue: cue.hue + randomBetween(-8, 8),
+      size: randomBetween(0.9, 1.8),
+      gravity: 0.05,
+      drag: 0.982,
+      strobe: false,
     }, profile);
   }
 }
@@ -193,6 +274,25 @@ function makeStars(width: number, height: number, count: number): Star[] {
     y: Math.random() * height * 0.62,
     alpha: randomBetween(0.08, 0.32),
   }));
+}
+
+function addStarRain(width: number, height: number, cue: StarRainCue, fallingStars: FallingStar[], profile: Profile) {
+  const count = Math.max(5, Math.round(cue.count * profile.burstScale));
+  for (let i = 0; i < count; i += 1) {
+    const x = randomBetween(width * 0.12, width * 0.88);
+    const y = randomBetween(height * 0.08, height * 0.28);
+    fallingStars.push({
+      x,
+      y,
+      px: x,
+      py: y,
+      vx: randomBetween(-0.22, 0.22),
+      vy: randomBetween(0.8, 1.7),
+      life: randomBetween(62, 96),
+      ttl: 96,
+      hue: cue.hue + randomBetween(-8, 8),
+    });
+  }
 }
 
 export function FireworksShow({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
@@ -211,6 +311,8 @@ export function FireworksShow({ isOpen, onClose }: { isOpen: boolean; onClose: (
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const shells: Shell[] = [];
     const sparks: Spark[] = [];
+    const flashes: Flash[] = [];
+    const fallingStars: FallingStar[] = [];
     let stars: Star[] = [];
     let profile = getProfile(window.innerWidth);
     let animationId = 0;
@@ -218,6 +320,8 @@ export function FireworksShow({ isOpen, onClose }: { isOpen: boolean; onClose: (
     let lastFrame = 0;
     let lastUi = 0;
     let nextCueIndex = 0;
+    let nextMineCueIndex = 0;
+    let nextStarRainIndex = 0;
     let closeQueued = false;
     let lastKnownAct = 0;
 
@@ -250,6 +354,25 @@ export function FireworksShow({ isOpen, onClose }: { isOpen: boolean; onClose: (
           }
         }
         nextCueIndex += 1;
+      }
+
+      while (nextMineCueIndex < MINE_CUES.length && elapsed >= MINE_CUES[nextMineCueIndex].at) {
+        const cue = MINE_CUES[nextMineCueIndex];
+        const skipOptionalOnSmallScreens = width < 640 && cue.optional;
+        if (!skipOptionalOnSmallScreens) {
+          for (const position of cue.positions) {
+            addMine(width, height, cue, position, sparks, profile);
+          }
+        }
+        nextMineCueIndex += 1;
+      }
+
+      while (nextStarRainIndex < STAR_RAIN_CUES.length && elapsed >= STAR_RAIN_CUES[nextStarRainIndex].at) {
+        const cue = STAR_RAIN_CUES[nextStarRainIndex];
+        if (!(width < 640 && cue.optional)) {
+          addStarRain(width, height, cue, fallingStars, profile);
+        }
+        nextStarRainIndex += 1;
       }
     };
 
@@ -297,6 +420,28 @@ export function FireworksShow({ isOpen, onClose }: { isOpen: boolean; onClose: (
       ctx.globalCompositeOperation = "lighter";
       ctx.lineCap = "round";
 
+      for (let i = flashes.length - 1; i >= 0; i -= 1) {
+        const flash = flashes[i];
+        const alpha = Math.max(0, flash.life / flash.ttl);
+        ctx.fillStyle = `hsla(${flash.hue}, 100%, 82%, ${alpha * 0.24})`;
+        ctx.beginPath();
+        ctx.arc(flash.x, flash.y, 10 * alpha + 1.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = `rgba(255,255,255,${alpha * 0.32})`;
+        ctx.lineWidth = 1.2;
+        for (let ray = 0; ray < 8; ray += 1) {
+          const angle = (Math.PI * 2 * ray) / 8;
+          const inner = 8 * (1 - alpha);
+          const outer = 18 + 22 * (1 - alpha);
+          ctx.beginPath();
+          ctx.moveTo(flash.x + Math.cos(angle) * inner, flash.y + Math.sin(angle) * inner);
+          ctx.lineTo(flash.x + Math.cos(angle) * outer, flash.y + Math.sin(angle) * outer);
+          ctx.stroke();
+        }
+        flash.life -= 1;
+        if (flash.life <= 0) flashes.splice(i, 1);
+      }
+
       for (let i = shells.length - 1; i >= 0; i -= 1) {
         const shell = shells[i];
         shell.px = shell.x;
@@ -319,6 +464,13 @@ export function FireworksShow({ isOpen, onClose }: { isOpen: boolean; onClose: (
 
         if (shell.y <= shell.targetY || shell.vy >= -0.4) {
           burst(shell, sparks, profile);
+          flashes.push({
+            x: shell.x,
+            y: shell.y,
+            life: 9,
+            ttl: 9,
+            hue: shell.hue,
+          });
           shells.splice(i, 1);
         }
       }
@@ -344,6 +496,28 @@ export function FireworksShow({ isOpen, onClose }: { isOpen: boolean; onClose: (
 
         if (spark.life <= 0 || spark.y > height + 60) {
           sparks.splice(i, 1);
+        }
+      }
+
+      for (let i = fallingStars.length - 1; i >= 0; i -= 1) {
+        const star = fallingStars[i];
+        const alpha = Math.max(0, star.life / star.ttl);
+        star.px = star.x;
+        star.py = star.y;
+        star.x += star.vx;
+        star.y += star.vy;
+        star.vy += 0.018;
+        star.life -= 1;
+
+        ctx.strokeStyle = `hsla(${star.hue}, 100%, 76%, ${alpha * 0.78})`;
+        ctx.lineWidth = 1.15;
+        ctx.beginPath();
+        ctx.moveTo(star.px, star.py);
+        ctx.lineTo(star.x, star.y);
+        ctx.stroke();
+
+        if (star.life <= 0 || star.y > height + 40) {
+          fallingStars.splice(i, 1);
         }
       }
 

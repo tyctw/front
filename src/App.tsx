@@ -9,7 +9,7 @@ import { Header } from "./components/Header";
 import { HeroCountdown } from "./components/HeroCountdown";
 import { Banner } from "./components/Banner";
 import { GuidePage } from "./components/GuidePage";
-import { FIREWORK_SHOW_START_DATE, LATEST_ANNOUNCEMENT, RESULT_WARNING_UNLOCK_DATE } from "./data";
+import { FIREWORK_SHOW_START_DATE, RESULT_WARNING_UNLOCK_DATE } from "./data";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
 import { getNow, parseTaipeiDate } from "./lib/now";
@@ -23,7 +23,6 @@ const Regions = lazy(() => import("./components/Regions").then(m => ({ default: 
 const FAQ = lazy(() => import("./components/FAQ").then(m => ({ default: m.FAQ })));
 const ScheduleModal = lazy(() => loadScheduleModal().then(m => ({ default: m.ScheduleModal })));
 const WarningModal = lazy(() => loadModals().then(m => ({ default: m.WarningModal })));
-const AnnouncementModal = lazy(() => loadModals().then(m => ({ default: m.AnnouncementModal })));
 const ScoreModal = lazy(() => loadModals().then(m => ({ default: m.ScoreModal })));
 const VolunteerModal = lazy(() => loadModals().then(m => ({ default: m.VolunteerModal })));
 const ResultReminderModal = lazy(() => loadModals().then(m => ({ default: m.ResultReminderModal })));
@@ -38,7 +37,6 @@ export default function App() {
   const [warningOpen, setWarningOpen] = useState(false);
   const [pendingUrl, setPendingUrl] = useState<string | null>(null);
   
-  const [announcementOpen, setAnnouncementOpen] = useState(false);
   const [scoreOpen, setScoreOpen] = useState(false);
   const [volunteerOpen, setVolunteerOpen] = useState(false);
   const [resultReminderOpen, setResultReminderOpen] = useState(false);
@@ -73,6 +71,7 @@ export default function App() {
       const resultReminderStart = parseTaipeiDate(RESULT_REMINDER_START_DATE);
       const resultReminderEnd = parseTaipeiDate(RESULT_REMINDER_END_DATE);
       const fireworksStartDate = parseTaipeiDate(FIREWORK_SHOW_START_DATE);
+      const fireworksStarted = now >= fireworksStartDate;
       const popupDelay = now >= fireworksStartDate ? 21000 : 0;
       const openAfterFireworks = (open: () => void) => {
         if (popupDelay > 0) {
@@ -82,14 +81,12 @@ export default function App() {
         }
       };
 
-      if (now >= resultReminderStart && now <= resultReminderEnd) {
+      if (!fireworksStarted && now >= resultReminderStart && now <= resultReminderEnd) {
         openAfterFireworks(() => setResultReminderOpen(true));
       } else if (now >= scoreStart && now < scoreEnd) {
         openAfterFireworks(() => setScoreOpen(true));
       } else if (now >= scoreEnd && now <= volunteerEnd) {
         openAfterFireworks(() => setVolunteerOpen(true));
-      } else if (LATEST_ANNOUNCEMENT.active) {
-        openAfterFireworks(() => setAnnouncementOpen(true));
       }
     });
 
@@ -177,7 +174,6 @@ export default function App() {
       <Suspense fallback={null}>
         {scheduleOpen && <ScheduleModal isOpen={scheduleOpen} onClose={() => setScheduleOpen(false)} />}
         {warningOpen && <WarningModal isOpen={warningOpen} onClose={() => setWarningOpen(false)} pendingUrl={pendingUrl} />}
-        {announcementOpen && <AnnouncementModal isOpen={announcementOpen} onClose={() => setAnnouncementOpen(false)} />}
         {scoreOpen && <ScoreModal isOpen={scoreOpen} onClose={() => setScoreOpen(false)} />}
         {volunteerOpen && <VolunteerModal isOpen={volunteerOpen} onClose={() => setVolunteerOpen(false)} />}
         {resultReminderOpen && <ResultReminderModal isOpen={resultReminderOpen} onClose={() => setResultReminderOpen(false)} />}
