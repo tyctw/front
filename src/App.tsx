@@ -9,10 +9,11 @@ import { Header } from "./components/Header";
 import { HeroCountdown } from "./components/HeroCountdown";
 import { Banner } from "./components/Banner";
 import { GuidePage } from "./components/GuidePage";
-import { LATEST_ANNOUNCEMENT, RESULT_WARNING_UNLOCK_DATE } from "./data";
+import { FIREWORK_SHOW_START_DATE, LATEST_ANNOUNCEMENT, RESULT_WARNING_UNLOCK_DATE } from "./data";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
 import { getNow, parseTaipeiDate } from "./lib/now";
+import { FireworksShow } from "./components/FireworksShow";
 
 const loadScheduleModal = () => import("./components/ScheduleModal");
 const loadModals = () => import("./components/Modals");
@@ -41,8 +42,15 @@ export default function App() {
   const [scoreOpen, setScoreOpen] = useState(false);
   const [volunteerOpen, setVolunteerOpen] = useState(false);
   const [resultReminderOpen, setResultReminderOpen] = useState(false);
+  const [fireworksOpen, setFireworksOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [secondaryReady, setSecondaryReady] = useState(false);
+
+  useEffect(() => {
+    if (getNow() >= parseTaipeiDate(FIREWORK_SHOW_START_DATE)) {
+      setFireworksOpen(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (isGuidePage) {
@@ -55,6 +63,7 @@ export default function App() {
       ((callback: IdleRequestCallback) => window.setTimeout(() => callback({ didTimeout: false, timeRemaining: () => 0 }), 1200));
 
     const secondaryId = runAfterPaint(() => setSecondaryReady(true));
+    const delayedPopupIds: number[] = [];
     const popupId = runAfterPaint(() => {
       // Popups Logic
       const now = getNow();
@@ -63,15 +72,24 @@ export default function App() {
       const volunteerEnd = parseTaipeiDate("2026-06-25T23:59:59");
       const resultReminderStart = parseTaipeiDate(RESULT_REMINDER_START_DATE);
       const resultReminderEnd = parseTaipeiDate(RESULT_REMINDER_END_DATE);
+      const fireworksStartDate = parseTaipeiDate(FIREWORK_SHOW_START_DATE);
+      const popupDelay = now >= fireworksStartDate ? 21000 : 0;
+      const openAfterFireworks = (open: () => void) => {
+        if (popupDelay > 0) {
+          delayedPopupIds.push(window.setTimeout(open, popupDelay));
+        } else {
+          open();
+        }
+      };
 
       if (now >= resultReminderStart && now <= resultReminderEnd) {
-        setResultReminderOpen(true);
+        openAfterFireworks(() => setResultReminderOpen(true));
       } else if (now >= scoreStart && now < scoreEnd) {
-        setScoreOpen(true);
+        openAfterFireworks(() => setScoreOpen(true));
       } else if (now >= scoreEnd && now <= volunteerEnd) {
-        setVolunteerOpen(true);
+        openAfterFireworks(() => setVolunteerOpen(true));
       } else if (LATEST_ANNOUNCEMENT.active) {
-        setAnnouncementOpen(true);
+        openAfterFireworks(() => setAnnouncementOpen(true));
       }
     });
 
@@ -83,6 +101,7 @@ export default function App() {
         clearTimeout(secondaryId as number);
         clearTimeout(popupId as number);
       }
+      delayedPopupIds.forEach((id) => clearTimeout(id));
     };
   }, [isGuidePage]);
 
@@ -140,6 +159,7 @@ export default function App() {
       )}
 
       <Footer />
+      <FireworksShow isOpen={fireworksOpen} onClose={() => setFireworksOpen(false)} />
       
       {/* Floating Share Button */}
       <button 

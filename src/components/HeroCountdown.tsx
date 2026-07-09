@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
-import { ArrowDownCircle, ArrowRight, BookOpenCheck, CalendarDays, CheckCircle2, Clock3 } from "lucide-react";
+import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, FRESHMAN_GUIDE_URL, REGISTRATION_COMPLETE_DATE, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
+import { ArrowDownCircle, ArrowRight, BookOpenCheck, CalendarDays, CheckCircle2, Clock3, ExternalLink, PartyPopper, Sparkles } from "lucide-react";
 import { getNow, getTaipeiDayBounds, parseTaipeiDate } from "../lib/now";
 
 type CountdownStatus = "upcoming" | "active" | "ended";
@@ -17,6 +17,7 @@ interface CountdownState {
   isResultPending: boolean;
   isResultCountdown: boolean;
   isPostResultGuide: boolean;
+  isRegistrationComplete: boolean;
 }
 
 export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }) {
@@ -32,6 +33,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
     isResultPending: false,
     isResultCountdown: false,
     isPostResultGuide: false,
+    isRegistrationComplete: false,
   });
 
   useEffect(() => {
@@ -50,11 +52,19 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       const resultCountdownStart = parseTaipeiDate("2026-07-01T00:00:00");
       const isResultCountdown = !!resultOpenDate && now >= resultCountdownStart && now < resultOpenDate;
       const isPostResultGuide = !!resultDayEnd && now >= resultDayEnd;
+      const registrationCompleteDate = parseTaipeiDate(REGISTRATION_COMPLETE_DATE);
+      const isRegistrationComplete = now >= registrationCompleteDate;
 
       let targetDateInfo: { title: string; dateStart: string; dateEnd?: string; ended?: boolean } | null = null;
       const daysToRank = (rankOpenDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
 
-      if (isResultOpen && resultOpenDate) {
+      if (isRegistrationComplete) {
+        targetDateInfo = {
+          title: "恭喜大家正式成為高中生！",
+          dateStart: registrationCompleteDate.toISOString(),
+          ended: true,
+        };
+      } else if (isResultOpen && resultOpenDate) {
         targetDateInfo = { title: "今天放榜，先查錄取結果", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
       } else if (isResultDay && isResultPending && resultOpenDate) {
         targetDateInfo = { title: "今天 11:00 開放查榜", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
@@ -122,6 +132,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
         isResultPending,
         isResultCountdown,
         isPostResultGuide,
+        isRegistrationComplete,
       });
     };
 
@@ -162,14 +173,20 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
     active: { label: "現在進行中", icon: CheckCircle2, className: "bg-rose-50 text-rose-700 ring-rose-100" },
     ended: { label: "本階段已結束", icon: CheckCircle2, className: "bg-slate-100 text-slate-600 ring-slate-200" },
   }[state.status];
-  const statusLabel = state.isPostResultGuide ? "最近日程" : state.isResultPending ? "今日 11:00 開放" : state.isResultCountdown ? "7/7 11:00 開放" : statusCopy.label;
+  const statusLabel = state.isRegistrationComplete ? "報到完成" : state.isPostResultGuide ? "最近日程" : state.isResultPending ? "今日 11:00 開放" : state.isResultCountdown ? "7/7 11:00 開放" : statusCopy.label;
 
-  const StatusIcon = statusCopy.icon;
+  const badgeClassName = state.isRegistrationComplete
+    ? "bg-amber-50 text-amber-700 ring-amber-100"
+    : statusCopy.className;
+  const StatusIcon = state.isRegistrationComplete ? PartyPopper : statusCopy.icon;
   const volunteerClosed = getNow() >= parseTaipeiDate(ADMISSION_LIST_CLOSE_DATE);
-  const volunteerEntryUrl = state.isPostResultGuide ? "/front/guide/" : volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
-  const volunteerEntryLabel = state.isPostResultGuide ? "查榜後報到指南" : state.isResultCountdown || state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "志願選填入口";
+  const volunteerEntryUrl = state.isRegistrationComplete ? FRESHMAN_GUIDE_URL : state.isPostResultGuide ? "/front/guide/" : volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
+  const volunteerEntryLabel = state.isRegistrationComplete ? "看升高一小提醒" : state.isPostResultGuide ? "查榜後報到指南" : state.isResultCountdown || state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "志願選填入口";
+  const primaryLinkIsExternal = state.isRegistrationComplete || (!state.isPostResultGuide && !volunteerClosed);
   const heroTitle = state.title;
-  const heroCopy = state.isResultDay
+  const heroCopy = state.isRegistrationComplete
+    ? "中午 12 點報到完畢，新的旅程正式開始。整理好的升高一提醒已經準備好，開學前可以慢慢看、安心準備。"
+    : state.isResultDay
     ? state.isResultOpen
       ? "請選擇所屬就學區查詢錄取學校。"
       : ""
@@ -194,14 +211,16 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       <div className="relative overflow-hidden rounded-[38px] border border-white/80 bg-white/86 p-5 shadow-[0_28px_90px_-54px_rgba(15,23,42,0.55)] backdrop-blur-2xl md:p-8">
         <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
         <div className={`grid gap-8 ${
-          state.isResultCountdown
+          state.isRegistrationComplete
+            ? "md:grid-cols-[1.04fr_0.96fr] md:items-center"
+            : state.isResultCountdown
             ? "md:grid-cols-[0.92fr_1.08fr] md:items-center"
             : state.isResultDay
               ? ""
               : "md:grid-cols-[1.1fr_0.9fr] md:items-center"
         }`}>
           <div>
-            <div className={`mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ring-1 ${statusCopy.className}`}>
+            <div className={`mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ring-1 ${badgeClassName}`}>
               <StatusIcon className="h-4 w-4" />
               {statusLabel}
             </div>
@@ -247,21 +266,25 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
             <div className={`flex gap-3 ${state.isResultCountdown || state.isResultDay || state.isPostResultGuide ? "mt-5 max-w-2xl flex-col sm:flex-row sm:items-center" : "mt-8 flex-wrap"}`}>
               <a
                 href={volunteerEntryUrl}
-                target={state.isPostResultGuide || volunteerClosed ? undefined : "_blank"}
-                rel={state.isPostResultGuide || volunteerClosed ? undefined : "noreferrer"}
+                target={primaryLinkIsExternal ? "_blank" : undefined}
+                rel={primaryLinkIsExternal ? "noreferrer" : undefined}
                 className={`inline-flex items-center justify-center transition-all hover:-translate-y-0.5 focus:outline-none ${
-                  state.isResultCountdown || state.isResultDay || state.isPostResultGuide
+                  state.isRegistrationComplete
+                    ? "min-h-[58px] w-full rounded-[22px] bg-gradient-to-r from-rose-600 via-orange-500 to-amber-400 px-8 py-4 text-base font-black text-white shadow-[0_20px_44px_-22px_rgba(225,29,72,0.85)] hover:shadow-[0_24px_52px_-24px_rgba(245,158,11,0.82)] focus:ring-4 focus:ring-amber-100 sm:w-auto"
+                    : state.isResultCountdown || state.isResultDay || state.isPostResultGuide
                     ? "min-h-[56px] w-full rounded-[22px] bg-rose-600 px-8 py-4 text-base font-black text-white shadow-[0_18px_38px_-20px_rgba(225,29,72,0.72)] hover:bg-rose-700 focus:ring-4 focus:ring-rose-100 sm:w-auto"
                     : "rounded-full border border-slate-200 bg-white/70 px-6 py-3 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200"
                 }`}
               >
-                {state.isPostResultGuide ? (
+                {state.isRegistrationComplete ? (
+                  <Sparkles className="mr-2 h-5 w-5" />
+                ) : state.isPostResultGuide ? (
                   <BookOpenCheck className="mr-2 h-5 w-5" />
                 ) : (
                   (state.isResultCountdown || state.isResultDay) && <ArrowDownCircle className="mr-2 h-5 w-5" />
                 )}
                 {volunteerEntryLabel}
-                {state.isPostResultGuide && <ArrowRight className="ml-2 h-5 w-5" />}
+                {state.isRegistrationComplete ? <ExternalLink className="ml-2 h-5 w-5" /> : state.isPostResultGuide && <ArrowRight className="ml-2 h-5 w-5" />}
               </a>
               <button
                 onClick={onOpenSchedule}
@@ -278,6 +301,35 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
               </button>
             </div>
           </div>
+
+          {state.isRegistrationComplete && (
+            <div className="relative overflow-hidden rounded-[32px] border border-amber-100 bg-gradient-to-br from-rose-50 via-white to-amber-50 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_24px_70px_-48px_rgba(245,158,11,0.78)]">
+              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-amber-200/45 blur-2xl" />
+              <div className="absolute -bottom-12 -left-10 h-36 w-36 rounded-full bg-rose-200/45 blur-2xl" />
+              <div className="relative rounded-[26px] bg-white/78 p-5 shadow-sm ring-1 ring-white/80">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[22px] bg-rose-600 text-white shadow-[0_16px_34px_-20px_rgba(225,29,72,0.85)]">
+                    <PartyPopper className="h-7 w-7" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-black uppercase tracking-[0.16em] text-rose-600">Welcome to High School</p>
+                    <p className="mt-1 text-2xl font-black leading-tight text-slate-950">下一站，高中生活</p>
+                  </div>
+                </div>
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  {["確認新生資訊", "準備開學用品", "調整生活節奏"].map((item) => (
+                    <div key={item} className="rounded-[20px] border border-white/80 bg-slate-50/78 px-4 py-4 text-sm font-black text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.82)]">
+                      <Sparkles className="mb-2 h-4 w-4 text-amber-500" />
+                      {item}
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-5 text-sm font-bold leading-7 text-slate-500">
+                  已完成報到的同學可以先查看升高一小提醒，把暑假尾聲和開學準備安排得更從容。
+                </p>
+              </div>
+            </div>
+          )}
 
           {state.isResultCountdown && (
             <div className="hidden rounded-[32px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_24px_70px_-50px_rgba(225,29,72,0.65)] md:block">
@@ -308,7 +360,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
             </div>
           )}
 
-          {!state.isResultDay && !state.isResultCountdown && (
+          {!state.isRegistrationComplete && !state.isResultDay && !state.isResultCountdown && (
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4" role="timer" aria-label={`倒數 ${state.days} 天 ${state.hours} 小時 ${state.minutes} 分 ${state.seconds} 秒`}>
               {countdownItems.map((item) => (
                 <div

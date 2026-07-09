@@ -6,8 +6,12 @@ export const ADMISSION_LIST_CLOSE_DATE = `${YEAR}-06-25T12:00:00`;
 export const RESULT_WARNING_UNLOCK_DATE = `${YEAR}-07-07T09:00:00`;
 export const RESULT_LIST_OPEN_DATE = `${YEAR}-07-07T11:00:00`;
 export const RESULT_LIST_CLOSE_DATE = `${YEAR}-07-30T23:59:59`;
+export const FIREWORK_SHOW_START_DATE = `${YEAR}-07-09T11:30:00`;
+export const REGISTRATION_COMPLETE_DATE = `${YEAR}-07-09T12:00:00`;
 export const VOLUNTEER_URL = "https://tyctw.github.io/volunteer/";
 export const RESULT_LOOKUP_URL = "#regions-title";
+export const FRESHMAN_GUIDE_URL = "https://tyctw.github.io/freshman/";
+export const THREADS_COMMUNITY_URL = "https://www.threads.net/@115.rcpet";
 
 export const LATEST_ANNOUNCEMENT = {
   active: true,
