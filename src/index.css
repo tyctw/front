@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @source not "../dist";
-@source not "../components";
 
 @theme {
   --font-sans: "Noto Sans TC", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

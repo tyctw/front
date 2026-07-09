@@ -185,7 +185,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
   const primaryLinkIsExternal = state.isRegistrationComplete || (!state.isPostResultGuide && !volunteerClosed);
   const heroTitle = state.title;
   const heroCopy = state.isRegistrationComplete
-    ? "中午 12 點報到完畢，新的旅程正式開始。整理好的升高一提醒已經準備好，開學前可以慢慢看、安心準備。"
+    ? "報到完畢，新的旅程正式開始。整理好的升高一提醒已經準備好，開學前可以慢慢看、安心準備。"
     : state.isResultDay
     ? state.isResultOpen
       ? "請選擇所屬就學區查詢錄取學校。"
