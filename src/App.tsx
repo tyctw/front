@@ -30,6 +30,23 @@ const ShareModal = lazy(() => loadShareModal().then(m => ({ default: m.ShareModa
 
 const RESULT_REMINDER_START_DATE = "2026-07-01T00:00:00";
 const RESULT_REMINDER_END_DATE = "2026-07-30T23:59:59";
+const FIREWORKS_SEEN_KEY = "front:115-fireworks-seen";
+
+function hasSeenFireworks() {
+  try {
+    return window.localStorage.getItem(FIREWORKS_SEEN_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function markFireworksSeen() {
+  try {
+    window.localStorage.setItem(FIREWORKS_SEEN_KEY, "1");
+  } catch {
+    // If storage is blocked, fall back to showing the celebration without breaking the page.
+  }
+}
 
 export default function App() {
   const isGuidePage = window.location.pathname.replace(/\/$/, "") === "/front/guide";
@@ -45,7 +62,8 @@ export default function App() {
   const [secondaryReady, setSecondaryReady] = useState(false);
 
   useEffect(() => {
-    if (getNow() >= parseTaipeiDate(FIREWORK_SHOW_START_DATE)) {
+    if (!hasSeenFireworks() && getNow() >= parseTaipeiDate(FIREWORK_SHOW_START_DATE)) {
+      markFireworksSeen();
       setFireworksOpen(true);
     }
   }, []);
