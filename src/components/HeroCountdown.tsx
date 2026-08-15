@@ -224,10 +224,10 @@ export function HeroCountdown() {
         rel={primaryLinkIsExternal ? "noreferrer" : undefined}
         className={`inline-flex items-center justify-center transition-all hover:-translate-y-0.5 focus:outline-none ${
           state.isRegistrationComplete
-            ? "min-h-[58px] w-full rounded-[22px] bg-gradient-to-r from-rose-600 via-orange-500 to-amber-400 px-8 py-4 text-base font-black text-white shadow-[0_20px_44px_-22px_rgba(225,29,72,0.85)] hover:shadow-[0_24px_52px_-24px_rgba(245,158,11,0.82)] focus:ring-4 focus:ring-amber-100 md:w-auto"
+            ? "min-h-[58px] w-full rounded-[22px] bg-gradient-to-r from-rose-600 via-orange-500 to-amber-400 px-8 py-4 text-base font-black text-white shadow-[0_20px_44px_-22px_rgba(225,29,72,0.85)] hover:shadow-[0_24px_52px_-24px_rgba(245,158,11,0.82)] focus:ring-4 focus:ring-amber-100 lg:w-auto"
             : state.isResultCountdown || state.isResultDay || state.isPostResultGuide
-              ? "min-h-[56px] w-full rounded-[22px] bg-rose-600 px-8 py-4 text-base font-black text-white shadow-[0_18px_38px_-20px_rgba(225,29,72,0.72)] hover:bg-rose-700 focus:ring-4 focus:ring-rose-100 md:w-auto"
-              : "min-h-[56px] w-full rounded-[22px] bg-gradient-to-r from-sky-600 to-teal-500 px-7 py-4 text-base font-black text-white shadow-[0_20px_44px_-22px_rgba(14,165,233,0.72)] hover:shadow-[0_24px_52px_-24px_rgba(20,184,166,0.7)] focus:ring-4 focus:ring-sky-100 md:w-auto"
+              ? "min-h-[56px] w-full rounded-[22px] bg-rose-600 px-8 py-4 text-base font-black text-white shadow-[0_18px_38px_-20px_rgba(225,29,72,0.72)] hover:bg-rose-700 focus:ring-4 focus:ring-rose-100 lg:w-auto"
+              : "min-h-[56px] w-full rounded-[22px] bg-gradient-to-r from-sky-600 to-teal-500 px-7 py-4 text-base font-black text-white shadow-[0_20px_44px_-22px_rgba(14,165,233,0.72)] hover:shadow-[0_24px_52px_-24px_rgba(20,184,166,0.7)] focus:ring-4 focus:ring-sky-100 lg:w-auto"
         }`}
       >
         {state.isRegistrationComplete ? (
@@ -246,8 +246,8 @@ export function HeroCountdown() {
         href="/front/schedule/"
         className={`inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 focus:outline-none ${
           state.isResultOpen || state.isResultCountdown || state.isResultDay || state.isPostResultGuide
-            ? "min-h-[52px] w-full rounded-[20px] border border-slate-200 bg-white/78 px-6 py-3.5 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200 md:w-auto"
-            : "min-h-[56px] w-full rounded-[22px] border border-slate-200 bg-white/88 px-7 py-4 text-base font-black text-slate-700 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.34)] hover:bg-white focus:ring-4 focus:ring-slate-200 md:w-auto"
+            ? "min-h-[52px] w-full rounded-[20px] border border-slate-200 bg-white/78 px-6 py-3.5 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200 lg:w-auto"
+            : "min-h-[56px] w-full rounded-[22px] border border-slate-200 bg-white/88 px-7 py-4 text-base font-black text-slate-700 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.34)] hover:bg-white focus:ring-4 focus:ring-slate-200 lg:w-auto"
         }`}
       >
         <CalendarDays className="h-5 w-5" />
@@ -261,19 +261,19 @@ export function HeroCountdown() {
         <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
         <div className={`grid gap-8 ${
           state.isRegistrationComplete
-            ? "md:grid-cols-[1.04fr_0.96fr] md:items-center"
+            ? "lg:grid-cols-[1.04fr_0.96fr] lg:items-center"
             : state.isResultCountdown
-            ? "md:grid-cols-[0.92fr_1.08fr] md:items-center"
+            ? "lg:grid-cols-[0.92fr_1.08fr] lg:items-center"
             : state.isResultDay
               ? ""
-              : "md:grid-cols-[1.1fr_0.9fr] md:items-center"
+              : "lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
         }`}>
           <div>
             <div className={`mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ring-1 ${badgeClassName}`}>
               <StatusIcon className="h-4 w-4" />
               {statusLabel}
             </div>
-            <h1 className="max-w-2xl text-[40px] font-black leading-[1.08] tracking-normal text-slate-950 md:text-6xl">
+            <h1 className="max-w-2xl text-[40px] font-black leading-[1.08] tracking-normal text-slate-950 lg:text-6xl">
               {heroTitle}
             </h1>
             {heroCopy && (
@@ -282,7 +282,7 @@ export function HeroCountdown() {
               </p>
             )}
             {state.isResultCountdown && (
-              <div className="mt-5 max-w-2xl md:hidden">
+              <div className="mt-5 max-w-2xl lg:hidden">
                 <div className="rounded-[24px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_16px_38px_-34px_rgba(225,29,72,0.55)]">
                   <div className="flex items-center gap-3">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] bg-white text-rose-600 shadow-sm ring-1 ring-rose-100">
@@ -312,7 +312,7 @@ export function HeroCountdown() {
               </div>
             )}
 
-            <div className={`mt-5 hidden gap-3 md:flex ${state.isResultCountdown || state.isResultDay || state.isPostResultGuide ? "max-w-2xl md:flex-row md:items-center" : "flex-wrap"}`}>
+            <div className={`mt-5 hidden gap-3 lg:flex ${state.isResultCountdown || state.isResultDay || state.isPostResultGuide ? "max-w-2xl lg:flex-row lg:items-center" : "flex-wrap"}`}>
               {actionButtons}
             </div>
           </div>
@@ -347,7 +347,7 @@ export function HeroCountdown() {
           )}
 
           {state.isResultCountdown && (
-            <div className="hidden rounded-[32px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_24px_70px_-50px_rgba(225,29,72,0.65)] md:block">
+            <div className="hidden rounded-[32px] border border-rose-100 bg-gradient-to-br from-rose-50 via-white to-amber-50/80 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_24px_70px_-50px_rgba(225,29,72,0.65)] lg:block">
               <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-stretch">
                 <div className="rounded-[24px] bg-white/78 px-5 py-4 shadow-sm ring-1 ring-rose-100/80">
                   <p className="text-[11px] font-black uppercase tracking-[0.16em] text-rose-600">放榜時間</p>
@@ -398,7 +398,7 @@ export function HeroCountdown() {
             </div>
           )}
 
-          <div className="mt-5 flex flex-col gap-3 md:hidden">
+          <div className="mt-5 flex flex-col gap-3 lg:hidden">
             {actionButtons}
           </div>
         </div>
