@@ -231,7 +231,8 @@
             return window.setTimeout(callback, 2500);
           };
 
-        runWhenIdle(function () {
+        window.setTimeout(function () {
+          runWhenIdle(function () {
           var ads = document.createElement("script");
           ads.async = true;
           ads.crossOrigin = "anonymous";
@@ -250,7 +251,8 @@
             gtag("config", "G-H9X7EC127P");
           };
           document.head.appendChild(ga);
-        });
+          });
+        }, 5000);
       });
     </script>
   </body>
