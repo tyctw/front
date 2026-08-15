@@ -79,8 +79,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
               <img src="/front/stile.png" alt="全國會考查榜入口" className="h-full w-full object-cover" />
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-sky-700">SHARE THE GUIDE</p>
-              <h3 className="mt-1 text-2xl font-black leading-tight tracking-normal text-slate-950 sm:text-3xl">分享查榜入口</h3>
+              <h3 className="text-2xl font-black leading-tight tracking-normal text-slate-950 sm:text-3xl">分享查榜入口</h3>
               <p className="mt-1.5 max-w-md text-sm font-semibold leading-6 text-slate-600">把正確的就學區系統與重要日程，快速傳給朋友。</p>
             </div>
           </div>
