@@ -54,10 +54,10 @@ export function MobileNavigation({
           aria-label="導航選單"
           className="relative flex h-full w-full max-w-[350px] flex-col overflow-hidden bg-slate-50 shadow-2xl"
           variants={{
-            closed: { opacity: 0, x: 42, scale: 0.98 },
-            open: { opacity: 1, x: 0, scale: 1 },
+            closed: { opacity: 0 },
+            open: { opacity: 1 },
           }}
-          transition={{ type: "spring", stiffness: 420, damping: 34, mass: 0.9 }}
+          transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.div
             className="relative overflow-hidden bg-slate-950 p-5 text-white"
