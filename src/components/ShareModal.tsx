@@ -65,71 +65,66 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="relative w-full max-w-[560px] overflow-hidden rounded-[28px] border border-white/80 bg-white text-left shadow-[0_34px_90px_-36px_rgba(15,23,42,0.7)] sm:rounded-[32px]"
+        className="relative w-full max-w-[560px] overflow-hidden rounded-[28px] border border-white/90 bg-white text-left shadow-[0_36px_100px_-38px_rgba(15,23,42,0.7)] sm:rounded-[34px]"
       >
-        <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-teal-400 via-sky-400 to-indigo-400" />
-        <button onClick={onClose} aria-label="關閉分享視窗" className="absolute right-4 top-4 z-20 rounded-full bg-white/88 p-2 text-slate-500 shadow-sm ring-1 ring-slate-200/70 backdrop-blur transition-colors hover:bg-white hover:text-slate-800 focus:outline-none focus:ring-4 focus:ring-sky-100">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-sky-200/45 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-20 h-60 w-60 rounded-full bg-emerald-100/65 blur-3xl" />
+        <button onClick={onClose} aria-label="關閉分享視窗" className="absolute right-4 top-4 z-20 rounded-full bg-white p-2 text-slate-500 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-slate-950 hover:text-white focus:outline-none focus:ring-4 focus:ring-sky-100">
           <X className="h-5 w-5" />
         </button>
 
-        <div className="px-5 pb-5 pt-7 sm:px-6 sm:pb-6 sm:pt-8">
-          <div className="mb-5 flex items-start gap-3 pr-10">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] border border-teal-100 bg-teal-50 text-teal-600 shadow-sm sm:h-14 sm:w-14 sm:rounded-[20px]">
-              <Share2 className="h-6 w-6 sm:h-7 sm:w-7" />
+        <div className="relative border-b border-slate-100 bg-gradient-to-br from-sky-50 via-white to-emerald-50/80 px-5 py-5 sm:px-7 sm:py-6">
+          <div className="relative flex items-center gap-3 pr-10">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[17px] bg-white shadow-[0_14px_28px_-18px_rgba(56,189,248,0.75)] ring-1 ring-sky-100">
+              <img src="/front/stile.png" alt="全國會考查榜入口" className="h-full w-full object-cover" />
             </div>
             <div className="min-w-0">
-              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-teal-600">Share</p>
-              <h3 className="mt-1 text-3xl font-black leading-tight tracking-normal text-slate-950">分享給朋友</h3>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-600">
-                把查榜入口傳給同學，大家一起快速找到正確的就學區系統。
-              </p>
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-sky-700">SHARE THE GUIDE</p>
+              <h3 className="mt-1 text-2xl font-black leading-tight tracking-normal text-slate-950 sm:text-3xl">分享查榜入口</h3>
+              <p className="mt-1.5 max-w-md text-sm font-semibold leading-6 text-slate-600">把正確的就學區系統與重要日程，快速傳給朋友。</p>
             </div>
           </div>
+        </div>
 
-          <div className="grid gap-4 sm:grid-cols-[170px_1fr] sm:items-start">
-            <div className="rounded-[24px] border border-slate-100 bg-slate-50/90 p-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.82)]">
-              <div className="mx-auto inline-block rounded-[18px] border border-slate-100 bg-white p-3 shadow-sm">
-                <QRCodeSVG value={shareUrl} size={124} level="H" includeMargin={false} />
+        <div className="relative px-5 py-5 sm:px-7 sm:py-6">
+          <div className="grid gap-4 sm:grid-cols-[174px_178px] sm:justify-center sm:gap-2">
+            <div className="flex items-center justify-center rounded-[22px] border border-slate-100 bg-slate-50/85 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] sm:-translate-x-4 sm:items-center sm:justify-center">
+              <div className="inline-flex shrink-0 rounded-[16px] bg-white p-2.5 shadow-sm ring-1 ring-sky-100">
+                <QRCodeSVG value={shareUrl} size={138} level="H" includeMargin={false} />
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-1">
-              <button onClick={() => handleShare("line")} aria-label="分享到 LINE" className="group flex items-center justify-center rounded-[20px] border border-slate-100 bg-white p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#00B900]/30 hover:bg-[#00B900]/5 focus:outline-none focus:ring-4 focus:ring-emerald-100 sm:justify-start sm:gap-3 sm:text-left">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-[#00B900] text-white shadow-md shadow-[#00B900]/20">
-                  <FaLine className="h-6 w-6" />
+            <div>
+              <p className="mb-2.5 text-xs font-black tracking-[0.14em] text-slate-500">選擇分享方式</p>
+              <div className="grid grid-cols-3 gap-2 sm:grid-cols-1 sm:justify-items-start sm:gap-2">
+                <button onClick={() => handleShare("line")} aria-label="分享到 LINE" className="group flex min-w-0 flex-col items-center justify-center rounded-[20px] border border-white bg-white p-2.5 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.7)] transition-all hover:-translate-y-0.5 hover:border-[#00B900]/35 hover:bg-[#00B900]/5 focus:outline-none focus:ring-4 focus:ring-emerald-100 sm:min-h-[44px] sm:w-[178px] sm:flex-row sm:justify-start sm:gap-2 sm:p-1.5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] bg-[#00B900] text-white shadow-md shadow-[#00B900]/20 sm:h-9 sm:w-9 sm:rounded-[12px]">
+                  <FaLine className="h-6 w-6 sm:h-5 sm:w-5" />
                 </span>
-                <span className="hidden min-w-0 sm:block">
-                  <span className="block text-sm font-black text-slate-950">LINE</span>
-                  <span className="block text-xs font-bold text-slate-500">傳到群組或聊天室</span>
-                </span>
+                  <span className="mt-1.5 min-w-0 text-center sm:mt-0 sm:text-left"><span className="block text-xs font-black text-slate-950 sm:text-sm">LINE</span><span className="hidden text-xs font-bold text-slate-500 sm:block">傳到群組</span></span>
               </button>
 
-              <button onClick={() => handleShare("ig")} aria-label="分享到 Instagram" className="group flex items-center justify-center rounded-[20px] border border-slate-100 bg-white p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-pink-200 hover:bg-pink-50/70 focus:outline-none focus:ring-4 focus:ring-pink-100 sm:justify-start sm:gap-3 sm:text-left">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white shadow-md shadow-pink-500/20">
-                  <FaInstagram className="h-6 w-6" />
+                <button onClick={() => handleShare("ig")} aria-label="分享到 Instagram" className="group flex min-w-0 flex-col items-center justify-center rounded-[20px] border border-white bg-white p-2.5 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.7)] transition-all hover:-translate-y-0.5 hover:border-pink-200 hover:bg-pink-50/70 focus:outline-none focus:ring-4 focus:ring-pink-100 sm:min-h-[44px] sm:w-[178px] sm:flex-row sm:justify-start sm:gap-2 sm:p-1.5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white shadow-md shadow-pink-500/20 sm:h-9 sm:w-9 sm:rounded-[12px]">
+                  <FaInstagram className="h-6 w-6 sm:h-5 sm:w-5" />
                 </span>
-                <span className="hidden min-w-0 sm:block">
-                  <span className="block text-sm font-black text-slate-950">Instagram</span>
-                  <span className="block text-xs font-bold text-slate-500">複製後貼到限動或訊息</span>
-                </span>
+                  <span className="mt-1.5 min-w-0 text-center sm:mt-0 sm:text-left"><span className="block text-xs font-black text-slate-950 sm:text-sm">Instagram</span><span className="hidden text-xs font-bold text-slate-500 sm:block">限動或訊息</span></span>
               </button>
 
-              <button onClick={() => handleShare("threads")} aria-label="分享到 Threads" className="group flex items-center justify-center rounded-[20px] border border-slate-100 bg-white p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100 sm:justify-start sm:gap-3 sm:text-left">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-black text-white shadow-md shadow-black/20">
-                  <FaThreads className="h-6 w-6" />
+                <button onClick={() => handleShare("threads")} aria-label="分享到 Threads" className="group flex min-w-0 flex-col items-center justify-center rounded-[20px] border border-white bg-white p-2.5 shadow-[0_12px_28px_-24px_rgba(15,23,42,0.7)] transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100 sm:min-h-[44px] sm:w-[178px] sm:flex-row sm:justify-start sm:gap-2 sm:p-1.5">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] bg-black text-white shadow-md shadow-black/20 sm:h-9 sm:w-9 sm:rounded-[12px]">
+                  <FaThreads className="h-6 w-6 sm:h-5 sm:w-5" />
                 </span>
-                <span className="hidden min-w-0 sm:block">
-                  <span className="block text-sm font-black text-slate-950">Threads</span>
-                  <span className="block text-xs font-bold text-slate-500">直接發文分享入口</span>
-                </span>
-              </button>
+                  <span className="mt-1.5 min-w-0 text-center sm:mt-0 sm:text-left"><span className="block text-xs font-black text-slate-950 sm:text-sm">Threads</span><span className="hidden text-xs font-bold text-slate-500 sm:block">直接發文</span></span>
+                </button>
+              </div>
             </div>
           </div>
 
           <button
             onClick={handleCopy}
             aria-label="複製分享連結"
-            className={`mt-4 flex w-full items-center justify-center gap-2 rounded-[20px] px-5 py-4 text-sm font-black shadow-lg transition-all focus:outline-none focus:ring-4 ${
+            className={`mt-4 flex w-full items-center justify-center gap-2 rounded-[18px] px-5 py-3.5 text-sm font-black shadow-lg transition-all focus:outline-none focus:ring-4 ${
               copied
                 ? "bg-emerald-500 text-white shadow-emerald-500/20 focus:ring-emerald-100"
                 : "bg-slate-950 text-white shadow-slate-950/20 hover:bg-slate-800 focus:ring-slate-200"
