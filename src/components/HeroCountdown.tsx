@@ -380,7 +380,7 @@ export function HeroCountdown() {
               <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-stretch">
                 <div className="rounded-[24px] border border-sky-100/80 bg-white/82 px-5 py-4 text-center shadow-sm">
                   <p className="font-outfit text-[10px] font-black tracking-[0.16em] text-sky-700">日期</p>
-                  <p className="mt-2 text-3xl font-black leading-none text-slate-950">{targetDateLabel}</p>
+                  <p className="mt-2 whitespace-nowrap text-3xl font-black leading-none text-slate-950">{targetDateLabel}</p>
                 </div>
                 <div className="flex min-w-[156px] flex-col items-center justify-center rounded-[24px] bg-gradient-to-br from-sky-500 to-teal-500 px-5 py-4 text-white shadow-[0_18px_42px_-26px_rgba(14,165,233,0.7)]">
                   <p className="font-outfit text-[10px] font-black tracking-[0.16em] text-sky-100">{state.status === "active" ? "結束時間" : "開始時間"}</p>
