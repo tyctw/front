@@ -45,7 +45,7 @@ export function Header() {
           <div className="flex h-16 items-center justify-between px-4 sm:px-6">
             <div className="flex min-w-0 items-center">
               <div className="relative flex h-11 w-11 shrink-0 items-center justify-center">
-                <img src="/front/stile.png" alt="全國會考查榜入口圖標" className="h-full w-full rounded-[18px] object-cover shadow-[0_12px_28px_-18px_rgba(15,23,42,0.45)] ring-1 ring-slate-200/80" />
+                <img src="/front/stile-icon.png" width="88" height="88" alt="全國會考查榜入口圖標" className="h-full w-full rounded-[18px] object-cover shadow-[0_12px_28px_-18px_rgba(15,23,42,0.45)] ring-1 ring-slate-200/80" />
                 <span className="absolute -bottom-1 -right-1 z-10 rounded-full bg-sky-500 px-1.5 py-0.5 font-outfit text-[9px] font-black leading-none text-white">
                   116
                 </span>

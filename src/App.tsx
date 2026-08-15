@@ -8,21 +8,21 @@ import { Background } from "./components/Background";
 import { Header } from "./components/Header";
 import { HeroCountdown } from "./components/HeroCountdown";
 import { Banner } from "./components/Banner";
-import { GuidePage } from "./components/GuidePage";
-import { SchedulePage } from "./components/SchedulePage";
-import { ArticleHubPage } from "./components/ArticleHubPage";
-import { AboutPage } from "./components/AboutPage";
 import { FIREWORK_SHOW_START_DATE, RESULT_WARNING_UNLOCK_DATE } from "./data";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
 import { getNow, parseTaipeiDate } from "./lib/now";
-import { FireworksShow } from "./components/FireworksShow";
 
 const loadModals = () => import("./components/Modals");
 const loadShareModal = () => import("./components/ShareModal");
 
 const Regions = lazy(() => import("./components/Regions").then(m => ({ default: m.Regions })));
 const FAQ = lazy(() => import("./components/FAQ").then(m => ({ default: m.FAQ })));
+const GuidePage = lazy(() => import("./components/GuidePage").then(m => ({ default: m.GuidePage })));
+const SchedulePage = lazy(() => import("./components/SchedulePage").then(m => ({ default: m.SchedulePage })));
+const ArticleHubPage = lazy(() => import("./components/ArticleHubPage").then(m => ({ default: m.ArticleHubPage })));
+const AboutPage = lazy(() => import("./components/AboutPage").then(m => ({ default: m.AboutPage })));
+const FireworksShow = lazy(() => import("./components/FireworksShow").then(m => ({ default: m.FireworksShow })));
 const WarningModal = lazy(() => loadModals().then(m => ({ default: m.WarningModal })));
 const ScoreModal = lazy(() => loadModals().then(m => ({ default: m.ScoreModal })));
 const VolunteerModal = lazy(() => loadModals().then(m => ({ default: m.VolunteerModal })));
@@ -168,13 +168,13 @@ export default function App() {
 
         <div className="flex-1">
           {isGuidePage ? (
-            <GuidePage />
+            <Suspense fallback={<div className="min-h-screen" />}><GuidePage /></Suspense>
           ) : isSchedulePage ? (
-            <SchedulePage />
+            <Suspense fallback={<div className="min-h-screen" />}><SchedulePage /></Suspense>
           ) : isAboutPage ? (
-            <AboutPage />
+            <Suspense fallback={<div className="min-h-screen" />}><AboutPage /></Suspense>
           ) : isArticlePage ? (
-            <ArticleHubPage articleId={articleId} />
+            <Suspense fallback={<div className="min-h-screen" />}><ArticleHubPage articleId={articleId} /></Suspense>
           ) : (
             <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-12" tabIndex={-1}>
               <HeroCountdown />
@@ -193,7 +193,7 @@ export default function App() {
 
         <Footer />
       </div>
-      <FireworksShow isOpen={fireworksOpen} onClose={() => setFireworksOpen(false)} />
+      {fireworksOpen && <Suspense fallback={null}><FireworksShow isOpen={fireworksOpen} onClose={() => setFireworksOpen(false)} /></Suspense>}
       
       {/* Floating Share Button */}
       <button 

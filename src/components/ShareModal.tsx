@@ -76,7 +76,7 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
         <div className="relative border-b border-slate-100 bg-gradient-to-br from-sky-50 via-white to-emerald-50/80 px-5 py-5 sm:px-7 sm:py-6">
           <div className="relative flex items-center gap-3 pr-10">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-[17px] bg-white shadow-[0_14px_28px_-18px_rgba(56,189,248,0.75)] ring-1 ring-sky-100">
-              <img src="/front/stile.png" alt="全國會考查榜入口" className="h-full w-full object-cover" />
+              <img src="/front/stile-icon.png" width="96" height="96" alt="全國會考查榜入口" className="h-full w-full object-cover" />
             </div>
             <div className="min-w-0">
               <h3 className="text-2xl font-black leading-tight tracking-normal text-slate-950 sm:text-3xl">分享查榜入口</h3>
