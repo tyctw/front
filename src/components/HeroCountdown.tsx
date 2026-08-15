@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, FRESHMAN_GUIDE_URL, REGISTRATION_COMPLETE_DATE, RESULT_LOOKUP_URL, VOLUNTEER_URL } from "../data";
+import { ADMISSION_LIST_CLOSE_DATE, ADMISSION_LIST_OPEN_DATE, EVENTS, FRESHMAN_GUIDE_URL, REGISTRATION_COMPLETE_DATE, RESULT_LOOKUP_URL, SPARE_URL } from "../data";
 import { ArrowDownCircle, ArrowRight, BookOpenCheck, CalendarDays, CheckCircle2, Clock3, ExternalLink, PartyPopper, Sparkles } from "lucide-react";
 import { getNow, getTaipeiDayBounds, parseTaipeiDate } from "../lib/now";
 
@@ -129,7 +129,7 @@ export function HeroCountdown() {
         seconds: totalSeconds % 60,
         status,
         title: targetDateInfo.title,
-        targetDate: targetDateInfo.dateStart,
+        targetDate: status === "active" && targetDateInfo.dateEnd ? targetDateInfo.dateEnd : targetDateInfo.dateStart,
         isResultDay,
         isResultOpen,
         isResultPending,
@@ -183,8 +183,8 @@ export function HeroCountdown() {
     : statusCopy.className;
   const StatusIcon = state.isRegistrationComplete ? PartyPopper : statusCopy.icon;
   const volunteerClosed = getNow() >= parseTaipeiDate(ADMISSION_LIST_CLOSE_DATE);
-  const volunteerEntryUrl = state.isRegistrationComplete ? FRESHMAN_GUIDE_URL : state.isPostResultGuide ? "/front/guide/" : volunteerClosed ? RESULT_LOOKUP_URL : VOLUNTEER_URL;
-  const volunteerEntryLabel = state.isRegistrationComplete ? "看升高一小提醒" : state.isPostResultGuide ? "查榜後報到指南" : state.isResultCountdown || state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "志願選填入口";
+  const volunteerEntryUrl = state.isRegistrationComplete ? FRESHMAN_GUIDE_URL : state.isPostResultGuide ? "/front/guide/" : volunteerClosed ? RESULT_LOOKUP_URL : SPARE_URL;
+  const volunteerEntryLabel = state.isRegistrationComplete ? "看升高一小提醒" : state.isPostResultGuide ? "查榜後報到指南" : state.isResultCountdown || state.isResultDay ? "立即跳至查榜入口" : volunteerClosed ? "查榜網址" : "會考落點分析";
   const primaryLinkIsExternal = state.isRegistrationComplete || (!state.isPostResultGuide && !volunteerClosed);
   const heroTitle = state.title;
   const heroCopy = state.isRegistrationComplete
@@ -383,7 +383,7 @@ export function HeroCountdown() {
                   <p className="mt-2 text-3xl font-black leading-none text-slate-950">{targetDateLabel}</p>
                 </div>
                 <div className="flex min-w-[156px] flex-col items-center justify-center rounded-[24px] bg-gradient-to-br from-sky-500 to-teal-500 px-5 py-4 text-white shadow-[0_18px_42px_-26px_rgba(14,165,233,0.7)]">
-                  <p className="font-outfit text-[10px] font-black tracking-[0.16em] text-sky-100">{state.status === "active" ? "進行中" : "開始時間"}</p>
+                  <p className="font-outfit text-[10px] font-black tracking-[0.16em] text-sky-100">{state.status === "active" ? "結束時間" : "開始時間"}</p>
                   <p className="mt-1 font-outfit text-5xl font-black leading-none">{targetClockLabel}</p>
                 </div>
               </div>
