@@ -1,16 +1,17 @@
-import { BarChart3, BookOpenCheck, CalendarDays, MapPin, Menu, Share2, Sparkles } from "lucide-react";
+import { BarChart3, BookOpenCheck, CalendarDays, MapPin, Menu, Newspaper, Share2 } from "lucide-react";
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 
 const loadMobileNavigation = () => import("./MobileNavigation");
 const MobileNavigation = lazy(() => loadMobileNavigation().then((module) => ({ default: module.MobileNavigation })));
 
-export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
+export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const links = [
-    { label: "重要日程", detail: "115 會考時程", icon: CalendarDays, action: onOpenSchedule },
+    { label: "重要日程", detail: "116 會考時程", icon: CalendarDays, href: "/front/schedule/", internal: true },
+    { label: "文章專區", detail: "放榜與升學攻略", icon: Newspaper, href: "/front/articles/", internal: true },
     { label: "報到指南", detail: "查榜後流程", icon: BookOpenCheck, href: "/front/guide/", internal: true },
     { label: "錄取分享", detail: "分享錄取分數", icon: BarChart3, href: "https://tyctw.github.io/shared/" },
     { label: "序位分享", detail: "對照各區排名", icon: MapPin, href: "https://tyctw.github.io/score/" },
@@ -43,10 +44,10 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
         <header className="pointer-events-auto w-full max-w-6xl rounded-[28px] glass-header">
           <div className="flex h-16 items-center justify-between px-4 sm:px-6">
             <div className="flex min-w-0 items-center">
-              <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] bg-slate-950 text-white shadow-[0_12px_28px_-18px_rgba(15,23,42,0.9)]">
-                <Sparkles className="h-5 w-5" />
-                <span className="absolute -bottom-1 -right-1 rounded-full bg-sky-500 px-1.5 py-0.5 font-outfit text-[9px] font-black leading-none text-white">
-                  115
+              <div className="relative flex h-11 w-11 shrink-0 items-center justify-center">
+                <img src="/front/stile.png" alt="全國會考查榜入口圖標" className="h-full w-full rounded-[18px] object-cover shadow-[0_12px_28px_-18px_rgba(15,23,42,0.45)] ring-1 ring-slate-200/80" />
+                <span className="absolute -bottom-1 -right-1 z-10 rounded-full bg-sky-500 px-1.5 py-0.5 font-outfit text-[9px] font-black leading-none text-white">
+                  116
                 </span>
               </div>
               <a href="/front/" className="ml-3 min-w-0 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-200">
@@ -63,17 +64,10 @@ export function Header({ onOpenSchedule }: { onOpenSchedule: () => void }) {
               {links.slice(0, 4).map((link) => {
                 const Icon = link.icon;
                 const className = "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold text-slate-600 transition-all hover:bg-white hover:text-slate-950 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-200";
-                return link.href ? (
-                  <a key={link.label} href={link.href} target={link.internal ? undefined : "_blank"} rel={link.internal ? undefined : "noreferrer"} className={className}>
-                    <Icon className="h-4 w-4" />
-                    {link.label}
-                  </a>
-                ) : (
-                  <button key={link.label} onClick={link.action} className={className}>
-                    <Icon className="h-4 w-4" />
-                    {link.label}
-                  </button>
-                );
+                return <a key={link.label} href={link.href} target={link.internal ? undefined : "_blank"} rel={link.internal ? undefined : "noreferrer"} className={className}>
+                  <Icon className="h-4 w-4" />
+                  {link.label}
+                </a>;
               })}
             </div>
 

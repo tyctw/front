@@ -35,6 +35,39 @@ const categoryLabel: Record<string, string> = {
   ALL: "全部區域",
 };
 
+const categoryFilterStyles: Record<string, { active: string; idle: string; focus: string }> = {
+  ALL: {
+    active: "bg-slate-900 text-white shadow-[0_12px_26px_-16px_rgba(15,23,42,0.95)] ring-1 ring-slate-900",
+    idle: "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
+    focus: "focus:ring-slate-200",
+  },
+  北部區域: {
+    active: "bg-sky-600 text-white shadow-[0_12px_26px_-16px_rgba(2,132,199,0.9)] ring-1 ring-sky-500",
+    idle: "text-sky-700 hover:bg-sky-50",
+    focus: "focus:ring-sky-100",
+  },
+  中部區域: {
+    active: "bg-emerald-600 text-white shadow-[0_12px_26px_-16px_rgba(5,150,105,0.85)] ring-1 ring-emerald-500",
+    idle: "text-emerald-700 hover:bg-emerald-50",
+    focus: "focus:ring-emerald-100",
+  },
+  南部區域: {
+    active: "bg-rose-600 text-white shadow-[0_12px_26px_-16px_rgba(225,29,72,0.82)] ring-1 ring-rose-500",
+    idle: "text-rose-700 hover:bg-rose-50",
+    focus: "focus:ring-rose-100",
+  },
+  東部區域: {
+    active: "bg-violet-600 text-white shadow-[0_12px_26px_-16px_rgba(124,58,237,0.85)] ring-1 ring-violet-500",
+    idle: "text-violet-700 hover:bg-violet-50",
+    focus: "focus:ring-violet-100",
+  },
+  離島區域: {
+    active: "bg-amber-400 text-amber-950 shadow-[0_12px_26px_-16px_rgba(245,158,11,0.88)] ring-1 ring-amber-300",
+    idle: "text-amber-800 hover:bg-amber-50",
+    focus: "focus:ring-amber-100",
+  },
+};
+
 const accents: Record<string, { glow: string; icon: string; bg: string }> = {
   blue: { glow: "from-sky-400/28", icon: "text-sky-600", bg: "bg-sky-50" },
   indigo: { glow: "from-indigo-400/28", icon: "text-indigo-600", bg: "bg-indigo-50" },
@@ -206,25 +239,28 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
 
         <div className="mb-7 w-full overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch]">
           <div className="grid w-full min-w-max auto-cols-[minmax(7.5rem,1fr)] grid-flow-col gap-1.5 rounded-[26px] border border-white/80 bg-white/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_18px_50px_-36px_rgba(15,23,42,0.55)] ring-1 ring-slate-950/[0.03] backdrop-blur-2xl sm:min-w-0 sm:grid-flow-row sm:grid-cols-6">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => {
-                setCategory(cat);
-                setSearch("");
-              }}
-              aria-pressed={category === cat}
-              className={cn(
-                  "inline-flex h-11 min-w-0 items-center justify-center gap-2 whitespace-nowrap rounded-[21px] px-4 text-sm font-black transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-sky-100",
-                  category === cat
-                    ? "bg-white/88 text-slate-950 shadow-[0_10px_24px_-18px_rgba(15,23,42,0.9),inset_0_1px_0_rgba(255,255,255,0.95)] ring-1 ring-white/90"
-                    : "text-slate-500 hover:bg-white/52 hover:text-slate-950"
-                )}
-              >
-                {cat === "ALL" ? <LayoutGrid className="h-4 w-4" /> : <MapIcon className="h-4 w-4" />}
-                {categoryLabel[cat] || cat}
-              </button>
-            ))}
+            {CATEGORIES.map((cat) => {
+              const filterStyle = categoryFilterStyles[cat];
+
+              return (
+                <button
+                  key={cat}
+                  onClick={() => {
+                    setCategory(cat);
+                    setSearch("");
+                  }}
+                  aria-pressed={category === cat}
+                  className={cn(
+                    "inline-flex h-11 min-w-0 items-center justify-center gap-2 whitespace-nowrap rounded-[21px] px-4 text-sm font-black transition-all duration-300 focus:outline-none focus:ring-4",
+                    filterStyle.focus,
+                    category === cat ? filterStyle.active : filterStyle.idle
+                  )}
+                >
+                  {cat === "ALL" ? <LayoutGrid className="h-4 w-4" /> : <MapIcon className="h-4 w-4" />}
+                  {categoryLabel[cat] || cat}
+                </button>
+              );
+            })}
           </div>
         </div>
 

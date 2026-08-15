@@ -9,28 +9,29 @@ import { Header } from "./components/Header";
 import { HeroCountdown } from "./components/HeroCountdown";
 import { Banner } from "./components/Banner";
 import { GuidePage } from "./components/GuidePage";
+import { SchedulePage } from "./components/SchedulePage";
+import { ArticleHubPage } from "./components/ArticleHubPage";
+import { AboutPage } from "./components/AboutPage";
 import { FIREWORK_SHOW_START_DATE, RESULT_WARNING_UNLOCK_DATE } from "./data";
 import { Share2 } from "lucide-react";
 import { Footer } from "./components/Footer";
 import { getNow, parseTaipeiDate } from "./lib/now";
 import { FireworksShow } from "./components/FireworksShow";
 
-const loadScheduleModal = () => import("./components/ScheduleModal");
 const loadModals = () => import("./components/Modals");
 const loadShareModal = () => import("./components/ShareModal");
 
 const Regions = lazy(() => import("./components/Regions").then(m => ({ default: m.Regions })));
 const FAQ = lazy(() => import("./components/FAQ").then(m => ({ default: m.FAQ })));
-const ScheduleModal = lazy(() => loadScheduleModal().then(m => ({ default: m.ScheduleModal })));
 const WarningModal = lazy(() => loadModals().then(m => ({ default: m.WarningModal })));
 const ScoreModal = lazy(() => loadModals().then(m => ({ default: m.ScoreModal })));
 const VolunteerModal = lazy(() => loadModals().then(m => ({ default: m.VolunteerModal })));
 const ResultReminderModal = lazy(() => loadModals().then(m => ({ default: m.ResultReminderModal })));
 const ShareModal = lazy(() => loadShareModal().then(m => ({ default: m.ShareModal })));
 
-const RESULT_REMINDER_START_DATE = "2026-07-01T00:00:00";
-const RESULT_REMINDER_END_DATE = "2026-07-30T23:59:59";
-const FIREWORKS_SEEN_KEY = "front:115-fireworks-seen";
+const RESULT_REMINDER_START_DATE = "2027-07-01T00:00:00";
+const RESULT_REMINDER_END_DATE = "2027-07-30T23:59:59";
+const FIREWORKS_SEEN_KEY = "front:116-fireworks-seen";
 
 function hasSeenFireworks() {
   try {
@@ -50,7 +51,12 @@ function markFireworksSeen() {
 
 export default function App() {
   const isGuidePage = window.location.pathname.replace(/\/$/, "") === "/front/guide";
-  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const isSchedulePage = window.location.pathname.replace(/\/$/, "") === "/front/schedule";
+  const isAboutPage = window.location.pathname.replace(/\/$/, "") === "/front/about";
+  const articleRoute = window.location.pathname.replace(/\/$/, "").match(/^\/front\/articles(?:\/([^/]+))?$/);
+  const isArticlePage = articleRoute !== null;
+  const articleId = articleRoute?.[1];
+  const isContentPage = isGuidePage || isSchedulePage || isAboutPage || isArticlePage;
   const [warningOpen, setWarningOpen] = useState(false);
   const [pendingUrl, setPendingUrl] = useState<string | null>(null);
   
@@ -62,14 +68,16 @@ export default function App() {
   const [secondaryReady, setSecondaryReady] = useState(false);
 
   useEffect(() => {
+    if (isContentPage) return;
+
     if (!hasSeenFireworks() && getNow() >= parseTaipeiDate(FIREWORK_SHOW_START_DATE)) {
       markFireworksSeen();
       setFireworksOpen(true);
     }
-  }, []);
+  }, [isContentPage]);
 
   useEffect(() => {
-    if (isGuidePage) {
+    if (isContentPage) {
       setSecondaryReady(true);
       return;
     }
@@ -83,9 +91,9 @@ export default function App() {
     const popupId = runAfterPaint(() => {
       // Popups Logic
       const now = getNow();
-      const scoreStart = parseTaipeiDate("2026-06-04T00:00:00");
-      const scoreEnd = parseTaipeiDate("2026-06-15T00:00:00"); // exclusive
-      const volunteerEnd = parseTaipeiDate("2026-06-25T23:59:59");
+      const scoreStart = parseTaipeiDate("2027-06-04T00:00:00");
+      const scoreEnd = parseTaipeiDate("2027-06-15T00:00:00"); // exclusive
+      const volunteerEnd = parseTaipeiDate("2027-06-25T23:59:59");
       const resultReminderStart = parseTaipeiDate(RESULT_REMINDER_START_DATE);
       const resultReminderEnd = parseTaipeiDate(RESULT_REMINDER_END_DATE);
       const fireworksStartDate = parseTaipeiDate(FIREWORK_SHOW_START_DATE);
@@ -118,13 +126,19 @@ export default function App() {
       }
       delayedPopupIds.forEach((id) => clearTimeout(id));
     };
-  }, [isGuidePage]);
+  }, [isContentPage]);
 
   useEffect(() => {
     document.title = isGuidePage
-      ? "115會考查榜與免試入學報到重點｜完整指南｜TW會考落點分析"
-      : "115會考查榜入口｜免試入學錄取結果與報到資訊｜TW會考落點分析";
-  }, [isGuidePage]);
+      ? "116會考查榜與免試入學報到重點｜完整指南｜TW會考落點分析"
+      : isSchedulePage
+        ? "116會考重要日程｜國中教育會考與免試入學時程｜TW會考落點分析"
+        : isAboutPage
+          ? "關於我們｜升學資訊整理與使用原則｜TW會考落點分析"
+        : isArticlePage
+          ? "116會考文章專區｜放榜、查榜與升學流程整理｜TW會考落點分析"
+        : "116會考查榜入口｜免試入學錄取結果與報到資訊｜TW會考落點分析";
+  }, [isAboutPage, isArticlePage, isGuidePage, isSchedulePage]);
 
   const handleWarnUrl = (url: string) => {
     const now = getNow();
@@ -138,11 +152,6 @@ export default function App() {
     }
   };
 
-  const openSchedule = () => {
-    void loadScheduleModal();
-    setScheduleOpen(true);
-  };
-
   const openShare = () => {
     void loadShareModal();
     setShareOpen(true);
@@ -154,26 +163,36 @@ export default function App() {
         跳到主要內容
       </a>
       <Background />
-      <Header onOpenSchedule={openSchedule} />
+      <div className="relative flex min-h-screen flex-col">
+        <Header />
 
-      {isGuidePage ? (
-        <GuidePage />
-      ) : (
-        <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-12" tabIndex={-1}>
-          <HeroCountdown onOpenSchedule={openSchedule} />
-          <Banner />
-          <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400" role="status" aria-live="polite">Loading...</div>}>
-            {secondaryReady && (
-              <>
-                <Regions onWarnUrl={handleWarnUrl} />
-                <FAQ />
-              </>
-            )}
-          </Suspense>
-        </main>
-      )}
+        <div className="flex-1">
+          {isGuidePage ? (
+            <GuidePage />
+          ) : isSchedulePage ? (
+            <SchedulePage />
+          ) : isAboutPage ? (
+            <AboutPage />
+          ) : isArticlePage ? (
+            <ArticleHubPage articleId={articleId} />
+          ) : (
+            <main id="main-content" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-30 pb-12" tabIndex={-1}>
+              <HeroCountdown />
+              <Banner />
+              <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400" role="status" aria-live="polite">Loading...</div>}>
+                {secondaryReady && (
+                  <>
+                    <Regions onWarnUrl={handleWarnUrl} />
+                    <FAQ />
+                  </>
+                )}
+              </Suspense>
+            </main>
+          )}
+        </div>
 
-      <Footer />
+        <Footer />
+      </div>
       <FireworksShow isOpen={fireworksOpen} onClose={() => setFireworksOpen(false)} />
       
       {/* Floating Share Button */}
@@ -190,7 +209,6 @@ export default function App() {
       </button>
 
       <Suspense fallback={null}>
-        {scheduleOpen && <ScheduleModal isOpen={scheduleOpen} onClose={() => setScheduleOpen(false)} />}
         {warningOpen && <WarningModal isOpen={warningOpen} onClose={() => setWarningOpen(false)} pendingUrl={pendingUrl} />}
         {scoreOpen && <ScoreModal isOpen={scoreOpen} onClose={() => setScoreOpen(false)} />}
         {volunteerOpen && <VolunteerModal isOpen={volunteerOpen} onClose={() => setVolunteerOpen(false)} />}

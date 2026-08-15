@@ -12,13 +12,13 @@ export function Banner() {
               </div>
               <div className="min-w-0">
                 <div className="mb-1.5 font-outfit text-[11px] font-black uppercase tracking-[0.18em] text-sky-700">
-                  Data Sharing
+                  Share Your Journey
                 </div>
                 <h3 className="text-[28px] font-black leading-tight tracking-normal text-slate-950 md:text-4xl">
-                  成績回報計畫
+                  留下你的升學軌跡
                 </h3>
                 <p className="mt-3 max-w-2xl text-[15px] font-semibold leading-7 text-slate-600">
-                  回報資料可協助後續落點分析更接近實際情況，也讓下一屆考生有更完整的參考。
+                  用一次匿名成績回報，讓落點分析更貼近真實分發結果；也把你走過的路，化成下一屆考生選填志願時的一份安心參考。
                 </p>
               </div>
             </div>

@@ -86,39 +86,39 @@ export function ShareModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-[170px_1fr] sm:items-stretch">
+          <div className="grid gap-4 sm:grid-cols-[170px_1fr] sm:items-start">
             <div className="rounded-[24px] border border-slate-100 bg-slate-50/90 p-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.82)]">
               <div className="mx-auto inline-block rounded-[18px] border border-slate-100 bg-white p-3 shadow-sm">
                 <QRCodeSVG value={shareUrl} size={124} level="H" includeMargin={false} />
               </div>
             </div>
 
-            <div className="grid gap-2.5">
-              <button onClick={() => handleShare("line")} aria-label="分享到 LINE" className="group flex items-center gap-3 rounded-[20px] border border-slate-100 bg-white p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#00B900]/30 hover:bg-[#00B900]/5 focus:outline-none focus:ring-4 focus:ring-emerald-100">
+            <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-1">
+              <button onClick={() => handleShare("line")} aria-label="分享到 LINE" className="group flex items-center justify-center rounded-[20px] border border-slate-100 bg-white p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#00B900]/30 hover:bg-[#00B900]/5 focus:outline-none focus:ring-4 focus:ring-emerald-100 sm:justify-start sm:gap-3 sm:text-left">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-[#00B900] text-white shadow-md shadow-[#00B900]/20">
                   <FaLine className="h-6 w-6" />
                 </span>
-                <span className="min-w-0">
+                <span className="hidden min-w-0 sm:block">
                   <span className="block text-sm font-black text-slate-950">LINE</span>
                   <span className="block text-xs font-bold text-slate-500">傳到群組或聊天室</span>
                 </span>
               </button>
 
-              <button onClick={() => handleShare("ig")} aria-label="分享到 Instagram" className="group flex items-center gap-3 rounded-[20px] border border-slate-100 bg-white p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-pink-200 hover:bg-pink-50/70 focus:outline-none focus:ring-4 focus:ring-pink-100">
+              <button onClick={() => handleShare("ig")} aria-label="分享到 Instagram" className="group flex items-center justify-center rounded-[20px] border border-slate-100 bg-white p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-pink-200 hover:bg-pink-50/70 focus:outline-none focus:ring-4 focus:ring-pink-100 sm:justify-start sm:gap-3 sm:text-left">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white shadow-md shadow-pink-500/20">
                   <FaInstagram className="h-6 w-6" />
                 </span>
-                <span className="min-w-0">
+                <span className="hidden min-w-0 sm:block">
                   <span className="block text-sm font-black text-slate-950">Instagram</span>
                   <span className="block text-xs font-bold text-slate-500">複製後貼到限動或訊息</span>
                 </span>
               </button>
 
-              <button onClick={() => handleShare("threads")} aria-label="分享到 Threads" className="group flex items-center gap-3 rounded-[20px] border border-slate-100 bg-white p-3 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100">
+              <button onClick={() => handleShare("threads")} aria-label="分享到 Threads" className="group flex items-center justify-center rounded-[20px] border border-slate-100 bg-white p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-100 sm:justify-start sm:gap-3 sm:text-left">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[16px] bg-black text-white shadow-md shadow-black/20">
                   <FaThreads className="h-6 w-6" />
                 </span>
-                <span className="min-w-0">
+                <span className="hidden min-w-0 sm:block">
                   <span className="block text-sm font-black text-slate-950">Threads</span>
                   <span className="block text-xs font-bold text-slate-500">直接發文分享入口</span>
                 </span>

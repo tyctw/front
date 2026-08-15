@@ -577,7 +577,7 @@ export function FireworksShow({ isOpen, onClose }: { isOpen: boolean; onClose: (
       >
         <div className="inline-flex items-center gap-2 rounded-full bg-black/28 px-4 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-amber-100 ring-1 ring-white/12 backdrop-blur sm:text-xs">
           <Sparkles className="h-4 w-4 text-amber-200" />
-          115 Celebration Fireworks
+          116 Celebration Fireworks
         </div>
         <h3 className="mx-auto mt-3 max-w-xl text-xl font-black leading-tight tracking-normal text-white drop-shadow sm:text-4xl">
           {currentAct.title}

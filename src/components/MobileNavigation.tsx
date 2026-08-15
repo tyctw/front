@@ -76,13 +76,10 @@ export function MobileNavigation({
                     <Sparkles className="h-5 w-5" />
                   </span>
                   <div>
-                    <p className="font-outfit text-[11px] font-black uppercase tracking-[0.18em] text-sky-200">115 CAP</p>
+                    <p className="font-outfit text-[11px] font-black uppercase tracking-[0.18em] text-sky-200">116 CAP</p>
                     <h2 className="text-xl font-black leading-tight">全國會考查榜入口</h2>
                   </div>
                 </div>
-                <p className="max-w-[240px] text-sm font-semibold leading-6 text-slate-300">
-                  快速前往查榜、日程、錄取分享與成績回報。
-                </p>
               </div>
               <button
                 ref={closeButtonRef}
@@ -179,15 +176,12 @@ export function MobileNavigation({
             }}
             transition={{ duration: 0.22, delay: 0.14 }}
           >
-            <p className="mb-3 text-center text-xs font-bold leading-5 text-slate-500">
-              非官方資訊整理平台，實際作業以各區與學校公告為準。
-            </p>
             <a
               href="mailto:tyctw.analyze@gmail.com"
               className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-bold text-slate-600 transition-colors hover:bg-white hover:text-sky-700"
             >
               <Mail className="h-4 w-4" />
-              Contact Team
+              聯繫團隊
             </a>
           </motion.div>
         </motion.div>

@@ -65,7 +65,7 @@ export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean,
             <div className="min-w-0">
               <p className="text-[11px] font-black uppercase tracking-[0.16em] text-rose-600">放榜時間</p>
               <div className="mt-2 grid gap-1 sm:flex sm:flex-wrap sm:items-end sm:gap-x-3 sm:gap-y-1">
-                <span className="text-xl font-black leading-tight text-slate-950">115/7/7（週二）</span>
+                <span className="text-xl font-black leading-tight text-slate-950">116/7/7（週三）</span>
                 <span className="font-outfit text-5xl font-black leading-none text-rose-600 sm:text-4xl">11:00</span>
               </div>
             </div>
@@ -225,7 +225,7 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
               </div>
               <div className="min-w-0 text-left">
                 <div className="mb-1.5 inline-flex items-center rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-slate-500">
-                  115 學年度
+                  116 學年度
                 </div>
                 <h3 className="text-[23px] font-black leading-tight tracking-tight text-slate-950">
                   免試入學<br />
@@ -240,7 +240,7 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
               </div>
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-teal-600">選填期間</p>
-                <p className="mt-1 text-lg font-black leading-snug text-slate-900">115/06/18 12:00 - 115/06/25 12:00</p>
+                <p className="mt-1 text-lg font-black leading-snug text-slate-900">116/06/18 12:00 - 116/06/25 12:00</p>
                 <p className="mt-1 text-sm font-medium leading-relaxed text-slate-500">請於期限內前往所屬就學區平台完成志願選填。</p>
               </div>
             </div>
@@ -347,7 +347,7 @@ export function ResultReminderModal({ isOpen, onClose }: { isOpen: boolean, onCl
             <div className="rounded-[22px] border border-amber-100 bg-amber-50/80 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.78)] sm:rounded-[24px] sm:p-5">
               <p className="text-[10px] font-black uppercase tracking-[0.12em] text-amber-700 sm:text-[11px] sm:tracking-[0.14em]">最重要</p>
               <p className="mt-1 text-[15px] font-black leading-6 text-slate-900 sm:mt-2 sm:text-[15px] sm:leading-6">
-                錄取者 115/7/9（四）完成報到。
+                錄取者 116/7/9（五）完成報到。
               </p>
               <p className="mt-1 text-[13px] font-semibold leading-5 text-slate-700 sm:mt-2 sm:text-sm sm:leading-6">
                 未錄取、未報到或放棄錄取者，立刻追蹤續招公告。

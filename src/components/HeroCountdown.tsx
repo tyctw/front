@@ -12,6 +12,7 @@ interface CountdownState {
   seconds: number;
   status: CountdownStatus;
   title: string;
+  targetDate: string;
   isResultDay: boolean;
   isResultOpen: boolean;
   isResultPending: boolean;
@@ -20,7 +21,7 @@ interface CountdownState {
   isRegistrationComplete: boolean;
 }
 
-export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }) {
+export function HeroCountdown() {
   const [state, setState] = useState<CountdownState>({
     days: 0,
     hours: 0,
@@ -28,6 +29,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
     seconds: 0,
     status: "upcoming",
     title: "載入重要時程",
+    targetDate: "",
     isResultDay: false,
     isResultOpen: false,
     isResultPending: false,
@@ -49,7 +51,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
       const isResultDay = !!resultDayStart && !!resultDayEnd && now >= resultDayStart && now < resultDayEnd;
       const isResultOpen = !!resultOpenDate && !!resultDayEnd && now >= resultOpenDate && now < resultDayEnd;
       const isResultPending = isResultDay && !!resultOpenDate && now < resultOpenDate;
-      const resultCountdownStart = parseTaipeiDate("2026-07-01T00:00:00");
+      const resultCountdownStart = parseTaipeiDate("2027-07-01T00:00:00");
       const isResultCountdown = !!resultOpenDate && now >= resultCountdownStart && now < resultOpenDate;
       const isPostResultGuide = !!resultDayEnd && now >= resultDayEnd;
       const registrationCompleteDate = parseTaipeiDate(REGISTRATION_COMPLETE_DATE);
@@ -127,6 +129,7 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
         seconds: totalSeconds % 60,
         status,
         title: targetDateInfo.title,
+        targetDate: targetDateInfo.dateStart,
         isResultDay,
         isResultOpen,
         isResultPending,
@@ -200,12 +203,58 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
   const resultOpenClockLabel = Number.isNaN(resultOpenDate.getTime())
     ? ""
     : `${resultOpenDate.getHours().toString().padStart(2, "0")}:${resultOpenDate.getMinutes().toString().padStart(2, "0")}`;
+  const targetDate = parseTaipeiDate(state.targetDate);
+  const targetDateLabel = Number.isNaN(targetDate.getTime())
+    ? ""
+    : `${targetDate.getFullYear() - 1911}年${targetDate.getMonth() + 1}月${targetDate.getDate()}日`;
+  const targetClockLabel = Number.isNaN(targetDate.getTime())
+    ? ""
+    : `${targetDate.getHours().toString().padStart(2, "0")}:${targetDate.getMinutes().toString().padStart(2, "0")}`;
   const countdownItems = [
     { label: "DAYS", val: state.days },
     { label: "HOURS", val: state.hours },
     { label: "MINS", val: state.minutes },
     { label: "SECS", val: state.seconds },
   ];
+  const actionButtons = (
+    <>
+      <a
+        href={volunteerEntryUrl}
+        target={primaryLinkIsExternal ? "_blank" : undefined}
+        rel={primaryLinkIsExternal ? "noreferrer" : undefined}
+        className={`inline-flex items-center justify-center transition-all hover:-translate-y-0.5 focus:outline-none ${
+          state.isRegistrationComplete
+            ? "min-h-[58px] w-full rounded-[22px] bg-gradient-to-r from-rose-600 via-orange-500 to-amber-400 px-8 py-4 text-base font-black text-white shadow-[0_20px_44px_-22px_rgba(225,29,72,0.85)] hover:shadow-[0_24px_52px_-24px_rgba(245,158,11,0.82)] focus:ring-4 focus:ring-amber-100 md:w-auto"
+            : state.isResultCountdown || state.isResultDay || state.isPostResultGuide
+              ? "min-h-[56px] w-full rounded-[22px] bg-rose-600 px-8 py-4 text-base font-black text-white shadow-[0_18px_38px_-20px_rgba(225,29,72,0.72)] hover:bg-rose-700 focus:ring-4 focus:ring-rose-100 md:w-auto"
+              : "min-h-[56px] w-full rounded-[22px] bg-gradient-to-r from-sky-600 to-teal-500 px-7 py-4 text-base font-black text-white shadow-[0_20px_44px_-22px_rgba(14,165,233,0.72)] hover:shadow-[0_24px_52px_-24px_rgba(20,184,166,0.7)] focus:ring-4 focus:ring-sky-100 md:w-auto"
+        }`}
+      >
+        {state.isRegistrationComplete ? (
+          <Sparkles className="mr-2 h-5 w-5" />
+        ) : state.isPostResultGuide ? (
+          <BookOpenCheck className="mr-2 h-5 w-5" />
+        ) : state.isResultCountdown || state.isResultDay ? (
+          <ArrowDownCircle className="mr-2 h-5 w-5" />
+        ) : (
+          <BookOpenCheck className="mr-2 h-5 w-5" />
+        )}
+        {volunteerEntryLabel}
+        {state.isRegistrationComplete ? <ExternalLink className="ml-2 h-5 w-5" /> : state.isPostResultGuide && <ArrowRight className="ml-2 h-5 w-5" />}
+      </a>
+      <a
+        href="/front/schedule/"
+        className={`inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 focus:outline-none ${
+          state.isResultOpen || state.isResultCountdown || state.isResultDay || state.isPostResultGuide
+            ? "min-h-[52px] w-full rounded-[20px] border border-slate-200 bg-white/78 px-6 py-3.5 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200 md:w-auto"
+            : "min-h-[56px] w-full rounded-[22px] border border-slate-200 bg-white/88 px-7 py-4 text-base font-black text-slate-700 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.34)] hover:bg-white focus:ring-4 focus:ring-slate-200 md:w-auto"
+        }`}
+      >
+        <CalendarDays className="h-5 w-5" />
+        完整重要日程表
+      </a>
+    </>
+  );
   return (
     <section className="mb-10">
       <div className="relative overflow-hidden rounded-[38px] border border-white/80 bg-white/86 p-5 shadow-[0_28px_90px_-54px_rgba(15,23,42,0.55)] backdrop-blur-2xl md:p-8">
@@ -263,42 +312,8 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
               </div>
             )}
 
-            <div className={`flex gap-3 ${state.isResultCountdown || state.isResultDay || state.isPostResultGuide ? "mt-5 max-w-2xl flex-col sm:flex-row sm:items-center" : "mt-8 flex-wrap"}`}>
-              <a
-                href={volunteerEntryUrl}
-                target={primaryLinkIsExternal ? "_blank" : undefined}
-                rel={primaryLinkIsExternal ? "noreferrer" : undefined}
-                className={`inline-flex items-center justify-center transition-all hover:-translate-y-0.5 focus:outline-none ${
-                  state.isRegistrationComplete
-                    ? "min-h-[58px] w-full rounded-[22px] bg-gradient-to-r from-rose-600 via-orange-500 to-amber-400 px-8 py-4 text-base font-black text-white shadow-[0_20px_44px_-22px_rgba(225,29,72,0.85)] hover:shadow-[0_24px_52px_-24px_rgba(245,158,11,0.82)] focus:ring-4 focus:ring-amber-100 sm:w-auto"
-                    : state.isResultCountdown || state.isResultDay || state.isPostResultGuide
-                    ? "min-h-[56px] w-full rounded-[22px] bg-rose-600 px-8 py-4 text-base font-black text-white shadow-[0_18px_38px_-20px_rgba(225,29,72,0.72)] hover:bg-rose-700 focus:ring-4 focus:ring-rose-100 sm:w-auto"
-                    : "rounded-full border border-slate-200 bg-white/70 px-6 py-3 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200"
-                }`}
-              >
-                {state.isRegistrationComplete ? (
-                  <Sparkles className="mr-2 h-5 w-5" />
-                ) : state.isPostResultGuide ? (
-                  <BookOpenCheck className="mr-2 h-5 w-5" />
-                ) : (
-                  (state.isResultCountdown || state.isResultDay) && <ArrowDownCircle className="mr-2 h-5 w-5" />
-                )}
-                {volunteerEntryLabel}
-                {state.isRegistrationComplete ? <ExternalLink className="ml-2 h-5 w-5" /> : state.isPostResultGuide && <ArrowRight className="ml-2 h-5 w-5" />}
-              </a>
-              <button
-                onClick={onOpenSchedule}
-                className={`inline-flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 focus:outline-none ${
-                  state.isResultOpen
-                    ? "min-h-[52px] w-full rounded-[20px] border border-slate-200 bg-white/78 px-6 py-3.5 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200 sm:w-auto"
-                    : state.isResultCountdown || state.isResultDay || state.isPostResultGuide
-                      ? "min-h-[52px] w-full rounded-[20px] border border-slate-200 bg-white/78 px-6 py-3.5 text-sm font-black text-slate-700 shadow-sm hover:bg-white focus:ring-4 focus:ring-slate-200 sm:w-auto"
-                    : "rounded-full bg-slate-950 px-6 py-3 text-sm font-black text-white shadow-[0_12px_30px_-18px_rgba(15,23,42,0.9)] hover:bg-slate-800 focus:ring-4 focus:ring-slate-200"
-                }`}
-              >
-                <CalendarDays className="h-5 w-5" />
-                完整重要日程表
-              </button>
+            <div className={`mt-5 hidden gap-3 md:flex ${state.isResultCountdown || state.isResultDay || state.isPostResultGuide ? "max-w-2xl md:flex-row md:items-center" : "flex-wrap"}`}>
+              {actionButtons}
             </div>
           </div>
 
@@ -360,23 +375,32 @@ export function HeroCountdown({ onOpenSchedule }: { onOpenSchedule: () => void }
             </div>
           )}
 
-          {!state.isRegistrationComplete && !state.isResultDay && !state.isResultCountdown && (
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4" role="timer" aria-label={`倒數 ${state.days} 天 ${state.hours} 小時 ${state.minutes} 分 ${state.seconds} 秒`}>
-              {countdownItems.map((item) => (
-                <div
-                  key={item.label}
-                  className="rounded-[30px] border border-white/80 bg-slate-50/78 p-5 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_14px_40px_-30px_rgba(15,23,42,0.55)]"
-                >
-                  <div className={`font-outfit text-5xl font-black leading-none md:text-6xl ${state.status === "active" ? "text-rose-600" : "text-slate-950"}`}>
-                    {item.val.toString().padStart(2, "0")}
-                  </div>
-                  <div className="mt-3 font-outfit text-[11px] font-black tracking-[0.18em] text-slate-500">
-                    {item.label}
-                  </div>
+          {!state.isRegistrationComplete && !state.isResultDay && !state.isResultCountdown && state.status !== "ended" && (
+            <div className="rounded-[32px] border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-emerald-50/75 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_24px_70px_-50px_rgba(14,165,233,0.45)] sm:p-5">
+              <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-stretch">
+                <div className="rounded-[24px] border border-sky-100/80 bg-white/82 px-5 py-4 text-center shadow-sm">
+                  <p className="font-outfit text-[10px] font-black tracking-[0.16em] text-sky-700">日期</p>
+                  <p className="mt-2 text-3xl font-black leading-none text-slate-950">{targetDateLabel}</p>
                 </div>
-              ))}
+                <div className="flex min-w-[156px] flex-col items-center justify-center rounded-[24px] bg-gradient-to-br from-sky-500 to-teal-500 px-5 py-4 text-white shadow-[0_18px_42px_-26px_rgba(14,165,233,0.7)]">
+                  <p className="font-outfit text-[10px] font-black tracking-[0.16em] text-sky-100">{state.status === "active" ? "進行中" : "開始時間"}</p>
+                  <p className="mt-1 font-outfit text-5xl font-black leading-none">{targetClockLabel}</p>
+                </div>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4" role="timer" aria-label={`倒數 ${state.days} 天 ${state.hours} 小時 ${state.minutes} 分 ${state.seconds} 秒`}>
+                {countdownItems.map((item) => (
+                  <div key={item.label} className="rounded-[22px] border border-white/90 bg-white/78 px-3 py-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_14px_34px_-30px_rgba(15,23,42,0.4)]">
+                    <div className="font-outfit text-4xl font-black leading-none text-slate-950">{item.val.toString().padStart(2, "0")}</div>
+                    <div className="mt-2 font-outfit text-[10px] font-black tracking-[0.16em] text-slate-500">{item.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
+
+          <div className="mt-5 flex flex-col gap-3 md:hidden">
+            {actionButtons}
+          </div>
         </div>
       </div>
     </section>
