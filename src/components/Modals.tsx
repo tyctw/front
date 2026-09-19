@@ -65,8 +65,8 @@ export function WarningModal({ isOpen, onClose, pendingUrl }: { isOpen: boolean,
             <div className="min-w-0">
               <p className="text-[11px] font-black uppercase tracking-[0.16em] text-rose-600">放榜時間</p>
               <div className="mt-2 grid gap-1 sm:flex sm:flex-wrap sm:items-end sm:gap-x-3 sm:gap-y-1">
-                <span className="text-xl font-black leading-tight text-slate-950">116/7/7（週三）</span>
-                <span className="font-outfit text-5xl font-black leading-none text-rose-600 sm:text-4xl">11:00</span>
+                <span className="text-xl font-black leading-tight text-slate-950">116/7/6（週二）</span>
+                <span className="text-sm font-bold leading-6 text-rose-600">時刻依各區公告</span>
               </div>
             </div>
           </div>
@@ -167,7 +167,7 @@ export function ScoreModal({ isOpen, onClose }: { isOpen: boolean, onClose: () =
           <div className="absolute inset-0 bg-emerald-400/20 blur-xl rounded-full"></div>
         </div>
           
-        <h3 className="text-[28px] font-black text-slate-900 mb-4 tracking-tight leading-[1.2]">會考成績<br /><span className="text-emerald-500">6/5 早上 8 點公布</span></h3>
+        <h3 className="text-[28px] font-black text-slate-900 mb-4 tracking-tight leading-[1.2]">會考成績<br /><span className="text-emerald-500">6/4 公布，時刻依公告</span></h3>
         <p className="text-slate-500 mb-8 leading-relaxed text-[15px] font-medium">
           請前往「國中教育會考全國試務會」<br/>官方網站查詢您的正式成績。<br/>祝您金榜題名！
         </p>
@@ -240,7 +240,7 @@ export function VolunteerModal({ isOpen, onClose }: { isOpen: boolean, onClose: 
               </div>
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-teal-600">選填期間</p>
-                <p className="mt-1 text-lg font-black leading-snug text-slate-900">116/06/18 12:00 - 116/06/25 12:00</p>
+                <p className="mt-1 text-lg font-black leading-snug text-slate-900">116/06/18 - 116/06/24（時刻依各區簡章）</p>
                 <p className="mt-1 text-sm font-medium leading-relaxed text-slate-500">請於期限內前往所屬就學區平台完成志願選填。</p>
               </div>
             </div>
@@ -347,7 +347,7 @@ export function ResultReminderModal({ isOpen, onClose }: { isOpen: boolean, onCl
             <div className="rounded-[22px] border border-amber-100 bg-amber-50/80 p-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.78)] sm:rounded-[24px] sm:p-5">
               <p className="text-[10px] font-black uppercase tracking-[0.12em] text-amber-700 sm:text-[11px] sm:tracking-[0.14em]">最重要</p>
               <p className="mt-1 text-[15px] font-black leading-6 text-slate-900 sm:mt-2 sm:text-[15px] sm:leading-6">
-                錄取者 116/7/9（五）完成報到。
+                錄取者 116/7/8（四）完成報到。
               </p>
               <p className="mt-1 text-[13px] font-semibold leading-5 text-slate-700 sm:mt-2 sm:text-sm sm:leading-6">
                 未錄取、未報到或放棄錄取者，立刻追蹤續招公告。

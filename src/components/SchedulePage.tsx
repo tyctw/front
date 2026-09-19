@@ -1,27 +1,25 @@
 import { CalendarDays, Check, Clock3, GraduationCap, Info, Sparkles } from "lucide-react";
-import { EVENTS } from "../data";
-import { getNow, parseTaipeiDate } from "../lib/now";
+import { useState } from "react";
+import { SCHEDULE_EVENTS, SCHEDULE_CATEGORIES, SCHEDULE_NOTES, SCHEDULE_PDF_URL, SCHEDULE_SOURCE } from "../schedule";
+import { getNow, getTaipeiDayBounds, parseTaipeiDate } from "../lib/now";
 import { formatDate } from "../lib/utils";
 import { BackButton } from "./BackButton";
 
-const stageLabels = ["準備", "應試", "放榜與報到"];
-
-function getStage(index: number) {
-  if (index < 2) return stageLabels[0];
-  if (index < 4) return stageLabels[1];
-  return stageLabels[2];
-}
+const stageLabels = [2, 3, 4, 5, 6, 7];
 
 export function SchedulePage() {
+  const [category, setCategory] = useState("全部管道");
+  const [query, setQuery] = useState("");
   const now = getNow();
-  const events = [...EVENTS]
+  const events = [...SCHEDULE_EVENTS]
     .sort((a, b) => parseTaipeiDate(a.dateStart).getTime() - parseTaipeiDate(b.dateStart).getTime())
     .map((event) => {
       const start = parseTaipeiDate(event.dateStart);
-      const end = event.dateEnd ? parseTaipeiDate(event.dateEnd) : new Date(start.getTime() + 86400000);
-      const status = now > end ? "past" : now >= start && now <= end ? "current" : "future";
+      const end = getTaipeiDayBounds(event.dateEnd || event.dateStart).end;
+      const status = now >= end ? "past" : now >= start && now < end ? "current" : "future";
       return { ...event, status };
     });
+  const filteredEvents = events.filter(event => (category === "全部管道" || event.category === category || event.title.includes(category)) && event.title.includes(query.trim()));
   const currentEvent = events.find((event) => event.status === "current");
   const nextEvent = events.find((event) => event.status === "future");
   const featuredEvent = currentEvent || nextEvent;
@@ -40,7 +38,7 @@ export function SchedulePage() {
             </div>
             <h1 className="mt-5 text-4xl font-black leading-[1.08] tracking-tight sm:text-6xl">重要日程</h1>
             <p className="mt-4 max-w-2xl text-sm font-semibold leading-7 text-slate-300 sm:text-base">
-              從報名、考試到分發報到，一頁掌握國中教育會考與免試入學的重要節點。
+              依教育部重要日程表完整整理 2 至 7 月會考、高中及五專適性入學日程，可依入學管道篩選或搜尋。日期為民國 116 年（西元 2027 年）。
             </p>
           </div>
           {featuredEvent && (
@@ -56,14 +54,18 @@ export function SchedulePage() {
         </div>
       </section>
 
-      <section className="mt-6 grid gap-3 sm:grid-cols-3">
-        {stageLabels.map((stage, index) => (
-          <div key={stage} className="rounded-[22px] border border-slate-100 bg-white/80 p-4 shadow-[0_18px_44px_-36px_rgba(15,23,42,0.5)] backdrop-blur">
-            <span className="font-outfit text-xs font-black tracking-[0.14em] text-sky-600">0{index + 1}</span>
-            <p className="mt-1 text-lg font-black text-slate-950">{stage}</p>
-            <p className="mt-1 text-xs font-semibold text-slate-500">{index === 0 ? "報名與准考證" : index === 1 ? "考試與成績公布" : "選填、放榜與入學"}</p>
-          </div>
-        ))}
+      <section aria-label="日程篩選" className="mt-6 rounded-[24px] border border-slate-100 bg-white p-5">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="text-sm font-bold text-slate-700">入學管道
+            <select value={category} onChange={event => setCategory(event.target.value)} className="mt-2 w-full rounded-xl border border-slate-200 bg-white p-3">
+              {["全部管道", ...SCHEDULE_CATEGORIES].map(item => <option key={item}>{item}</option>)}
+            </select>
+          </label>
+          <label className="text-sm font-bold text-slate-700">搜尋日程
+            <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="例如：報名、報到、放棄錄取資格" className="mt-2 w-full rounded-xl border border-slate-200 p-3" />
+          </label>
+        </div>
+        <p className="mt-4 text-xs leading-6 text-slate-500">原表僅列日期；開始日、截止日與報到日依各項文字標示，實際辦理時刻請查閱各區、各校簡章。</p>
       </section>
 
       <section className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_270px] lg:items-start">
@@ -73,17 +75,18 @@ export function SchedulePage() {
               <p className="text-xs font-black tracking-[0.16em] text-sky-700">TIMELINE</p>
               <h2 className="mt-1 text-3xl font-black tracking-tight text-slate-950">年度時程表</h2>
             </div>
-            <span className="hidden rounded-full bg-slate-100 px-3 py-1.5 text-xs font-black text-slate-500 sm:inline">共 {events.length} 項日程</span>
+            <span className="hidden rounded-full bg-slate-100 px-3 py-1.5 text-xs font-black text-slate-500 sm:inline">顯示 {filteredEvents.length} / {events.length} 項</span>
           </div>
 
           <div className="space-y-8">
+            <p role="status" className="text-sm text-slate-500">{filteredEvents.length ? `共找到 ${filteredEvents.length} 項日程` : "沒有符合的日程，請調整管道或搜尋文字。"}</p>
             {stageLabels.map((stage) => {
-              const stageEvents = events.filter((_, index) => getStage(index) === stage);
+              const stageEvents = filteredEvents.filter(event => Number(event.dateStart.slice(5, 7)) === stage);
               return (
-                <section key={stage}>
+                <section key={stage} id={`month-${stage}`} className="scroll-mt-28">
                   <div className="mb-3 flex items-center gap-3">
                     <span className="h-px flex-1 bg-slate-200" />
-                    <h3 className="text-xs font-black tracking-[0.16em] text-slate-400">{stage}</h3>
+                    <h3 className="text-xs font-black tracking-[0.16em] text-slate-400">{stage} 月 · {stageEvents.length} 項</h3>
                     <span className="h-px flex-1 bg-slate-200" />
                   </div>
                   <div className="space-y-3">
@@ -99,12 +102,13 @@ export function SchedulePage() {
                             <div className="min-w-0">
                               <div className="flex flex-wrap items-center gap-2">
                                 <span className={`rounded-full px-2.5 py-1 text-[10px] font-black tracking-[0.12em] ${isCurrent ? "bg-sky-600 text-white" : event.status === "past" ? "bg-slate-200 text-slate-500" : "bg-emerald-50 text-emerald-700"}`}>
-                                  {isCurrent ? "進行中" : event.status === "past" ? "已完成" : "即將開始"}
+                                  {isCurrent ? "進行中" : event.status === "past" ? "日期已過" : "尚未開始"}
                                 </span>
-                                <span className="font-outfit text-xs font-black tracking-[0.05em] text-slate-400">{dateText}</span>
+                                <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[10px] font-black tracking-[0.12em] text-sky-700">{event.category}</span>
                               </div>
+                              <p className="mt-3 font-outfit text-xs font-black leading-6 tracking-[0.05em] text-slate-400">{dateText}</p>
                               <h4 className={`mt-3 text-xl font-black leading-snug ${event.status === "past" ? "text-slate-500" : "text-slate-950"}`}>{event.title}</h4>
-                              {event.details && <ul className="mt-3 space-y-1.5 text-sm font-semibold leading-6 text-slate-600">{event.details.map((detail) => <li key={detail}>• {detail}</li>)}</ul>}
+
                             </div>
                             {event.status === "past" ? <Check className="h-6 w-6 shrink-0 text-slate-300" /> : <CalendarDays className={`h-6 w-6 shrink-0 ${isCurrent ? "text-sky-500" : "text-emerald-500"}`} />}
                           </div>
@@ -122,10 +126,10 @@ export function SchedulePage() {
           <GraduationCap className="h-7 w-7 text-amber-600" />
           <h2 className="mt-4 text-xl font-black text-slate-950">安排小提醒</h2>
           <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-slate-600">
-            <li>志願選填與報到時間會依就學區及學校略有不同。</li>
-            <li>請預留時間確認錄取學校公告及應備文件。</li>
-            <li>時程如有異動，請以官方簡章與就學區公告為準。</li>
+            {SCHEDULE_NOTES.map(note => <li key={note}>{note}</li>)}
           </ul>
+          <a href={SCHEDULE_PDF_URL} target="_blank" rel="noreferrer" className="mt-5 block rounded-xl bg-slate-950 px-4 py-3 text-center text-sm font-bold text-white hover:bg-sky-800">開啟教育部原始日程表 PDF</a>
+          <p className="mt-3 break-words text-xs leading-6 text-slate-500">資料來源：{SCHEDULE_SOURCE}</p>
           <div className="mt-5 flex gap-2 rounded-[18px] bg-white/80 p-3 text-xs font-bold leading-5 text-slate-500 ring-1 ring-white">
             <Info className="h-4 w-4 shrink-0 text-sky-600" />
             本頁為資訊整理，並非招生主管機關公告。
@@ -135,3 +139,4 @@ export function SchedulePage() {
     </main>
   );
 }
+

@@ -93,7 +93,7 @@ export default function App() {
       const now = getNow();
       const scoreStart = parseTaipeiDate("2027-06-04T00:00:00");
       const scoreEnd = parseTaipeiDate("2027-06-15T00:00:00"); // exclusive
-      const volunteerEnd = parseTaipeiDate("2027-06-25T23:59:59");
+      const volunteerEnd = parseTaipeiDate("2027-06-24T23:59:59");
       const resultReminderStart = parseTaipeiDate(RESULT_REMINDER_START_DATE);
       const resultReminderEnd = parseTaipeiDate(RESULT_REMINDER_END_DATE);
       const fireworksStartDate = parseTaipeiDate(FIREWORK_SHOW_START_DATE);

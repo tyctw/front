@@ -67,11 +67,11 @@ export function HeroCountdown() {
           ended: true,
         };
       } else if (isResultOpen && resultOpenDate) {
-        targetDateInfo = { title: "今天放榜，先查錄取結果", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
+        targetDateInfo = { title: "今天放榜，請依各區公告查詢", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
       } else if (isResultDay && isResultPending && resultOpenDate) {
-        targetDateInfo = { title: "今天 11:00 開放查榜", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
+        targetDateInfo = { title: "今天放榜，時刻依各區公告", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
       } else if (isResultCountdown && resultOpenDate) {
-        targetDateInfo = { title: "距離放榜開放查詢", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
+        targetDateInfo = { title: "距離放榜日", dateStart: resultOpenDate.toISOString(), dateEnd: resultDayEnd?.toISOString() };
       } else if (now >= rankOpenDate && now <= rankCloseDate) {
         targetDateInfo = { title: "個人序位查詢與志願選填進行中", dateStart: ADMISSION_LIST_OPEN_DATE, dateEnd: ADMISSION_LIST_CLOSE_DATE };
       } else if (daysToRank <= 20 && daysToRank > 0) {
@@ -176,7 +176,7 @@ export function HeroCountdown() {
     active: { label: "現在進行中", icon: CheckCircle2, className: "bg-rose-50 text-rose-700 ring-rose-100" },
     ended: { label: "本階段已結束", icon: CheckCircle2, className: "bg-slate-100 text-slate-600 ring-slate-200" },
   }[state.status];
-  const statusLabel = state.isRegistrationComplete ? "報到完成" : state.isPostResultGuide ? "最近日程" : state.isResultPending ? "今日 11:00 開放" : state.isResultCountdown ? "7/7 11:00 開放" : statusCopy.label;
+  const statusLabel = state.isRegistrationComplete ? "報到完成" : state.isPostResultGuide ? "最近日程" : state.isResultPending ? "今日放榜" : state.isResultCountdown ? "7/6 放榜" : statusCopy.label;
 
   const badgeClassName = state.isRegistrationComplete
     ? "bg-amber-50 text-amber-700 ring-amber-100"
@@ -191,7 +191,7 @@ export function HeroCountdown() {
     ? "報到完畢，新的旅程正式開始。整理好的升高一提醒已經準備好，開學前可以慢慢看、安心準備。"
     : state.isResultDay
     ? state.isResultOpen
-      ? "請選擇所屬就學區查詢錄取學校。"
+      ? "請依所屬就學區公告的開放時刻查詢錄取學校。"
       : ""
     : state.isPostResultGuide
       ? "放榜後請先確認錄取學校公告，留意報到方式、複查、續招與放棄錄取資格期限。"
@@ -200,16 +200,12 @@ export function HeroCountdown() {
   const resultOpenDateLabel = Number.isNaN(resultOpenDate.getTime())
     ? ""
     : `${resultOpenDate.getFullYear() - 1911}/${resultOpenDate.getMonth() + 1}/${resultOpenDate.getDate()}（${resultOpenDate.toLocaleDateString("zh-TW", { weekday: "short" })}）`;
-  const resultOpenClockLabel = Number.isNaN(resultOpenDate.getTime())
-    ? ""
-    : `${resultOpenDate.getHours().toString().padStart(2, "0")}:${resultOpenDate.getMinutes().toString().padStart(2, "0")}`;
+  const resultOpenClockLabel = "按官方為主";
   const targetDate = parseTaipeiDate(state.targetDate);
   const targetDateLabel = Number.isNaN(targetDate.getTime())
     ? ""
     : `${targetDate.getFullYear() - 1911}年${targetDate.getMonth() + 1}月${targetDate.getDate()}日`;
-  const targetClockLabel = Number.isNaN(targetDate.getTime())
-    ? ""
-    : `${targetDate.getHours().toString().padStart(2, "0")}:${targetDate.getMinutes().toString().padStart(2, "0")}`;
+  const targetClockLabel = "按官方為主";
   const countdownItems = [
     { label: "DAYS", val: state.days },
     { label: "HOURS", val: state.hours },
@@ -292,7 +288,7 @@ export function HeroCountdown() {
                       <p className="text-[11px] font-black uppercase tracking-[0.14em] text-rose-600">放榜時間</p>
                       <div className="mt-2 grid gap-1 sm:flex sm:flex-wrap sm:items-end sm:gap-x-3 sm:gap-y-1">
                         <span className="text-xl font-black leading-tight text-slate-950">{resultOpenDateLabel}</span>
-                        <span className="font-outfit text-5xl font-black leading-none text-rose-600 sm:text-4xl">{resultOpenClockLabel}</span>
+                        <span className="text-sm font-bold leading-6 text-rose-600">{resultOpenClockLabel}</span>
                       </div>
                     </div>
                   </div>
@@ -356,7 +352,7 @@ export function HeroCountdown() {
                 </div>
                 <div className="flex min-w-[180px] flex-col items-center justify-center rounded-[24px] bg-rose-600 px-6 py-5 text-white shadow-[0_18px_42px_-26px_rgba(225,29,72,0.85)]">
                   <p className="text-[10px] font-black uppercase tracking-[0.16em] text-rose-100">Open</p>
-                  <p className="mt-1 font-outfit text-6xl font-black leading-none">{resultOpenClockLabel}</p>
+                  <p className="mt-1 text-lg font-bold leading-7">{resultOpenClockLabel}</p>
                 </div>
               </div>
 
@@ -384,7 +380,7 @@ export function HeroCountdown() {
                 </div>
                 <div className="flex min-w-[156px] flex-col items-center justify-center rounded-[24px] bg-gradient-to-br from-sky-500 to-teal-500 px-5 py-4 text-white shadow-[0_18px_42px_-26px_rgba(14,165,233,0.7)]">
                   <p className="font-outfit text-[10px] font-black tracking-[0.16em] text-sky-100">{state.status === "active" ? "結束時間" : "開始時間"}</p>
-                  <p className="mt-1 font-outfit text-5xl font-black leading-none">{targetClockLabel}</p>
+                  <p className="mt-1 text-sm font-bold leading-6">{targetClockLabel}</p>
                 </div>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4" role="timer" aria-label={`倒數 ${state.days} 天 ${state.hours} 小時 ${state.minutes} 分 ${state.seconds} 秒`}>
@@ -406,3 +402,5 @@ export function HeroCountdown() {
     </section>
   );
 }
+
+
