@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { REGIONS, RESULT_LIST_CLOSE_DATE, RESULT_LIST_OPEN_DATE } from "../data";
 import {
@@ -27,7 +26,6 @@ import {
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { getNow, parseTaipeiDate } from "../lib/now";
-import { cardReveal, sectionReveal, springPop, staggerContainer } from "../lib/animations";
 
 const CATEGORIES = ["ALL", "北部區域", "中部區域", "南部區域", "東部區域", "離島區域"];
 
@@ -176,10 +174,7 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
   });
 
   return (
-    <motion.section
-      variants={sectionReveal}
-      initial="hidden"
-      animate="show"
+    <section
       className="mb-16 content-auto"
       aria-labelledby="regions-title"
     >
@@ -300,37 +295,29 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
                         {subList.length} 個入口
                       </span>
                     </div>
-                    <motion.div
-                      key={`group-${cat}-${category}-${search}`}
-                      variants={staggerContainer}
-                      initial="hidden"
-                      animate="show"
+                    <div
                       className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6"
                     >
                       {subList.map((r) => (
                         <RegionCard key={r.id} r={r} status={portalStatus} onClick={() => onWarnUrl(r.url)} />
                       ))}
-                    </motion.div>
+                    </div>
                   </div>
                 );
               })}
             </div>
           ) : (
-            <motion.div
-              key={`filtered-${category}-${search}`}
-              variants={staggerContainer}
-              initial="hidden"
-              animate="show"
+            <div
               className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6"
             >
               {filtered.map((r) => (
                 <RegionCard key={r.id} r={r} status={portalStatus} onClick={() => onWarnUrl(r.url)} />
               ))}
-            </motion.div>
+            </div>
           )}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
 
@@ -341,11 +328,7 @@ function RegionCard({ r, status, onClick }: { r: any; status: PortalStatus; onCl
   const statusMeta = portalStatusMeta[status];
 
   return (
-    <motion.button
-      variants={cardReveal}
-      whileHover={{ y: -6, scale: 1.012 }}
-      whileTap={{ scale: 0.985 }}
-      transition={springPop}
+    <button
       onClick={onClick}
       aria-label={`前往${r.category}${r.name}查榜入口`}
       className="group relative flex min-h-[172px] flex-col overflow-hidden rounded-[28px] border border-white/90 bg-white/88 text-left opacity-100 shadow-[0_18px_54px_-40px_rgba(15,23,42,0.6)] ring-1 ring-slate-950/[0.03] backdrop-blur-xl transition-all hover:-translate-y-1 hover:bg-white hover:shadow-[0_26px_70px_-44px_rgba(15,23,42,0.72)] focus:outline-none focus:ring-4 focus:ring-sky-100"
@@ -375,6 +358,6 @@ function RegionCard({ r, status, onClick }: { r: any; status: PortalStatus; onCl
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </div>
       </div>
-    </motion.button>
+    </button>
   );
 }

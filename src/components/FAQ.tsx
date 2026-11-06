@@ -1,17 +1,12 @@
-import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import { FAQ_DATA } from "../data";
-import { cardReveal, sectionReveal, staggerContainer } from "../lib/animations";
 
 export function FAQ() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <motion.section
-      variants={sectionReveal}
-      initial="hidden"
-      animate="show"
+    <section
       className="mb-16 content-auto"
       aria-labelledby="faq-title"
     >
@@ -29,23 +24,23 @@ export function FAQ() {
         </p>
       </div>
 
-      <motion.div variants={staggerContainer} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="grid gap-3">
+      <div className="grid gap-3">
         {FAQ_DATA.map((item, idx) => {
           const isOpen = openIdx === idx;
           return (
-            <motion.div
+            <div
               key={idx}
-              variants={cardReveal}
               className={`overflow-hidden rounded-[28px] border bg-white/82 shadow-[0_16px_44px_-36px_rgba(15,23,42,0.48)] backdrop-blur-xl transition-all ${
                 isOpen ? "border-sky-200" : "border-white/80 hover:bg-white"
               }`}
             >
               <button
+                type="button"
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
                 aria-expanded={isOpen}
                 aria-controls={`faq-panel-${idx}`}
                 id={`faq-button-${idx}`}
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus:outline-none sm:px-6"
+                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus-visible:outline-3 focus-visible:-outline-offset-4 focus-visible:outline-sky-600 sm:px-6"
               >
                 <span className={`text-base font-black leading-6 ${isOpen ? "text-sky-700" : "text-slate-900"}`}>
                   {item.q}
@@ -53,33 +48,24 @@ export function FAQ() {
                 <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors ${
                   isOpen ? "bg-sky-600 text-white" : "bg-slate-100 text-slate-500"
                 }`}>
-                  <Plus className={`h-5 w-5 transition-transform ${isOpen ? "rotate-45" : ""}`} />
+                  <Plus className={`h-5 w-5 motion-safe:transition-transform ${isOpen ? "rotate-45" : ""}`} />
                 </span>
               </button>
-              <AnimatePresence>
-                {isOpen && (
-                  <motion.div
-                    id={`faq-panel-${idx}`}
-                    role="region"
-                    aria-labelledby={`faq-button-${idx}`}
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <div className="border-t border-slate-100 px-5 pb-5 pt-4 sm:px-6">
-                      <p className="text-sm font-medium leading-7 text-slate-600">
-                        {item.a}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+              <div
+                id={`faq-panel-${idx}`}
+                role="region"
+                aria-labelledby={`faq-button-${idx}`}
+                hidden={!isOpen}
+                className="border-t border-slate-100 px-5 pb-5 pt-4 sm:px-6"
+              >
+                <p className="text-sm font-medium leading-7 text-slate-600">
+                  {item.a}
+                </p>
+              </div>
+            </div>
           );
         })}
-      </motion.div>
-    </motion.section>
+      </div>
+    </section>
   );
 }

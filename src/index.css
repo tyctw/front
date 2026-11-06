@@ -2,8 +2,8 @@
 @source not "../dist";
 
 @theme {
-  --font-sans: "Noto Sans TC", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-outfit: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: ui-sans-serif, system-ui, "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-outfit: var(--font-sans);
 }
 
 @layer utilities {

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { Background } from "./components/Background";
 import { Header } from "./components/Header";
 import { HeroCountdown } from "./components/HeroCountdown";
@@ -49,6 +49,37 @@ function markFireworksSeen() {
   }
 }
 
+function DeferredFAQ() {
+  const placeholder = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+
+  useEffect(() => {
+    const target = placeholder.current;
+    if (!target) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldLoad(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        observer.disconnect();
+        setShouldLoad(true);
+      }
+    }, { rootMargin: "400px 0px" });
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <Suspense fallback={<div className="h-96" aria-hidden="true" />}>
+      {shouldLoad ? <FAQ /> : <div ref={placeholder} className="h-96" aria-hidden="true" />}
+    </Suspense>
+  );
+}
+
 export default function App() {
   const isGuidePage = window.location.pathname.replace(/\/$/, "") === "/front/guide";
   const isSchedulePage = window.location.pathname.replace(/\/$/, "") === "/front/schedule";
@@ -65,7 +96,6 @@ export default function App() {
   const [resultReminderOpen, setResultReminderOpen] = useState(false);
   const [fireworksOpen, setFireworksOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const [secondaryReady, setSecondaryReady] = useState(false);
 
   useEffect(() => {
     if (isContentPage) return;
@@ -77,16 +107,12 @@ export default function App() {
   }, [isContentPage]);
 
   useEffect(() => {
-    if (isContentPage) {
-      setSecondaryReady(true);
-      return;
-    }
+    if (isContentPage) return;
 
     const runAfterPaint =
       window.requestIdleCallback ||
       ((callback: IdleRequestCallback) => window.setTimeout(() => callback({ didTimeout: false, timeRemaining: () => 0 }), 1200));
 
-    const secondaryId = runAfterPaint(() => setSecondaryReady(true));
     const delayedPopupIds: number[] = [];
     const popupId = runAfterPaint(() => {
       // Popups Logic
@@ -118,10 +144,8 @@ export default function App() {
 
     return () => {
       if (window.cancelIdleCallback) {
-        window.cancelIdleCallback(secondaryId as number);
         window.cancelIdleCallback(popupId as number);
       } else {
-        clearTimeout(secondaryId as number);
         clearTimeout(popupId as number);
       }
       delayedPopupIds.forEach((id) => clearTimeout(id));
@@ -180,12 +204,8 @@ export default function App() {
               <HeroCountdown />
               <Banner />
               <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-400" role="status" aria-live="polite">Loading...</div>}>
-                {secondaryReady && (
-                  <>
-                    <Regions onWarnUrl={handleWarnUrl} />
-                    <FAQ />
-                  </>
-                )}
+                <Regions onWarnUrl={handleWarnUrl} />
+                <DeferredFAQ />
               </Suspense>
             </main>
           )}
