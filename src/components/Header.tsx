@@ -1,8 +1,6 @@
 import { ArrowUpRight, BarChart3, BookOpenCheck, CalendarDays, MapPin, Menu, Newspaper, Share2, type LucideIcon } from "lucide-react";
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
-
-const loadMobileNavigation = () => import("./MobileNavigation");
-const MobileNavigation = lazy(() => loadMobileNavigation().then((module) => ({ default: module.MobileNavigation })));
+import { useRef, useState } from "react";
+import { MobileNavigation } from "./MobileNavigation";
 
 type DesktopMenu = { eyebrow: string; title: string; description: string; items: Array<{ label: string; detail: string; href: string; icon: LucideIcon; external?: boolean }> };
 
@@ -18,7 +16,11 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDesktopLink, setActiveDesktopLink] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    menuButtonRef.current?.focus({ preventScroll: true });
+  };
 
   const links = [
     { label: "重要日程", detail: "116 會考時程", icon: CalendarDays, href: "/front/schedule/", internal: true },
@@ -28,26 +30,6 @@ export function Header() {
     { label: "序位分享", detail: "對照各區排名", icon: MapPin, href: "https://tyctw.github.io/score/" },
     { label: "成績回報", detail: "回報分數資料", icon: Share2, href: "https://tyctw.github.io/shared/" },
   ];
-
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMobileMenuOpen(false);
-        window.setTimeout(() => menuButtonRef.current?.focus(), 0);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [mobileMenuOpen]);
 
   return (
     <>
@@ -100,12 +82,12 @@ export function Header() {
             <div className="flex items-center gap-1.5">
               <button
                 ref={menuButtonRef}
+                type="button"
                 onClick={() => setMobileMenuOpen(true)}
-                onFocus={() => void loadMobileNavigation()}
-                onPointerEnter={() => void loadMobileNavigation()}
                 aria-label="開啟導航選單"
+                aria-haspopup="dialog"
                 aria-expanded={mobileMenuOpen}
-                aria-controls="mobile-navigation"
+                aria-controls={mobileMenuOpen ? "mobile-navigation" : undefined}
                 className="rounded-full p-3 text-slate-800 transition hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-200 xl:hidden"
               >
                 <Menu className="h-5 w-5" />
@@ -115,15 +97,7 @@ export function Header() {
         </header>
       </div>
 
-      <Suspense fallback={null}>
-        {mobileMenuOpen && (
-          <MobileNavigation
-            links={links}
-            closeButtonRef={closeButtonRef}
-            onClose={() => setMobileMenuOpen(false)}
-          />
-        )}
-      </Suspense>
+      {mobileMenuOpen && <MobileNavigation links={links} onClose={closeMobileMenu} />}
     </>
   );
 }

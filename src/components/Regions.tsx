@@ -33,36 +33,30 @@ const categoryLabel: Record<string, string> = {
   ALL: "全部區域",
 };
 
-const categoryFilterStyles: Record<string, { active: string; idle: string; focus: string }> = {
+const categoryFilterStyles: Record<string, { active: string; idle: string }> = {
   ALL: {
     active: "bg-slate-900 text-white shadow-[0_12px_26px_-16px_rgba(15,23,42,0.95)] ring-1 ring-slate-900",
     idle: "text-slate-600 hover:bg-slate-100 hover:text-slate-950",
-    focus: "focus:ring-slate-200",
   },
   北部區域: {
-    active: "bg-sky-600 text-white shadow-[0_12px_26px_-16px_rgba(2,132,199,0.9)] ring-1 ring-sky-500",
+    active: "bg-sky-700 text-white shadow-[0_12px_26px_-16px_rgba(2,132,199,0.9)] ring-1 ring-sky-500",
     idle: "text-sky-700 hover:bg-sky-50",
-    focus: "focus:ring-sky-100",
   },
   中部區域: {
-    active: "bg-emerald-600 text-white shadow-[0_12px_26px_-16px_rgba(5,150,105,0.85)] ring-1 ring-emerald-500",
+    active: "bg-emerald-700 text-white shadow-[0_12px_26px_-16px_rgba(5,150,105,0.85)] ring-1 ring-emerald-500",
     idle: "text-emerald-700 hover:bg-emerald-50",
-    focus: "focus:ring-emerald-100",
   },
   南部區域: {
-    active: "bg-rose-600 text-white shadow-[0_12px_26px_-16px_rgba(225,29,72,0.82)] ring-1 ring-rose-500",
+    active: "bg-rose-700 text-white shadow-[0_12px_26px_-16px_rgba(225,29,72,0.82)] ring-1 ring-rose-500",
     idle: "text-rose-700 hover:bg-rose-50",
-    focus: "focus:ring-rose-100",
   },
   東部區域: {
-    active: "bg-violet-600 text-white shadow-[0_12px_26px_-16px_rgba(124,58,237,0.85)] ring-1 ring-violet-500",
+    active: "bg-violet-700 text-white shadow-[0_12px_26px_-16px_rgba(124,58,237,0.85)] ring-1 ring-violet-500",
     idle: "text-violet-700 hover:bg-violet-50",
-    focus: "focus:ring-violet-100",
   },
   離島區域: {
     active: "bg-amber-400 text-amber-950 shadow-[0_12px_26px_-16px_rgba(245,158,11,0.88)] ring-1 ring-amber-300",
     idle: "text-amber-800 hover:bg-amber-50",
-    focus: "focus:ring-amber-100",
   },
 };
 
@@ -178,90 +172,95 @@ export function Regions({ onWarnUrl }: { onWarnUrl: (url: string) => void }) {
       className="mb-16 content-auto"
       aria-labelledby="regions-title"
     >
-      <div className="rounded-[38px] border border-white/80 bg-white/72 p-5 shadow-[0_24px_80px_-54px_rgba(15,23,42,0.45)] backdrop-blur-2xl md:p-7">
-        <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-2xl">
-            <div className="mb-2 font-outfit text-[11px] font-black uppercase tracking-[0.18em] text-sky-700">
+      <div className="rounded-[32px] border border-slate-200/80 bg-white/90 p-3 shadow-[0_24px_80px_-54px_rgba(15,23,42,0.45)] sm:p-5 lg:p-7">
+        <div className="mb-4 grid items-end gap-5 rounded-[24px] bg-slate-950 bg-linear-to-br from-slate-950 via-slate-900 to-sky-900 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-8 lg:p-8">
+          <div>
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-sky-300/25 bg-sky-300/10 px-3 py-1.5 font-outfit text-[11px] font-bold uppercase tracking-[0.18em] text-sky-200">
+              <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
               Portal Select
             </div>
-            <h3 id="regions-title" className="text-3xl font-black tracking-normal text-slate-950 md:text-4xl">
+            <h3 id="regions-title" className="text-[clamp(1.5rem,4vw,2.5rem)] leading-tight font-black text-white">
               各就學區查榜入口
             </h3>
-            <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+            <p className="mt-3 text-sm leading-6 text-slate-300 sm:text-base">
               選擇所屬區域後，將前往各區官方查榜或選填系統。
             </p>
           </div>
 
-          <div className="grid w-full gap-3 md:w-[360px]">
-            <a
-              href="/front/guide/"
-              className="group flex items-center gap-3 rounded-[24px] border border-sky-200 bg-gradient-to-br from-sky-600 to-slate-950 p-3.5 text-white shadow-[0_20px_46px_-28px_rgba(2,132,199,0.9)] ring-1 ring-white/70 transition-all hover:-translate-y-0.5 hover:shadow-[0_24px_54px_-28px_rgba(15,23,42,0.85)] focus:outline-none focus:ring-4 focus:ring-sky-100"
-            >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] bg-white/14 text-white ring-1 ring-white/20 transition-transform group-hover:scale-105">
-                <BookOpenCheck className="h-5 w-5" />
+          <a
+            href="/front/guide/"
+            className="group flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 text-white transition-colors hover:border-sky-200/50 hover:bg-white/15 focus-visible:outline-sky-200 sm:p-4"
+          >
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-200 text-sky-950">
+              <BookOpenCheck aria-hidden="true" className="h-5 w-5" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-black leading-5 sm:text-base">查榜後報到指南</span>
+              <span className="mt-1 block text-xs font-semibold leading-5 text-sky-100">
+                報到文件、複查與放棄資格一次看
               </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-base font-black leading-5">查榜後報到指南</span>
-                <span className="mt-1 block text-xs font-semibold leading-5 text-sky-100">
-                  報到文件、複查與放棄資格一次看
-                </span>
-              </span>
-              <ArrowUpRight className="h-4 w-4 shrink-0 text-sky-100 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-
-            <div className="relative w-full">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                aria-label="搜尋就學區"
-                className="block h-13 w-full rounded-full border border-white/80 bg-white/82 pl-12 pr-11 text-sm font-bold text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_12px_36px_-30px_rgba(15,23,42,0.45)] placeholder:text-slate-400 focus:border-sky-300 focus:outline-none focus:ring-4 focus:ring-sky-100"
-                placeholder="搜尋區域..."
-              />
-              {search && (
-                <button
-                  onClick={() => setSearch("")}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
-                  aria-label="清除搜尋"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-          </div>
+            </span>
+            <ArrowUpRight aria-hidden="true" className="h-4 w-4 shrink-0 text-sky-100 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5 motion-safe:group-hover:-translate-y-0.5" />
+          </a>
         </div>
 
-        <div className="mb-7 w-full overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch]">
-          <div className="grid w-full min-w-max auto-cols-[minmax(7.5rem,1fr)] grid-flow-col gap-1.5 rounded-[26px] border border-white/80 bg-white/42 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_18px_50px_-36px_rgba(15,23,42,0.55)] ring-1 ring-slate-950/[0.03] backdrop-blur-2xl sm:min-w-0 sm:grid-flow-row sm:grid-cols-6">
+        <div className="mb-6 rounded-[24px] border border-slate-200 bg-slate-50/80 p-3 sm:p-5">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p id="region-filter-label" className="text-base font-black text-slate-950">篩選就學區</p>
+              <p role="status" className="mt-1 text-sm tabular-nums text-slate-600">目前顯示 {filtered.length} 個就學區入口</p>
+            </div>
+            <div className="sm:w-64">
+              <label htmlFor="region-search" className="sr-only">搜尋就學區</label>
+              <div className="relative w-full">
+                <Search aria-hidden="true" className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                <input
+                  id="region-search"
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="block h-11 w-full rounded-xl border border-slate-300 bg-white pl-10 pr-11 text-base font-medium text-slate-900 placeholder:text-slate-500 focus-visible:border-sky-600 sm:text-sm"
+                  placeholder="搜尋就學區"
+                />
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => setSearch("")}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                    aria-label="清除搜尋"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div role="group" aria-labelledby="region-filter-label" className="grid grid-cols-2 gap-2 min-[400px]:grid-cols-3 md:grid-cols-6">
             {CATEGORIES.map((cat) => {
               const filterStyle = categoryFilterStyles[cat];
 
               return (
                 <button
                   key={cat}
+                  type="button"
                   onClick={() => {
                     setCategory(cat);
                     setSearch("");
                   }}
                   aria-pressed={category === cat}
                   className={cn(
-                    "inline-flex h-11 min-w-0 items-center justify-center gap-2 whitespace-nowrap rounded-[21px] px-4 text-sm font-black transition-all duration-300 focus:outline-none focus:ring-4",
-                    filterStyle.focus,
-                    category === cat ? filterStyle.active : filterStyle.idle
+                    "inline-flex min-h-11 min-w-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border px-2 text-sm font-bold transition-colors",
+                    category === cat ? cn("border-transparent", filterStyle.active) : cn("border-slate-200 bg-white", filterStyle.idle)
                   )}
                 >
-                  {cat === "ALL" ? <LayoutGrid className="h-4 w-4" /> : <MapIcon className="h-4 w-4" />}
+                  {cat === "ALL" ? <LayoutGrid aria-hidden="true" className="h-4 w-4 shrink-0" /> : <MapIcon aria-hidden="true" className="h-4 w-4 shrink-0" />}
                   {categoryLabel[cat] || cat}
                 </button>
               );
             })}
           </div>
         </div>
-
-        <p className="sr-only" role="status" aria-live="polite">
-          目前顯示 {filtered.length} 個就學區入口
-        </p>
 
         <div className="min-h-[320px]">
           {filtered.length === 0 ? (
